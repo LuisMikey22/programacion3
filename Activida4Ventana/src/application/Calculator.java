@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class Calculadora extends JFrame{
+public class Calculator extends JFrame{
 	
 	Font tahoma = new Font("Tahoma", Font.BOLD, 20);
 	int i, j;
@@ -23,15 +23,14 @@ public class Calculadora extends JFrame{
 						  {"1", "2", "3", "-"},
 						  {"0", ".", "=", "+"}};
 	
-	public Calculadora(String title) {
-		this.setTitle(title);
-		this.setVisible(true);
-		this.setResizable(true);
-		this.setLayout(null);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(465, 670);
-		this.setLocationRelativeTo(null);
-		this.setLayout(null);
+	public Calculator(String title) {
+		this.setTitle(title); //colorcar título a la ventana
+		this.setVisible(true); //hacer visible la ventana
+		this.setResizable(true); //redimensionar la ventana
+		this.setLayout(null); //desactivar los contenedores por defecto
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
+		this.setSize(465, 670); //colocar tamaño predeterminado
+		this.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
 
 		this.add(this.calculator());
 		
