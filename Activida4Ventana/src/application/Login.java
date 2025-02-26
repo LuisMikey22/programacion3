@@ -1,29 +1,25 @@
 package application;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
 public class Login extends JFrame{
 	
@@ -33,17 +29,47 @@ public class Login extends JFrame{
 		this.setResizable(true); //redimensionar la ventana
 		this.setLayout(null); //desactivar los contenedores por defecto
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
-		this.setSize(500, 560); //colocar tamaño predeterminado
+		this.setSize(500, 610); //colocar tamaño predeterminado
 		this.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
+		this.setMinimumSize(new Dimension(300, 400));
+		this.setMaximumSize(new Dimension(800, 900));
+		this.setResizable(isMaximumSizeSet());
 
 		this.add(this.login());
+		
+		JMenuBar barra = new JMenuBar(); //barra de munus
+		
+		JMenu menu1 = new JMenu("Archivo");
+		JMenu menu2 = new JMenu("Ayuda");
+		
+		JMenuItem opNew = new JMenuItem("Nuevo");
+		JMenuItem opOpen = new JMenuItem("Abrir");
+		JMenuItem opSave = new JMenuItem("Guardar");
+		JMenuItem opClose = new JMenuItem("Cerrar");
+		
+		menu1.add(opNew);
+		menu1.add(opOpen);
+		menu1.add(opSave);
+		menu1.add(opClose);
+		
+		JRadioButtonMenuItem opHelp = new JRadioButtonMenuItem("Manual de Usuario: ");
+		JCheckBoxMenuItem opSupport = new JCheckBoxMenuItem("Soporte tecnico: ");
+
+		menu2.add(opHelp);
+		menu2.add(opSupport);
+		
+		barra.add(menu1);
+		barra.add(menu2);
+
+		this.setJMenuBar(barra);
+		
 		
 		this.repaint();
 	}
 	
 	public JPanel login() {
 		JPanel loginPnl = new JPanel(); 
-		loginPnl.setSize(500, 560);
+		loginPnl.setSize(500, 610);
 		loginPnl.setLocation(0, 0);
 		loginPnl.setBackground(Color.decode("#BFE4FF"));
 		loginPnl.setOpaque(true);
@@ -149,14 +175,14 @@ public class Login extends JFrame{
 		this.add(PasswordFld);
 		
 		JButton olvidarBttn = new JButton("¿Olvidó su contraseña?");
-		olvidarBttn.setSize(200, 20);
+		olvidarBttn.setSize(146, 20);
 		olvidarBttn.setLocation(230, 345);
+		olvidarBttn.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode("#1B313F")));
 		olvidarBttn.setForeground(Color.decode("#1B313F")); //color de letra
-		olvidarBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		olvidarBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		olvidarBttn.setContentAreaFilled(false);
 		olvidarBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
-		olvidarBttn.setHorizontalAlignment(SwingConstants.LEFT); // centrar texto del botón
+		olvidarBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
 		olvidarBttn.setFont(new Font("Tahoma", Font.BOLD, 12)); //fuente, tipo y tamaño
 		this.add(olvidarBttn);
 		
@@ -185,20 +211,20 @@ public class Login extends JFrame{
 		this.add(ingresarBttn);
 		
 		JButton cuentaBttn = new JButton("Crear Cuenta");
-		cuentaBttn.setSize(140, 20);
-		cuentaBttn.setLocation(270, 470);
-		cuentaBttn.setForeground(Color.decode("#1B313F")); //color de letra
+		cuentaBttn.setSize(300, 50);
+		cuentaBttn.setLocation(92, 490);
+		cuentaBttn.setBackground(Color.decode("#1B313F"));
+		cuentaBttn.setForeground(Color.white); //color de letra
 		cuentaBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		cuentaBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
-		cuentaBttn.setContentAreaFilled(false);
 		cuentaBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
-		cuentaBttn.setHorizontalAlignment(SwingConstants.LEFT); // centrar texto del botón
-		cuentaBttn.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
+		cuentaBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
+		cuentaBttn.setFont(new Font("Tahoma", Font.BOLD, 22)); //fuente, tipo y tamaño
 		this.add(cuentaBttn);
 		
 		JLabel cuentaLbl = new JLabel("¿No tiene una cuenta?");
 		cuentaLbl.setSize(180, 20); 
-		cuentaLbl.setLocation(100, 470);
+		cuentaLbl.setLocation(160, 460);
 		cuentaLbl.setForeground(Color.decode("#1B313F")); //color de letra
 		cuentaLbl.setOpaque(false); //tiene fondo o no
 		cuentaLbl.setHorizontalAlignment(JLabel.LEFT);

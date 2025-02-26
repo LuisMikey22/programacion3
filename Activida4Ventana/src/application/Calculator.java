@@ -1,6 +1,7 @@
 package application;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
@@ -31,6 +32,9 @@ public class Calculator extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
 		this.setSize(465, 670); //colocar tamaño predeterminado
 		this.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
+		this.setMinimumSize(new Dimension(300, 400));
+		this.setMaximumSize(new Dimension(800, 900));
+		this.setResizable(isMaximumSizeSet());
 
 		this.add(this.calculator());
 		

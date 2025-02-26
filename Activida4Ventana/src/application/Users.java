@@ -1,6 +1,7 @@
 package application;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,6 +36,9 @@ public class Users extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
 		this.setSize(1000, 600); //colocar tamaño predeterminado
 		this.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
+		this.setMinimumSize(new Dimension(300, 400));
+		this.setMaximumSize(new Dimension(1200, 900));
+		this.setResizable(isMaximumSizeSet());
 
 		this.add(this.users());
 		

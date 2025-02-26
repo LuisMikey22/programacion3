@@ -1,23 +1,25 @@
 package application;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
 public class Register extends JFrame{
 	
@@ -32,8 +34,37 @@ public class Register extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
 		this.setSize(500, 600); //colocar tamaño predeterminado
 		this.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
+		this.setMinimumSize(new Dimension(300, 400));
+		this.setMaximumSize(new Dimension(800, 900));
+		this.setResizable(isMaximumSizeSet());
 		
 		this.add(this.registro());
+		
+		JMenuBar barra = new JMenuBar(); //barra de munus
+		
+		JMenu menu1 = new JMenu("Archivo");
+		JMenu menu2 = new JMenu("Ayuda");
+		
+		JMenuItem opNew = new JMenuItem("Nuevo");
+		JMenuItem opOpen = new JMenuItem("Abrir");
+		JMenuItem opSave = new JMenuItem("Guardar");
+		JMenuItem opClose = new JMenuItem("Cerrar");
+		
+		menu1.add(opNew);
+		menu1.add(opOpen);
+		menu1.add(opSave);
+		menu1.add(opClose);
+		
+		JRadioButtonMenuItem opHelp = new JRadioButtonMenuItem("Manual de Usuario: ");
+		JCheckBoxMenuItem opSupport = new JCheckBoxMenuItem("Soporte tecnico: ");
+
+		menu2.add(opHelp);
+		menu2.add(opSupport);
+		
+		barra.add(menu1);
+		barra.add(menu2);
+
+		this.setJMenuBar(barra);
 		
 		this.repaint();
 	}
