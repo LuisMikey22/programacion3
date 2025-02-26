@@ -66,7 +66,6 @@ public class Users extends JFrame{
 		header.setLocation(0, 0);
 		header.setOpaque(true); //tiene fondo o no
 		header.setBackground(Color.decode("#33627F"));
-		//cabezera.setBackground(Color.decode("#70C5FF"));
 		header.setHorizontalAlignment(JLabel.LEFT);
 		this.add(header);
 		
@@ -76,7 +75,6 @@ public class Users extends JFrame{
 		totalUsers.setOpaque(false); //tiene fondo o no
 		totalUsers.setForeground(Color.white);
 		totalUsers.setFont(new Font("Tahoma", Font.BOLD, 14));
-		//cabezera.setBackground(Color.decode("#70C5FF"));
 		totalUsers.setHorizontalAlignment(JLabel.LEFT);
 		this.add(totalUsers);
 		
@@ -85,7 +83,6 @@ public class Users extends JFrame{
 		usersWdgt.setLocation(50, 130);
 		usersWdgt.setOpaque(true); //tiene fondo o no
 		usersWdgt.setBackground(Color.decode("#33627F"));
-		//cabezera.setBackground(Color.decode("#70C5FF"));
 		usersWdgt.setHorizontalAlignment(JLabel.LEFT);
 		this.add(usersWdgt);
 		

@@ -32,7 +32,7 @@ public class Login extends JFrame{
 		this.setSize(500, 610); //colocar tamaño predeterminado
 		this.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
 		this.setMinimumSize(new Dimension(300, 400));
-		this.setMaximumSize(new Dimension(800, 900));
+		this.setMaximumSize(new Dimension(800, 900)); 
 		this.setResizable(isMaximumSizeSet());
 
 		this.add(this.login());
@@ -84,14 +84,6 @@ public class Login extends JFrame{
 		logo.setHorizontalAlignment(JLabel.LEFT);
 		this.add(logo);
 		
-		/*ImageIcon imageLogoIcon = new ImageIcon("vortex.png");
-		JLabel logo = new JLabel(imageLogoIcon);
-		logo.setSize(208, 70);
-		logo.setLocation(140, 12);
-		logo.setOpaque(false); //tiene fondo o no
-		logo.setHorizontalAlignment(JLabel.LEFT);
-		this.add(logo);*/
-		
 		JLabel loginLbl = new JLabel("Iniciar sesión");
 		loginLbl.setSize(240, 40);
 		loginLbl.setLocation(124, 130);
@@ -106,8 +98,6 @@ public class Login extends JFrame{
 		header.setSize(500, 340);
 		header.setLocation(0, 0);
 		header.setOpaque(false); //tiene fondo o no
-		//header.setBackground(Color.decode("#33627F"));
-		//header.setBackground(Color.decode("#70C5FF"));
 		header.setHorizontalAlignment(JLabel.LEFT);
 		this.add(header);
 		

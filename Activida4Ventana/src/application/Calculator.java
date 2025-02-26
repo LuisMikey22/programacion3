@@ -63,7 +63,6 @@ public class Calculator extends JFrame{
 		header.setOpaque(true); //tiene fondo o no
 		header.setBorder(BorderFactory.createEtchedBorder(20, Color.decode("#1B313F"), Color.decode("#1B313F")));
 		header.setBackground(Color.white);
-		//cabezera.setBackground(Color.decode("#70C5FF"));
 		header.setHorizontalAlignment(JLabel.LEFT);
 		this.add(header);
 		
@@ -85,7 +84,6 @@ public class Calculator extends JFrame{
             	buttons[i][j].setFont(tahoma); //fuente, tipo y tamaño
             	buttons[i][j].setBorderPainted(false); //hace invisible el borde por defecto de los botones   
             	buttons[i][j].setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
-                //buttons[i][j].setContentAreaFilled(false); //hace invisible la animacion al presionar el botón  
                 buttons[i][j].setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
                 matrixPnl.add(buttons[i][j]); //agregar la matriz de botones al panel para ser visualizado en la ventana
             }
