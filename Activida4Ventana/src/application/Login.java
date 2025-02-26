@@ -176,7 +176,7 @@ public class Login extends JFrame{
 		
 		JButton olvidarBttn = new JButton("¿Olvidó su contraseña?");
 		olvidarBttn.setSize(146, 20);
-		olvidarBttn.setLocation(230, 345);
+		olvidarBttn.setLocation(245, 345);
 		olvidarBttn.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode("#1B313F")));
 		olvidarBttn.setForeground(Color.decode("#1B313F")); //color de letra
 		olvidarBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
@@ -224,11 +224,11 @@ public class Login extends JFrame{
 		
 		JLabel cuentaLbl = new JLabel("¿No tiene una cuenta?");
 		cuentaLbl.setSize(180, 20); 
-		cuentaLbl.setLocation(160, 460);
+		cuentaLbl.setLocation(160, 458);
 		cuentaLbl.setForeground(Color.decode("#1B313F")); //color de letra
 		cuentaLbl.setOpaque(false); //tiene fondo o no
 		cuentaLbl.setHorizontalAlignment(JLabel.LEFT);
-		cuentaLbl.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
+		cuentaLbl.setFont(new Font("Tahoma", Font.BOLD, 12)); //fuente, tipo y tamaño
 		this.add(cuentaLbl);
 		
 		return loginPnl; //añadir panel al marco (JFrame)
