@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -28,6 +29,10 @@ public class Login extends JFrame{
 		this.setVisible(true); //hacer visible la ventana
 		this.setResizable(true); //redimensionar la ventana
 		this.setLayout(null); //desactivar los contenedores por defecto
+		
+		ImageIcon vortexIcon = new ImageIcon("vortexIcon.png");
+		this.setIconImage(vortexIcon.getImage());
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
 		this.setSize(500, 610); //colocar tamaño predeterminado
 		this.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
@@ -75,7 +80,7 @@ public class Login extends JFrame{
 		loginPnl.setOpaque(true);
 		
 		
-		Image imageLogo = new ImageIcon("vortex.png").getImage().getScaledInstance(208, 70, Image.SCALE_SMOOTH);
+		Image imageLogo = new ImageIcon("vortexLogo.png").getImage().getScaledInstance(208, 70, Image.SCALE_SMOOTH);
 		ImageIcon imageLogoIcon = new ImageIcon(imageLogo);
 		JLabel logo = new JLabel(imageLogoIcon);
 		logo.setSize(208, 70);
@@ -93,7 +98,7 @@ public class Login extends JFrame{
 		loginLbl.setFont(new Font("Tahoma", Font.BOLD, 34)); //fuente, tipo y tamaño
 		this.add(loginLbl);
 		
-		ImageIcon imageHdr = new ImageIcon("pestaña vortex.png");
+		ImageIcon imageHdr = new ImageIcon("vortexBackground.png");
 		JLabel header = new JLabel(imageHdr);
 		header.setSize(500, 340);
 		header.setLocation(0, 0);
@@ -110,7 +115,7 @@ public class Login extends JFrame{
 		userLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
 		this.add(userLbl);
 		
-		Image imageUser = new ImageIcon("personaIcon.png").getImage().getScaledInstance(12, 22, Image.SCALE_SMOOTH);
+		Image imageUser = new ImageIcon("userIcon.png").getImage().getScaledInstance(12, 22, Image.SCALE_SMOOTH);
 		ImageIcon imageUserIcon = new ImageIcon(imageUser);
 		JLabel userIcon = new JLabel(imageUserIcon);
 		userIcon.setSize(14, 26);
@@ -137,7 +142,7 @@ public class Login extends JFrame{
 		passwordLbL.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
 		this.add(passwordLbL);
 		
-		Image imageLock = new ImageIcon("candadoIcon.png").getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
+		Image imageLock = new ImageIcon("lockIcon.png").getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
 		ImageIcon imageLockIcon = new ImageIcon(imageLock);
 		JLabel lockIcon = new JLabel(imageLockIcon);
 		lockIcon.setSize(20, 26);
@@ -146,7 +151,7 @@ public class Login extends JFrame{
 		lockIcon.setHorizontalAlignment(JLabel.LEFT);
 		this.add(lockIcon);
 		
-		Image imageEye = new ImageIcon("contraIcon.png").getImage().getScaledInstance(30, 16, Image.SCALE_SMOOTH);
+		Image imageEye = new ImageIcon("eyeSeesIcon.png").getImage().getScaledInstance(30, 16, Image.SCALE_SMOOTH);
 		ImageIcon imageEyeIcon = new ImageIcon(imageEye);
 		JLabel eyeIcon = new JLabel(imageEyeIcon);
 		eyeIcon.setSize(30, 16);

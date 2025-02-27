@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,6 +28,10 @@ public class Calculator extends JFrame{
 		this.setVisible(true); //hacer visible la ventana
 		this.setResizable(true); //redimensionar la ventana
 		//this.setLayout(null); //desactivar los contenedores por defecto
+		
+		ImageIcon vortexIcon = new ImageIcon("vortexIcon.png");
+		this.setIconImage(vortexIcon.getImage());
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
 		this.setSize(465, 670); //colocar tamaño predeterminado
 		this.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
@@ -69,12 +74,12 @@ public class Calculator extends JFrame{
 		loginLbl.setFont(tahoma); //fuente, tipo y tamaño
 		this.add(loginLbl, BorderLayout.NORTH);
 		
-		JPanel matrixPnl = new JPanel(); //crear el panel de botones
-		matrixPnl.setOpaque(false);
+		//JPanel matrixPnl = new JPanel(); //crear el panel de botones
+		//matrixPnl.setOpaque(false);
 		//matrixPnl.setSize(330, 450);
 		//matrixPnl.setLocation(60, 130);
-		matrixPnl.setLayout(new GridLayout(5, 4, 10, 10)); 
-		this.add(matrixPnl, BorderLayout.CENTER);//agregar el panel de la matriz de botones al panel principal
+		calculatorPnl.setLayout(new GridLayout(5, 4, 10, 10)); 
+		//this.add(matrixPnl, BorderLayout.CENTER);//agregar el panel de la matriz de botones al panel principal
 		
 	    for(i=0; i<arrangementBttn.length; i++) { //renglon       	
 	    	arrangementBttn[i] = new JButton(chars[i]);
@@ -89,10 +94,10 @@ public class Calculator extends JFrame{
 	    	arrangementBttn[i].setForeground(Color.white);
 	    	arrangementBttn[i].setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 	    	arrangementBttn[i].setFont(tahoma); //fuente, tipo y tamaño
-	    	matrixPnl.add(arrangementBttn[i]); //agregar la matriz de botones al panel para ser visualizado en la ventana
+	    	calculatorPnl.add(arrangementBttn[i]); //agregar la matriz de botones al panel para ser visualizado en la ventana
 		}
 	    
-	    matrixPnl.revalidate();
+	    //matrixPnl.revalidate();
 		return calculatorPnl; //añadir panel al marco (JFrame)
 	}
 
