@@ -151,12 +151,8 @@ public class Login extends JFrame{
 		userTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
 		loginPnl.add(userTxtFld);
 		
-		//elementos de contraseña
-		JPanel passwordPnl = new JPanel(); //subpanel para ordenar los elementos
-		passwordPnl.setLayout(new BorderLayout());
-		passwordPnl.setOpaque(false);
-		loginPnl.add(passwordPnl);
 		
+		//elementos de contraseña
 		JLabel passwordLbL = new JLabel("Contraseña");
 		passwordLbL.setSize(300, 40);
 		passwordLbL.setLocation(92, 256);
@@ -193,6 +189,8 @@ public class Login extends JFrame{
 		PasswordFld.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
 		loginPnl.add(PasswordFld);
 		
+		
+		//decisiones
 		JButton olvidarBttn = new JButton("¿Olvidó su contraseña?");
 		olvidarBttn.setSize(146, 20);
 		olvidarBttn.setLocation(245, 345);
@@ -217,6 +215,8 @@ public class Login extends JFrame{
 		recordarChkBx.setFont(new Font("Tahoma", Font.BOLD, 12)); //fuente, tipo y tamaño
 		loginPnl.add(recordarChkBx);
 		
+		
+		//botones
 		JButton cuentaBttn = new JButton("Crear Cuenta");
 		cuentaBttn.setSize(150, 50);
 		cuentaBttn.setLocation(92, 390);

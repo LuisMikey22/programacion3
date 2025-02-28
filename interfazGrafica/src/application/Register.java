@@ -94,7 +94,7 @@ public class Register extends JFrame{
 		header.setSize(500, 84);
 		header.setLocation(0, 0);
 		header.setOpaque(true); //tiene fondo o no
-		header.setBackground(Color.decode("#33627F")); 
+		header.setBackground(Color.decode("#1B313F")); 
 		header.setHorizontalAlignment(JLabel.LEFT);
 		this.add(header);
 		
