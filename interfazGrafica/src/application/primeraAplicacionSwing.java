@@ -6,11 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -18,19 +21,25 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JCheckBox;
 import javax.swing.border.LineBorder;
 
 public class primeraAplicacionSwing {
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
 	
-	String colonias[] = {"Camino Real", "Bellavista", "Progreso", "Pedregal", "Calafia", "Diana Laura",
-			 "El Mezquitito", "Indeco", "La Fuente", "Las Américas", "Miramar"};
+	String nationalities[] = {"México", "Perú", "Argentina", "Guatemala", "Brasil", "Colombia",
+			 				  "Venezuela", "Bolivia", "Paraguay", "Uruguay", "El Salvador", "Panamá",
+			 				  "Chile","Honduras", "Ecuador", "Cuba", "Costa Rica", "Belice", "Nicaragua",
+			 				  "Jamaica"};
+	
+	String preferences[] = {"Tejer", "Senderismo", "Pintar", "Películas", "Leer", "Nadar",
+			 				"Escribir", "Programar", "Ejercicio", "Caminar", "Fotografías", 
+			 				"Música", "Bordar", "Cerámica", "Bisutería", "Cocinar", "Costura",
+			 				"Yoga", "Escultura", "Oratoria", "Ajedrez", "Paracaidismo", "Viajar",
+			 				"Jardinería", "Cultivar", };
 
 	/**
 	 * Launch the application.
@@ -60,121 +69,217 @@ public class primeraAplicacionSwing {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 727, 632);
+		ImageIcon vortexIcon = new ImageIcon("vortexIcon.png");
+		frame.setIconImage(vortexIcon.getImage());
+		frame.setBounds(100, 100, 800, 650);
+		frame.setMinimumSize(new Dimension(800, 650));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel panelGeneral = new JPanel();
-		panelGeneral.setBorder(new LineBorder(new Color(0, 0, 0), 10));
-		panelGeneral.setBackground(new Color(255, 255, 255));
-		frame.getContentPane().add(panelGeneral, BorderLayout.CENTER);
-		panelGeneral.setLayout(new BorderLayout(0, 0));
+		JPanel generalPnl = new JPanel();
+		generalPnl.setBorder(new LineBorder(new Color(255, 255, 255), 20)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
+		generalPnl.setBackground(new Color(255, 255, 255));
+		frame.getContentPane().add(generalPnl, BorderLayout.CENTER);
+		generalPnl.setLayout(new BorderLayout(10, 10));
 		
-		JPanel panelDiv4 = new JPanel();
-		panelDiv4.setBackground(new Color(255, 255, 255));
-		panelGeneral.add(panelDiv4, BorderLayout.CENTER);
-		panelDiv4.setLayout(new GridLayout(2, 2, 10, 10));
+		JLabel userRegisterLbl = new JLabel("Registro de usuarios");
+		userRegisterLbl.setFont(new Font("Tahoma", Font.BOLD, 20));
+		userRegisterLbl.setForeground(Color.black); 
+		generalPnl.add(userRegisterLbl, BorderLayout.NORTH);
 		
-		JPanel generalInfo = new JPanel();
-		generalInfo.setBackground(new Color(255, 192, 203));
-		generalInfo.setBorder(BorderFactory.createTitledBorder("Datos generales"));
-		panelDiv4.add(generalInfo);
-		generalInfo.setLayout(new GridLayout(0, 2, 0, 15));
+		JPanel InformationPnl= new JPanel();
+		InformationPnl.setBackground(new Color(255, 255, 255));
+		InformationPnl.setLayout(new GridLayout(2, 1, 10, 10));
+		generalPnl.add(InformationPnl, BorderLayout.WEST);
 		
-		JLabel lblNewLabel_1 = new JLabel("Nombre:");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		generalInfo.add(lblNewLabel_1);
+		//panel con elementos de la información del usuario
+		JPanel generalInfPnl = new JPanel();
+		generalInfPnl.setBackground(new Color(135, 206, 250));
+		generalInfPnl.setBorder(BorderFactory.createTitledBorder(null, "Datos generales", 0, 0, null, Color.black));
+		generalInfPnl.setLayout(new GridLayout(6, 2, 40, 15));
+		InformationPnl.add(generalInfPnl);
 		
-		textField = new JTextField();
-		generalInfo.add(textField);
-		textField.setColumns(10);
+		JLabel nameLbl = new JLabel("Nombre:");
+		nameLbl.setHorizontalAlignment(SwingConstants.RIGHT);
+		nameLbl.setForeground(Color.black);
+		generalInfPnl.add(nameLbl);
 		
-		JLabel lblNewLabel_2 = new JLabel("Apellido paterno:");
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		generalInfo.add(lblNewLabel_2);
+		JTextField nameTxtFld = new JTextField();
+		nameTxtFld.setColumns(10);
+		generalInfPnl.add(nameTxtFld);
 		
-		textField_1 = new JTextField();
-		generalInfo.add(textField_1);
-		textField_1.setColumns(10);
+		JLabel surname1Lbl = new JLabel("Apellido paterno:");
+		surname1Lbl.setHorizontalAlignment(SwingConstants.RIGHT);
+		surname1Lbl.setForeground(Color.black);
+		generalInfPnl.add(surname1Lbl);
 		
-		JLabel lblNewLabel_3 = new JLabel("Apellido materno:");
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		generalInfo.add(lblNewLabel_3);
+		JTextField surname1TxtFld = new JTextField();
+		surname1TxtFld.setColumns(10);
+		generalInfPnl.add(surname1TxtFld);
 		
-		textField_2 = new JTextField();
-		generalInfo.add(textField_2);
-		textField_2.setColumns(10);
+		JLabel surname2Lbl = new JLabel("Apellido materno:");
+		surname2Lbl.setHorizontalAlignment(SwingConstants.RIGHT);
+		surname2Lbl.setForeground(Color.black);
+		generalInfPnl.add(surname2Lbl);
 		
-		JLabel lblNewLabel_4 = new JLabel("Fecha de nacimiento:");
-		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-		generalInfo.add(lblNewLabel_4);
+		JTextField surname2TxtFld = new JTextField();
+		surname2TxtFld.setColumns(10);
+		generalInfPnl.add(surname2TxtFld);
 		
-		textField_3 = new JTextField();
-		generalInfo.add(textField_3);
-		textField_3.setColumns(10);
+		JLabel birthDateLbl = new JLabel("Fecha de nacimiento:");
+		birthDateLbl.setHorizontalAlignment(SwingConstants.RIGHT);
+		birthDateLbl.setForeground(Color.black);
+		generalInfPnl.add(birthDateLbl);
 		
-		JLabel lblNewLabel_5 = new JLabel("Sexo");
-		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
-		generalInfo.add(lblNewLabel_5);
+		JTextField birthDateTxtFld= new JTextField();
+		birthDateTxtFld.setColumns(10);
+		generalInfPnl.add(birthDateTxtFld);
 		
-		JPanel panel = new JPanel();
-		generalInfo.add(panel);
-		panel.setLayout(new GridLayout(2, 1, 0, 0));
-		
-		
-		ButtonGroup sexos = new ButtonGroup();
-		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Femenino");
-		panel.add(rdbtnNewRadioButton);
-		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Masculino");
-		panel.add(rdbtnNewRadioButton_1);
-		
-		sexos.add(rdbtnNewRadioButton);
-		sexos.add(rdbtnNewRadioButton_1);
+		JLabel sexLbl = new JLabel("Sexo:");
+		sexLbl.setHorizontalAlignment(SwingConstants.RIGHT);
+		sexLbl.setForeground(Color.black);
+		generalInfPnl.add(sexLbl);
 		
 		
-		JLabel lblNewLabel_6 = new JLabel("Nacionalidad");
-		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
-		generalInfo.add(lblNewLabel_6);
+		//panel de sexos biológicos
+		JPanel sexesPnl = new JPanel();
+		sexesPnl.setOpaque(false);
+		sexesPnl.setLayout(new GridLayout(1, 2, 0, 0));
+		generalInfPnl.add(sexesPnl);
 		
-		JComboBox<String>comboBox = new JComboBox<>(colonias);
-		generalInfo.add(comboBox);
+		ButtonGroup sexesBttnGrp = new ButtonGroup();
 		
-		JPanel userProfile = new JPanel();
-		userProfile.setBackground(new Color(135, 206, 250));
-		panelDiv4.add(userProfile);
-		userProfile.setLayout(new BorderLayout(0, 0));
+		JRadioButton femenineRdBttn = new JRadioButton("Femenino");
+		femenineRdBttn.setOpaque(false);
+		femenineRdBttn.setHorizontalAlignment(JRadioButton.CENTER);
+		femenineRdBttn.setForeground(Color.black);
+		sexesPnl.add(femenineRdBttn);
+		
+		JRadioButton masculineRdBttn = new JRadioButton("Masculino");
+		masculineRdBttn.setOpaque(false);
+		masculineRdBttn.setHorizontalAlignment(JRadioButton.CENTER);
+		masculineRdBttn.setForeground(Color.black);
+		sexesPnl.add(masculineRdBttn);
+		
+		sexesBttnGrp.add(femenineRdBttn);
+		sexesBttnGrp.add(masculineRdBttn);
 		
 		
-		Image imageUser = new ImageIcon("userIcon.jpg").getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+		JLabel nationality = new JLabel("Nacionalidad:");
+		nationality.setHorizontalAlignment(SwingConstants.RIGHT);
+		nationality.setForeground(Color.black);
+		generalInfPnl.add(nationality);
+		
+		JComboBox<String>nationalitiesCmbBx = new JComboBox<>(nationalities);
+		nationalitiesCmbBx.setBackground(Color.white);
+		nationalitiesCmbBx.setForeground(Color.black);
+		generalInfPnl.add(nationalitiesCmbBx);
+	
+		
+		//panel con elementos de información opcional del usuario
+		JPanel optionalInfPnl = new JPanel();
+		optionalInfPnl.setBackground(new Color(135, 206, 250));
+		optionalInfPnl.setBorder(BorderFactory.createTitledBorder(null, "Datos opcionales", 0, 0, null, Color.black));
+		optionalInfPnl.setLayout(new GridLayout(2, 2, 20, 0));
+		InformationPnl.add(optionalInfPnl);
+		
+		JLabel descLbl = new JLabel("Descripción:");
+		descLbl.setHorizontalAlignment(SwingConstants.LEFT);
+		descLbl.setForeground(Color.black);
+		optionalInfPnl.add(descLbl);
+		
+		JLabel preferencesLbl = new JLabel("Actividades/Pasatiempos:");
+		preferencesLbl.setHorizontalAlignment(SwingConstants.LEFT);
+		preferencesLbl.setForeground(Color.black);
+		optionalInfPnl.add(preferencesLbl);
+		
+		
+		JTextArea descTxtArea = new JTextArea();
+		optionalInfPnl.add(descTxtArea);
+		descTxtArea.setColumns(10);
+		
+		JScrollPane descScrllPn = new JScrollPane(descTxtArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		optionalInfPnl.add(descScrllPn);
+		
+		
+		JList<String>preferencesList = new JList<>(preferences);
+		optionalInfPnl.add(preferencesList);
+		
+		JScrollPane preferencesScrllPn = new JScrollPane(preferencesList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		optionalInfPnl.add(preferencesScrllPn);
+		
+		
+		//panel con elementos del perfil del usuario
+		JPanel userProfilePnl = new JPanel();
+		userProfilePnl.setBackground(new Color(255, 192, 203));
+		userProfilePnl.setBorder(BorderFactory.createTitledBorder(null, "Perfil de usuario", 0, 0, null, Color.black));
+		userProfilePnl.setLayout(new BorderLayout(0, 0));
+		generalPnl.add(userProfilePnl, BorderLayout.CENTER);
+				
+		Image imageUser = new ImageIcon("baldProfilePicture.png").getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
 		ImageIcon imageUserIcon = new ImageIcon(imageUser);
 		JLabel userImageLbl = new JLabel(imageUserIcon);
-		userImageLbl.setSize(250, 250);
-		userProfile.add(userImageLbl, BorderLayout.CENTER);
+		userProfilePnl.add(userImageLbl, BorderLayout.NORTH);
+				
+		JPanel showOptionsPnl = new JPanel();
+		showOptionsPnl.setOpaque(false);
+		showOptionsPnl.setLayout(new GridLayout(2, 1, 0, 0));
+		userProfilePnl.add(showOptionsPnl, BorderLayout.CENTER);
+				
+		JCheckBox showProfilePicChckBx = new JCheckBox("Mostrar foto de perfil               ");
+		showProfilePicChckBx.setOpaque(false);
+		showProfilePicChckBx.setHorizontalAlignment(JLabel.CENTER);
+		showProfilePicChckBx.setForeground(Color.black);
+		showOptionsPnl.add(showProfilePicChckBx);
+				
+		JCheckBox showBirthdateChckBx = new JCheckBox("Mostrar fecha de nacimiento");
+		showBirthdateChckBx.setOpaque(false);
+		showBirthdateChckBx.setHorizontalAlignment(JLabel.CENTER);
+		showBirthdateChckBx.setVerticalAlignment(JLabel.TOP);
+		showBirthdateChckBx.setForeground(Color.black);
+		showOptionsPnl.add(showBirthdateChckBx);
 		
-		JPanel panel_1 = new JPanel();
-		userProfile.add(panel_1, BorderLayout.SOUTH);
-		panel_1.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Mostrar fecha de nacimiento");
-		panel_1.add(chckbxNewCheckBox);
+		//panel con elementos de botones para realizar acciones
+		JPanel buttonOptionsPnl = new JPanel();
+		buttonOptionsPnl.setBackground(new Color(255, 255, 255));
+		buttonOptionsPnl.setLayout(new GridLayout(1, 3));
+		generalPnl.add(buttonOptionsPnl, BorderLayout.SOUTH);
 		
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Mostrar fecha de nacimiento");
-		panel_1.add(chckbxNewCheckBox_1);
+		JButton newUserBttn = new JButton("Nuevo");
+		Image newImage = new ImageIcon("addIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH); //redimensionar la imagen
+		ImageIcon newImageIcon = new ImageIcon(newImage);
+		newUserBttn.setIcon(newImageIcon);
+		newUserBttn.setBorder(new LineBorder(new Color(255, 255, 255), 20)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
+		newUserBttn.setHorizontalAlignment(SwingConstants.CENTER);
+		newUserBttn.setHorizontalAlignment(JButton.CENTER);
+		newUserBttn.setBackground(Color.decode("#001D33"));
+		newUserBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
+		newUserBttn.setForeground(Color.white);
+		buttonOptionsPnl.add(newUserBttn);
 		
-		JPanel opcionalInfo = new JPanel();
-		opcionalInfo.setBackground(new Color(135, 206, 250));
-		panelDiv4.add(opcionalInfo);
+		JButton saveInfBttn = new JButton("Guardar");
+		Image saveImage = new ImageIcon("saveIcon.png").getImage().getScaledInstance(25, 20, Image.SCALE_SMOOTH); //redimensionar la imagen
+		ImageIcon saveImageIcon = new ImageIcon(saveImage);
+		saveInfBttn.setIcon(saveImageIcon);
+		saveInfBttn.setBorder(new LineBorder(new Color(255, 255, 255), 20)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
+		saveInfBttn.setHorizontalAlignment(SwingConstants.CENTER);
+		saveInfBttn.setHorizontalAlignment(JButton.CENTER);
+		saveInfBttn.setBackground(Color.decode("#001D33"));
+		saveInfBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
+		saveInfBttn.setForeground(Color.white);
+		buttonOptionsPnl.add(saveInfBttn);
 		
-		JPanel options = new JPanel();
-		options.setBackground(new Color(255, 192, 203));
-		panelDiv4.add(options);
-		
-		JLabel lblNewLabel = new JLabel("Registro de usuarios");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setForeground(new Color(0, 0, 0));
-		lblNewLabel.setBackground(new Color(0, 0, 0));
-		panelGeneral.add(lblNewLabel, BorderLayout.NORTH);
+		JButton closeBttn = new JButton("Salir");
+		Image returnImage = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH); //redimensionar la imagen
+		ImageIcon returnImageIcon = new ImageIcon(returnImage);
+		closeBttn.setIcon(returnImageIcon);
+		closeBttn.setBorder(new LineBorder(new Color(255, 255, 255), 20)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
+		closeBttn.setHorizontalAlignment(SwingConstants.CENTER);
+		closeBttn.setHorizontalAlignment(JButton.CENTER);
+		closeBttn.setBackground(Color.decode("#001D33"));
+		closeBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
+		closeBttn.setForeground(Color.white);
+		buttonOptionsPnl.add(closeBttn);
 	}
 
 }
