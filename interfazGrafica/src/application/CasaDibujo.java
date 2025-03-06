@@ -122,7 +122,7 @@ public class CasaDibujo extends JFrame{
 		g2.fillPolygon(xTejadoIzq, yTejadoIzq, 4); //tejado izquierdo de la casa
 		
 		
-		//sombre de porche
+		//sombra de porche
 		g2.setColor(new Color(85, 11, 10, 116)); //marco
 		g2.fillRect(300, 545, 300, 100);
 		
