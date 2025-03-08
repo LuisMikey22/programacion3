@@ -72,7 +72,7 @@ public class CasaDibujo extends JFrame{
 		this.setResizable(true); //redimensionar la ventana
 		//this.setLayout(null); //desactivar los contenedores por defecto
 		
-		ImageIcon vortexIcon = new ImageIcon("vortexIcon.png");
+		ImageIcon vortexIcon = new ImageIcon("courage.png");
 		this.setIconImage(vortexIcon.getImage());
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
