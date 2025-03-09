@@ -3,34 +3,19 @@ package application;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class MarioBrosDraw1 extends JFrame{
 	
-	//los puntos se van dibujando en sentido contrario al reloj (hacia la izquierda)
-	int xFrente[] = {450,    300,        300,       600,       600};
-	int yFrente[] = {300,    500,        700,       725,       525};
-				   //arriba, arriba izq, abajo izq, abajo der, arriba der
-	
-	int xTejadoIzq[] = {440, 590, 1015, 800};
-	int yTejadoIzq[] = {295, 545, 560, 360};
-	
-	
-	
-	
 	public MarioBrosDraw1(String title) {
-		this.setTitle(title); //colorcar título a la ventana
+		this.setTitle(title); //colocar título a la ventana
 		this.setVisible(true); //hacer visible la ventana
 		this.setResizable(true); //redimensionar la ventana
 		//this.setLayout(null); //desactivar los contenedores por defecto
@@ -53,10 +38,11 @@ public class MarioBrosDraw1 extends JFrame{
 		Graphics2D g2 = (Graphics2D) g; //convertir la variable g de tipo Graphics a Graphics2D
 		
 		//los puntos de los polígonos se van dibujando en sentido contrario al reloj (hacia la izquierda)
+		
 		//cielo
 		g2.setColor(new Color(179, 238, 254));
 		g2.fillRect(0, 0, 1400, 950);
-		
+
 		
 		//caja 1
 		g2.setColor(new Color(255,145,94)); //color
@@ -162,6 +148,7 @@ public class MarioBrosDraw1 extends JFrame{
 			g2.fillRect(i, 785, 30, 40);
 			g2.fillRect(i+30, 825, 30, 40);
 		}
+		  
 		
 		//sombra de cuadro azul
 		g2.setColor(new Color(4, 10, 6));
@@ -176,6 +163,7 @@ public class MarioBrosDraw1 extends JFrame{
 		g2.setColor(new Color(131, 192, 252)); //color
 		g2.fillRoundRect(505, 355, 280, 350, 30, 30);
 		
+		
 		//sombra de cuadro salmón
 		g2.setColor(new Color(4, 10, 6));
 		g2.fillRoundRect(515, 510, 200, 210, 10, 30);
@@ -189,6 +177,7 @@ public class MarioBrosDraw1 extends JFrame{
 		g2.setColor(new Color(255, 195, 184)); //color
 		g2.fillRoundRect(355, 465, 280, 240, 30, 30);
 			
+		
 		//cuadrado verde
 		g2.setColor(new Color(4, 10, 6));//borde
 		g2.setStroke(new BasicStroke(10));
@@ -219,6 +208,7 @@ public class MarioBrosDraw1 extends JFrame{
 		g2.setColor(new Color(206, 222, 225)); //metal
 		g2.drawArc(620, 680, 5, 5, 200, 90);
 		
+		
 		//tornillos de cuadro azul
 		g2.setColor(new Color(5, 4, 2)); //borde
 		g2.drawArc(515, 365, 15, 15, 0, 360);
@@ -235,6 +225,7 @@ public class MarioBrosDraw1 extends JFrame{
 		g2.setColor(new Color(206, 222, 225)); //metal
 		g2.drawArc(770, 680, 5, 5, 200, 90);
 		
+		
 		//tornillos de cuadro verde
 		g2.setColor(new Color(5, 4, 2)); //borde
 		g2.drawArc(1215, 475, 15, 15, 0, 360);
@@ -246,6 +237,7 @@ public class MarioBrosDraw1 extends JFrame{
 		g2.setColor(new Color(206, 222, 225)); //metal
 		g2.drawArc(1220, 680, 5, 5, 200, 90);
 		
+		
 		//planta
 		g2.setColor(new Color(5, 4, 2)); //bordes
 		g2.fillRect(1040, 295, 30, 172); 
@@ -255,7 +247,7 @@ public class MarioBrosDraw1 extends JFrame{
 		g2.fillArc(1050, 385, 60, 40, 180, -250);
 		g2.fillArc(1000, 245, 90, 80, 0, 360);
 		g2.fillArc(1005, 235, 90, 90, 180, -300);
-
+		//estructura
 		g2.setColor(new Color(92, 219, 122));
 		g2.fillRect(1045, 300, 20, 162); //tallo
 		g2.fillArc(1005, 340, 50, 30, 0, -250); //hojas
@@ -289,14 +281,12 @@ public class MarioBrosDraw1 extends JFrame{
 		g2.fillOval(918, 488, 17, 12);
 		
 		BufferedImage characterImage;
-		
 		try {
 			characterImage = ImageIO.read(new File("MarioBros3.png"));
 			g2.drawImage(characterImage, 780 , 557, 120, 160, null, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		
 		dibujarPipaVerde(g2);
 	

@@ -3,15 +3,11 @@ package application;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -67,13 +63,13 @@ public class CourageHouse extends JFrame{
 	
 	
 	public CourageHouse(String title) {
-		this.setTitle(title); //colorcar título a la ventana
+		this.setTitle(title); //colocar título a la ventana
 		this.setVisible(true); //hacer visible la ventana
 		this.setResizable(true); //redimensionar la ventana
 		//this.setLayout(null); //desactivar los contenedores por defecto
 		
-		ImageIcon vortexIcon = new ImageIcon("courage.png");
-		this.setIconImage(vortexIcon.getImage());
+		ImageIcon courageCharacter = new ImageIcon("courage.png");
+		this.setIconImage(courageCharacter.getImage());
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
 		this.setSize(1400, 950); //colocar tamaño predeterminado
@@ -94,7 +90,6 @@ public class CourageHouse extends JFrame{
 		
 		//paisaje
 		BufferedImage image;
-		
 		try {
 			image = ImageIO.read(new File("sunsetImage.png"));
 			g2.drawImage(image, 0, 0, 1400, 1000, Color.gray, null);
@@ -275,6 +270,7 @@ public class CourageHouse extends JFrame{
 		g2.setColor(new Color(177, 193, 209));
 		g2.fillArc(1075, 205, 45, 45, 0, 360);
 		
+		
 		//chimenea
 		g2.setColor(new Color(118, 129, 133));
 		g2.drawLine(720, 440, 770, 440);
@@ -283,9 +279,11 @@ public class CourageHouse extends JFrame{
 		g2.drawLine(800, 380, 800, 340);
 		g2.fillPolygon(xChimenea, yChimenea, 3);
 		
+		
 		//barril
 		g2.setColor(new Color(89, 70, 50));
 		g2.fillArc(670, 645, 70, 80, 0, 360);
+		
 		
 		//rueda
 		g2.setColor(new Color(173, 138, 101));
@@ -294,7 +292,6 @@ public class CourageHouse extends JFrame{
 		
 		
 		BufferedImage dogImage;
-		
 		try {
 			dogImage = ImageIO.read(new File("courage.png"));
 			g2.drawImage(dogImage, 730, 630, 150, 150, null, null);
