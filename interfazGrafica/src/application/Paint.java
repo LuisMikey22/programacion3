@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class Pintar extends JFrame{
+public class Paint extends JFrame{
 	
 	int equis[] = {100, 200, 300};
 	int yes[] = {500, 150, 300};
@@ -23,7 +23,7 @@ public class Pintar extends JFrame{
 	int equis2[] = {100, 200, 300};
 	int yes2[] = {500, 150, 300};
 	
-	public Pintar(String title) {
+	public Paint(String title) {
 		this.setTitle(title); //colorcar título a la ventana
 		this.setVisible(true); //hacer visible la ventana
 		this.setResizable(true); //redimensionar la ventana

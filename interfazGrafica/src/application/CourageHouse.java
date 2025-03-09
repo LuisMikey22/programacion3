@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class CasaDibujo extends JFrame{
+public class CourageHouse extends JFrame{
 	
 	//los puntos se van dibujando en sentido contrario al reloj (hacia la izquierda)
 	int xFrente[] = {450,    300,        300,       600,       600};
@@ -66,7 +66,7 @@ public class CasaDibujo extends JFrame{
 	int yChimenea[] = {300, 340, 340};
 	
 	
-	public CasaDibujo(String title) {
+	public CourageHouse(String title) {
 		this.setTitle(title); //colorcar título a la ventana
 		this.setVisible(true); //hacer visible la ventana
 		this.setResizable(true); //redimensionar la ventana
@@ -343,7 +343,10 @@ public class CasaDibujo extends JFrame{
 		g2.setColor(new Color(91, 78, 87));
 		g2.fillArc(1205, 735, 40, 40, 0, 360);
 		
-		
+	}
+	
+	public static void main(String[] args) {
+		CourageHouse courageHouse = new CourageHouse("Casa de Coraje el perro cobarde");	
 	}
 	
 }

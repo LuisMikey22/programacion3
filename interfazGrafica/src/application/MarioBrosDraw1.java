@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class MarioBros1 extends JFrame{
+public class MarioBrosDraw1 extends JFrame{
 	
 	//los puntos se van dibujando en sentido contrario al reloj (hacia la izquierda)
 	int xFrente[] = {450,    300,        300,       600,       600};
@@ -29,14 +29,14 @@ public class MarioBros1 extends JFrame{
 	
 	
 	
-	public MarioBros1(String title) {
+	public MarioBrosDraw1(String title) {
 		this.setTitle(title); //colorcar título a la ventana
 		this.setVisible(true); //hacer visible la ventana
 		this.setResizable(true); //redimensionar la ventana
 		//this.setLayout(null); //desactivar los contenedores por defecto
 		
-		ImageIcon vortexIcon = new ImageIcon("MarioBros3.png");
-		this.setIconImage(vortexIcon.getImage());
+		ImageIcon MarioCharacter = new ImageIcon("MarioBros3.png");
+		this.setIconImage(MarioCharacter.getImage());
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
 		this.setSize(1400, 950); //colocar tamaño predeterminado
@@ -67,9 +67,12 @@ public class MarioBros1 extends JFrame{
 		g2.fillRect(437, 83, 10, 10);
 		g2.fillRect(353, 167, 10, 10);
 		g2.fillRect(437, 167, 10, 10);
-		g2.setColor(new Color(255,195,184)); 
-		g2.fillOval(350, 100, 36, 28); //detalles color salmón
+		g2.setColor(new Color(4, 10, 6)); 
+		g2.fillOval(350, 100, 36, 28); //sombra de detalles color salmón
 		g2.fillOval(420, 95, 36, 18);
+		g2.setColor(new Color(255,195,184)); 
+		g2.fillOval(350, 100, 32, 22); //detalles color salmón
+		g2.fillOval(420, 95, 32, 12);
 		g2.setColor(new Color(4, 10, 6));
 		g2.setStroke(new BasicStroke(7)); //borde
 		g2.drawRect(340, 70, 120, 120);
@@ -110,9 +113,12 @@ public class MarioBros1 extends JFrame{
 		g2.fillRect(1297, 193, 10, 10);
 		g2.fillRect(1213, 277, 10, 10);
 		g2.fillRect(1297, 277, 10, 10);
-		g2.setColor(new Color(255, 195, 184)); 
-		g2.fillOval(1210, 210, 36, 28); //detalles color salmón
+		g2.setColor(new Color(4, 10, 6)); 
+		g2.fillOval(1210, 210, 36, 28); //sombra de detalles color salmón
 		g2.fillOval(1280, 205, 36, 18);
+		g2.setColor(new Color(255, 195, 184)); 
+		g2.fillOval(1210, 210, 32, 22); //detalles color salmón
+		g2.fillOval(1280, 205, 32, 12);
 		g2.setColor(new Color(4, 10, 6)); 
 		g2.setStroke(new BasicStroke(7)); //borde
 		g2.drawRect(1200, 180, 120, 120);
@@ -150,7 +156,12 @@ public class MarioBros1 extends JFrame{
 		g2.drawLine(0, 720, 1400, 720);
 		g2.drawLine(0, 780, 1400, 780);
 		
-		dibujarDetallesPiso(g2);
+		//detalles del piso color arena
+		for(int i=0; i<1400; i+=60) {
+			g2.setColor(new Color(243,155,112));
+			g2.fillRect(i, 785, 30, 40);
+			g2.fillRect(i+30, 825, 30, 40);
+		}
 		
 		//sombra de cuadro azul
 		g2.setColor(new Color(4, 10, 6));
@@ -242,7 +253,7 @@ public class MarioBros1 extends JFrame{
 		g2.fillArc(1050, 335, 60, 40, 180, 250);
 		g2.fillArc(1000, 385, 60, 40, 0, 250);
 		g2.fillArc(1050, 385, 60, 40, 180, -250);
-		g2.fillArc(1000, 245, 90, 80, 200, -340);
+		g2.fillArc(1000, 245, 90, 80, 0, 360);
 		g2.fillArc(1005, 235, 90, 90, 180, -300);
 
 		g2.setColor(new Color(92, 219, 122));
@@ -256,10 +267,20 @@ public class MarioBros1 extends JFrame{
 		g2.setColor(new Color(200, 43, 24)); 
 		g2.fillArc(1010, 240, 80, 80, 180, -300); //cabeza roja
 		g2.setColor(new Color(255, 255, 255));
-		g2.fillOval(1028, 256, 17, 12); //detalle puntos en cabeza
+		g2.fillOval(1028, 256, 17, 12); //detalles puntos en cabeza
 		g2.fillOval(1055, 248, 17, 12);
 		g2.fillOval(1063, 275, 17, 12);
 		g2.fillOval(1048, 298, 17, 12);
+		g2.setColor(new Color(4, 10, 6));//bordes interiores
+		g2.setStroke(new BasicStroke(5));
+		g2.drawLine(1020, 340, 1028, 352);
+		g2.drawLine(1028, 352, 1038, 352);
+		g2.drawLine(1090, 340, 1080, 352);
+		g2.drawLine(1068, 352, 1078, 352);
+		g2.drawLine(1020, 420, 1028, 404);
+		g2.drawLine(1030, 402, 1042, 402);
+		g2.drawLine(1090, 418, 1080, 404);
+		g2.drawLine(1068, 402, 1078, 402);
 		
 		//bola
 		g2.setColor(new Color(214, 57, 101)); 
@@ -267,11 +288,11 @@ public class MarioBros1 extends JFrame{
 		g2.setColor(new Color(255, 255, 255)); 
 		g2.fillOval(918, 488, 17, 12);
 		
-		BufferedImage dogImage;
+		BufferedImage characterImage;
 		
 		try {
-			dogImage = ImageIO.read(new File("MarioBros3.png"));
-			g2.drawImage(dogImage, 780 , 557, 120, 160, null, null);
+			characterImage = ImageIO.read(new File("MarioBros3.png"));
+			g2.drawImage(characterImage, 780 , 557, 120, 160, null, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -320,103 +341,8 @@ public class MarioBros1 extends JFrame{
 		g2.setColor(new Color(79, 216, 107)); //color menta
 		g2.fillRect(1115, 462, 5, 60);
 	}
-	
-	public void dibujarDetallesPiso(Graphics2D g2) {
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(0, 785, 30, 40);
-		g2.fillRect(30, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(60, 785, 30, 40);
-		g2.fillRect(90, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(120, 785, 30, 40);
-		g2.fillRect(150, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(180, 785, 30, 40);
-		g2.fillRect(210, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(240, 785, 30, 40);
-		g2.fillRect(270, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(300, 785, 30, 40);
-		g2.fillRect(330, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(360, 785, 30, 40);
-		g2.fillRect(390, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(420, 785, 30, 40);
-		g2.fillRect(450, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(480, 785, 30, 40);
-		g2.fillRect(510, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(540, 785, 30, 40);
-		g2.fillRect(570, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(600, 785, 30, 40);
-		g2.fillRect(630, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(660, 785, 30, 40);
-		g2.fillRect(690, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(720, 785, 30, 40);
-		g2.fillRect(750, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(780, 785, 30, 40);
-		g2.fillRect(810, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(840, 785, 30, 40);
-		g2.fillRect(870, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(900, 785, 30, 40);
-		g2.fillRect(930, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(960, 785, 30, 40);
-		g2.fillRect(990, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(1020, 785, 30, 40);
-		g2.fillRect(1050, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(1080, 785, 30, 40);
-		g2.fillRect(1110, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(1140, 785, 30, 40);
-		g2.fillRect(1170, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(1200, 785, 30, 40);
-		g2.fillRect(1230, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(1260, 785, 30, 40);
-		g2.fillRect(1290, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(1320, 785, 30, 40);
-		g2.fillRect(1350, 825, 30, 40);
-		
-		g2.setColor(new Color(243,155,112)); //detalles color arena
-		g2.fillRect(1380, 785, 30, 40);
-		g2.fillRect(1410, 825, 30, 40);
+
+	public static void main(String[] args) {
+		MarioBrosDraw1 draw1 = new MarioBrosDraw1("Marios Bros escena 1");	
 	}
-	
 }
