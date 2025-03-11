@@ -133,109 +133,113 @@ public class MarioBrosDraw1 extends JFrame{
 		
 		
 		//piso
-		g2.setColor(new Color(252, 199, 185)); //primer color
-		g2.fillRect(0, 720, 1400, 65);
 		g2.setColor(new Color(61, 30, 32)); //segundo color
 		g2.fillRect(0, 780, 1400, 110);
+		g2.setColor(new Color(252, 199, 185)); //primer color
+		g2.fillRect(0, 720, 1400, 85);
+		
+		//detalles del piso color arena
+		for(int i=-30; i<1400; i+=40) {
+			g2.setColor(new Color(243,155,112));
+			g2.setStroke(new BasicStroke(15));
+			g2.drawLine(i, 785, i+60, 865);
+			
+			/*g2.fillRect(i, 785, 30, 40);
+			g2.fillRect(i+30, 825, 30, 40);*/
+		}
+		
 		g2.setColor(new Color(4, 10, 6)); //borde líneas
 		g2.setStroke(new BasicStroke(10));
 		g2.drawLine(0, 720, 1400, 720);
 		g2.drawLine(0, 780, 1400, 780);
 		
-		//detalles del piso color arena
-		for(int i=0; i<1400; i+=60) {
-			g2.setColor(new Color(243,155,112));
-			g2.fillRect(i, 785, 30, 40);
-			g2.fillRect(i+30, 825, 30, 40);
-		}
-		  
 		
 		//sombra de cuadro azul
 		g2.setColor(new Color(4, 10, 6));
-		g2.fillRoundRect(660, 405, 200, 320, 10, 30);
+		g2.fillRoundRect(660, 405, 170, 320, 10, 30);
 		
 		//cuadrado azul
 		g2.setColor(new Color(4, 10, 6));//borde
 		g2.setStroke(new BasicStroke(10));
-		g2.drawRoundRect(500, 350, 300, 370, 30, 30); 
+		g2.drawRoundRect(500, 350, 270, 370, 30, 30); 
 		g2.setColor(new Color(51, 134, 202)); //sombra color azul oscuro
-		g2.fillRoundRect(500, 351, 296, 365, 30, 30);
+		g2.fillRoundRect(500, 351, 266, 365, 30, 30);
 		g2.setColor(new Color(131, 192, 252)); //color
-		g2.fillRoundRect(505, 355, 280, 350, 30, 30);
+		g2.fillRoundRect(505, 355, 250, 350, 30, 30);
 		
 		
 		//sombra de cuadro salmón
 		g2.setColor(new Color(4, 10, 6));
-		g2.fillRoundRect(515, 510, 200, 210, 10, 30);
+		g2.fillRoundRect(575, 510, 130, 210, 10, 30);
 		
 		//cuadrado salmón
 		g2.setColor(new Color(4, 10, 6));//borde
 		g2.setStroke(new BasicStroke(10));
-		g2.drawRoundRect(350, 460, 300, 260, 30, 30);
+		g2.drawRoundRect(380, 460, 270, 260, 30, 30);
 		g2.setColor(new Color(243, 155, 112)); //sombra color salmón
-		g2.fillRoundRect(352, 462, 296, 254, 30, 30);
+		g2.fillRoundRect(382, 462, 266, 254, 30, 30);
 		g2.setColor(new Color(255, 195, 184)); //color
-		g2.fillRoundRect(355, 465, 280, 240, 30, 30);
+		g2.fillRoundRect(385, 465, 250, 240, 30, 30);
 			
 		
 		//cuadrado verde
 		g2.setColor(new Color(4, 10, 6));//borde
 		g2.setStroke(new BasicStroke(10));
-		g2.drawRoundRect(1200, 460, 300, 260, 30, 30);
+		g2.drawRoundRect(1220, 460, 300, 260, 30, 30);
 		g2.setColor(new Color(43, 138, 55)); //sombra color verde oscuro
-		g2.fillRoundRect(1202, 464, 292, 253, 30, 30);
+		g2.fillRoundRect(1222, 464, 292, 253, 30, 30);
 		g2.setColor(new Color(81, 217, 107)); //color
-		g2.fillRoundRect(1207, 468, 278, 238, 30, 30);
+		g2.fillRoundRect(1227, 468, 278, 238, 30, 30);
 		
 		//tornillos de cuadro salmón
 		g2.setColor(new Color(5, 4, 2)); //borde
-		g2.drawArc(365, 475, 15, 15, 0, 360);
+		g2.fillArc(390, 470, 30, 30, 0, 360);
 		g2.setColor(new Color(206, 222, 225)); //metal
-		g2.drawArc(370, 480, 5, 5, 200, 90);
+		g2.fillArc(395, 475, 20, 20, 20, -305);
+	
+		g2.setColor(new Color(5, 4, 2)); //borde
+		g2.fillArc(610, 470, 30, 30, 0, 360);
+		g2.setColor(new Color(206, 222, 225)); //metal
+		g2.fillArc(615, 475, 20, 20, 20, -305);
 		
 		g2.setColor(new Color(5, 4, 2)); //borde
-		g2.drawArc(615, 475, 15, 15, 0, 360);
+		g2.fillArc(390, 680, 30, 30, 0, 360);
 		g2.setColor(new Color(206, 222, 225)); //metal
-		g2.drawArc(620, 480, 5, 5, 200, 90);
+		g2.fillArc(395, 685, 20, 20, 20, -305);
 		
 		g2.setColor(new Color(5, 4, 2)); //borde
-		g2.drawArc(365, 675, 15, 15, 0, 360);
+		g2.fillArc(610, 680, 30, 30, 0, 360);
 		g2.setColor(new Color(206, 222, 225)); //metal
-		g2.drawArc(370, 680, 5, 5, 200, 90);
-		
-		g2.setColor(new Color(5, 4, 2)); //borde
-		g2.drawArc(615, 675, 15, 15, 0, 360);
-		g2.setColor(new Color(206, 222, 225)); //metal
-		g2.drawArc(620, 680, 5, 5, 200, 90);
+		g2.fillArc(615, 685, 20, 20, 20, -305);
 		
 		
 		//tornillos de cuadro azul
 		g2.setColor(new Color(5, 4, 2)); //borde
-		g2.drawArc(515, 365, 15, 15, 0, 360);
+		g2.fillArc(510, 360, 30, 30, 0, 360);
 		g2.setColor(new Color(206, 222, 225)); //metal
-		g2.drawArc(520, 370, 5, 5, 200, 90);
+		g2.fillArc(515, 365, 20, 20, 20, -305);
 		
 		g2.setColor(new Color(5, 4, 2)); //borde
-		g2.drawArc(765, 365, 15, 15, 0, 360);
+		g2.fillArc(725, 360, 30, 30, 0, 360);
 		g2.setColor(new Color(206, 222, 225)); //metal
-		g2.drawArc(770, 370, 5, 5, 200, 90);
+		g2.fillArc(730, 365, 20, 20, 20, -305);
 		
 		g2.setColor(new Color(5, 4, 2)); //borde
-		g2.drawArc(765, 675, 15, 15, 0, 360);
+		g2.fillArc(725, 680, 30, 30, 0, 360);
 		g2.setColor(new Color(206, 222, 225)); //metal
-		g2.drawArc(770, 680, 5, 5, 200, 90);
+		g2.fillArc(730, 685, 20, 20, 20, -305);
 		
 		
 		//tornillos de cuadro verde
 		g2.setColor(new Color(5, 4, 2)); //borde
-		g2.drawArc(1215, 475, 15, 15, 0, 360);
+		g2.fillArc(1230, 470, 30, 30, 0, 360);
 		g2.setColor(new Color(206, 222, 225)); //metal
-		g2.drawArc(1220, 480, 5, 5, 200, 90);
+		g2.fillArc(1235, 475, 20, 20, 20, -305);
 		
 		g2.setColor(new Color(5, 4, 2)); //borde
-		g2.drawArc(1215, 675, 15, 15, 0, 360);
+		g2.fillArc(1230, 680, 30, 30, 0, 360);
 		g2.setColor(new Color(206, 222, 225)); //metal
-		g2.drawArc(1220, 680, 5, 5, 200, 90);
+		g2.fillArc(1235, 685, 20, 20, 20, -305);
 		
 		
 		//planta
@@ -283,7 +287,7 @@ public class MarioBrosDraw1 extends JFrame{
 		BufferedImage characterImage;
 		try {
 			characterImage = ImageIO.read(new File("MarioBros3.png"));
-			g2.drawImage(characterImage, 780 , 557, 120, 160, null, null);
+			g2.drawImage(characterImage, 725 , 557, 100, 160, null, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

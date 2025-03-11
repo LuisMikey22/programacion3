@@ -66,32 +66,32 @@ public class MarioBrosDraw2 extends JFrame{
 		g2.setColor(new Color(184, 221, 223)); //sombra
 		g2.fillRoundRect(350, 530, 240, 65, 80, 80);
 		g2.setColor(new Color(239, 243, 255)); //color
-		g2.fillRoundRect(350, 530, 230, 55, 80, 80);
+		g2.fillRoundRect(350, 530, 240, 55, 80, 80);
 		
 		g2.setColor(new Color(184, 221, 223)); //sombra
 		g2.fillRoundRect(230, 600, 240, 65, 80, 80);
 		g2.setColor(new Color(239, 243, 255)); //color
-		g2.fillRoundRect(230, 600, 230, 55, 80, 80);
+		g2.fillRoundRect(230, 600, 240, 55, 80, 80);
 		
 		g2.setColor(new Color(184, 221, 223)); //sombra
 		g2.fillRoundRect(350, 670, 240, 65, 80, 80);
 		g2.setColor(new Color(239, 243, 255)); //color
-		g2.fillRoundRect(350, 670, 230, 55, 80, 80);
+		g2.fillRoundRect(350, 670, 240, 55, 80, 80);
 		
 		g2.setColor(new Color(184, 221, 223)); //sombra
 		g2.fillRoundRect(980, 190, 240, 65, 80, 80);
 		g2.setColor(new Color(239, 243, 255)); //color
-		g2.fillRoundRect(980, 190, 230, 55, 80, 80);
+		g2.fillRoundRect(980, 190, 240, 55, 80, 80);
 		
 		g2.setColor(new Color(184, 221, 223)); //sombra
 		g2.fillRoundRect(920, 255, 240, 65, 80, 80);
 		g2.setColor(new Color(239, 243, 255)); //color
-		g2.fillRoundRect(920, 255, 230, 55, 80, 80);
+		g2.fillRoundRect(920, 255, 240, 55, 80, 80);
 		
 		g2.setColor(new Color(184, 221, 223)); //sombra
 		g2.fillRoundRect(1120, 455, 240, 65, 80, 80);
 		g2.setColor(new Color(239, 243, 255)); //color
-		g2.fillRoundRect(1120, 455, 230, 55, 80, 80);
+		g2.fillRoundRect(1120, 455, 240, 55, 80, 80);
 		
 		
 		//torre 1 azul verdoso
@@ -134,17 +134,17 @@ public class MarioBrosDraw2 extends JFrame{
 		g2.setColor(new Color(184, 221, 223)); //sombra
 		g2.fillRoundRect(0, 360, 240, 65, 80, 80);
 		g2.setColor(new Color(239, 243, 255)); //color
-		g2.fillRoundRect(0, 360, 230, 55, 80, 80);
+		g2.fillRoundRect(0, 360, 240, 55, 80, 80);
 		
 		g2.setColor(new Color(184, 221, 223)); //sombra
 		g2.fillRoundRect(300, 430, 240, 65, 80, 80);
 		g2.setColor(new Color(239, 243, 255)); //color
-		g2.fillRoundRect(300, 430, 230, 55, 80, 80);
+		g2.fillRoundRect(300, 430, 240, 55, 80, 80);
 		
 		g2.setColor(new Color(184, 221, 223)); //sombra
 		g2.fillRoundRect(670, 390, 240, 65, 80, 80);
 		g2.setColor(new Color(239, 243, 255)); //color
-		g2.fillRoundRect(670, 390, 230, 55, 80, 80);
+		g2.fillRoundRect(670, 390, 240, 55, 80, 80);
 		
 		
 		//torre 1 azul 
@@ -207,7 +207,7 @@ public class MarioBrosDraw2 extends JFrame{
 		g2.fillRoundRect(850, 160, 25, 40, 80, 80);
 		g2.setColor(new Color(201, 225, 231)); //color menta
 		g2.fillRoundRect(880, 360, 25, 40, 80, 80);
-		g2.fillRoundRect(960, 560, 25, 40, 80, 80);
+		g2.fillRoundRect(980, 590, 25, 40, 80, 80);
 		
 		
 		//nube
@@ -416,7 +416,7 @@ public class MarioBrosDraw2 extends JFrame{
 		BufferedImage characterImage;
 		try {
 			characterImage = ImageIO.read(new File("MarioWorld.png"));
-			g2.drawImage(characterImage, 490 , 557, 90, 160, null, null);
+			g2.drawImage(characterImage, 486 , 557, 105, 160, null, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -299,7 +299,7 @@ public class CourageHouse extends JFrame{
 			e.printStackTrace();
 		}
 		
-		//carro del abuelo Eustace
+		//carro del abuelo Eustace 
 		//estructura
 		g2.setColor(new Color(91, 78, 87));
 		g2.drawLine(980, 740, 1195, 760);
