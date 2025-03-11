@@ -9,10 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -20,11 +22,16 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class Login extends JFrame{
+	
+	String colonias[] = {"Camino Real", "Bellavista", "Progreso", "Pedregal", "Calafia", "Diana Laura",
+			 "El Mezquitito", "Indeco", "La Fuente", "Las Américas", "Miramar"};
 	
 	public Login(String title) {
 		this.setTitle(title); //colorcar título a la ventana
@@ -43,6 +50,7 @@ public class Login extends JFrame{
 		this.setResizable(isMaximumSizeSet());
 
 		this.add(this.login(), BorderLayout.CENTER);
+		//this.add(this.registro(), BorderLayout.CENTER);
 		
 		JMenuBar barra = new JMenuBar(); //barra de munus
 		
@@ -275,4 +283,199 @@ public class Login extends JFrame{
 		return generalPnl; //añadir panel al marco (JFrame)
 	}
 
+	public JPanel registro() {
+		JPanel registroPnl = new JPanel(); 
+		registroPnl.setSize(500, 600);
+		registroPnl.setLocation(0, 0);
+		registroPnl.setBackground(Color.decode("#BFE4FF"));
+		registroPnl.setOpaque(true); //tiene fondo o no
+		
+		JLabel registroLbl = new JLabel("Registro");
+		registroLbl.setSize(240, 40);
+		registroLbl.setLocation(118, 32);
+		registroLbl.setForeground(Color.white); //color de letra
+		registroLbl.setOpaque(false); //tiene fondo o no
+		registroLbl.setHorizontalAlignment(JLabel.CENTER);
+		registroLbl.setFont(new Font("Tahoma", Font.BOLD, 28)); //fuente, tipo y tamaño
+		this.add(registroLbl);
+		
+		JLabel header = new JLabel();
+		header.setSize(500, 84);
+		header.setLocation(0, 0);
+		header.setOpaque(true); //tiene fondo o no
+		header.setBackground(Color.decode("#1B313F")); 
+		header.setHorizontalAlignment(JLabel.LEFT);
+		this.add(header);
+		
+		JLabel userLbl = new JLabel("Nombre de usuario:");
+		userLbl.setSize(290, 40);
+		userLbl.setLocation(98, 100);
+		userLbl.setForeground(Color.decode("#1B313F")); //color de letra
+		userLbl.setOpaque(false); //tiene fondo o no
+		userLbl.setHorizontalAlignment(JLabel.LEFT);
+		userLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		this.add(userLbl);
+		
+		JTextField userTxtFld = new JTextField();
+		userTxtFld.setSize(290, 30);
+		userTxtFld.setLocation(98, 145);
+		userTxtFld.setForeground(Color.decode("#1B313F")); //color de letra
+		userTxtFld.setOpaque(true); //tiene fondo o no
+		userTxtFld.setHorizontalAlignment(JLabel.LEFT);
+		userTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
+		this.add(userTxtFld);
+		
+		JLabel bioLbL = new JLabel("Biografía:");
+		bioLbL.setSize(290, 40);
+		bioLbL.setLocation(98, 180);
+		bioLbL.setForeground(Color.decode("#1B313F")); //color de letra
+		bioLbL.setOpaque(false); //tiene fondo o no
+		bioLbL.setHorizontalAlignment(JLabel.LEFT);
+		bioLbL.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		this.add(bioLbL);
+		
+		JTextArea bioTxt= new JTextArea();
+		bioTxt.setSize(290, 50);
+		bioTxt.setLocation(98, 228);
+		bioTxt.setForeground(Color.decode("#1B313F")); //color de letra
+		bioTxt.setOpaque(true); //tiene fondo o no
+		bioTxt.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
+		bioTxt.setBorder(BorderFactory.createDashedBorder(Color.decode("#1B313F"), 6, 10));
+		this.add(bioTxt);
+		
+		JLabel preferencesLbl = new JLabel("Preferencias");
+		preferencesLbl.setSize(240, 20);
+		preferencesLbl.setLocation(120, 292);
+		preferencesLbl.setForeground(Color.decode("#1B313F")); //color de letra
+		preferencesLbl.setHorizontalAlignment(JLabel.LEFT); //centrar 
+		preferencesLbl.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto
+		preferencesLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		this.add(preferencesLbl);
+		
+		JCheckBox dulceChckBx = new JCheckBox("Dulce");
+		dulceChckBx.setSize(60, 20);
+		dulceChckBx.setLocation(98, 318);
+		dulceChckBx.setOpaque(false); //tiene fondo o no
+		dulceChckBx.setForeground(Color.decode("#1B313F")); //color de letra
+		dulceChckBx.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
+		this.add(dulceChckBx);
+		
+		JCheckBox saladoChckBx = new JCheckBox("Salado");
+		saladoChckBx.setSize(70, 20);
+		saladoChckBx.setLocation(200, 318);
+		saladoChckBx.setOpaque(false); //tiene fondo o no
+		saladoChckBx.setForeground(Color.decode("#1B313F")); //color de letra
+		saladoChckBx.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
+		this.add(saladoChckBx);
+		
+		JCheckBox saludableChckBx = new JCheckBox("Saludable");
+		saludableChckBx.setSize(90, 20);
+		saludableChckBx.setLocation(300, 318);
+		saludableChckBx.setOpaque(false); //tiene fondo o no
+		saludableChckBx.setForeground(Color.decode("#1B313F")); //color de letra
+		saludableChckBx.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
+		this.add(saludableChckBx);
+		
+		JLabel terminosLbl= new JLabel("Términos");
+		terminosLbl.setSize(290, 30);
+		terminosLbl.setLocation(98, 345); 
+		terminosLbl.setForeground(Color.decode("#1B313F")); //color de letra
+		terminosLbl.setHorizontalAlignment(JLabel.LEFT); //centrar 
+		terminosLbl.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto 
+		terminosLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		this.add(terminosLbl);
+		
+		
+		ButtonGroup terminosBttnGrp = new ButtonGroup();
+		
+		JRadioButton aceptoRBttn = new JRadioButton("Acepto términos");
+		aceptoRBttn.setSize(130, 20);
+		aceptoRBttn.setLocation(98, 380);
+		aceptoRBttn.setOpaque(false); //tiene fondo o no
+		aceptoRBttn.setForeground(Color.decode("#1B313F")); //color de letra
+		aceptoRBttn.setFont(new Font("Tahoma", Font.BOLD, 12)); //fuente, tipo y tamaño
+		this.add(aceptoRBttn);
+		
+		JRadioButton noAceptoRBttn = new JRadioButton("No acepto términos");
+		noAceptoRBttn.setSize(150, 20);
+		noAceptoRBttn.setLocation(242, 380);
+		noAceptoRBttn.setOpaque(false); //tiene fondo o no
+		noAceptoRBttn.setForeground(Color.decode("#1B313F")); //color de letra
+		noAceptoRBttn.setFont(new Font("Tahoma", Font.BOLD, 12)); //fuente, tipo y tamaño
+		this.add(noAceptoRBttn);
+		
+		terminosBttnGrp.add(aceptoRBttn); // al estar agrupados solo se puede escoger un Radio Button
+		terminosBttnGrp.add(noAceptoRBttn);
+		
+		
+		JComboBox<String> coloniasCmbBx = new JComboBox<>(colonias);
+		coloniasCmbBx.setSize(240, 20);
+		coloniasCmbBx.setLocation(124, 425);
+		coloniasCmbBx.setBackground(Color.white); 
+		coloniasCmbBx.setForeground(Color.decode("#1B313F")); //color de letra
+		coloniasCmbBx.setFont(new Font("Tahoma", Font.BOLD, 15));//fuente, tipo y tamaño
+		this.add(coloniasCmbBx);
+		
+		JButton crearBttn = new JButton("Crear Cuenta");
+		crearBttn.setSize(240, 50);
+		crearBttn.setLocation(124, 465);
+		crearBttn.setBackground(Color.decode("#1B313F"));
+		crearBttn.setForeground(Color.white); //color de letra
+		crearBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
+		crearBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		crearBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
+		crearBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
+		crearBttn.setFont(new Font("Tahoma", Font.BOLD, 22)); //fuente, tipo y tamaño
+		crearBttn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				//usuario
+				if(userTxtFld.getText().equals("")) 
+					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+				else 
+					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+
+				//contraseña
+				if(bioTxt.getText().equals("")) 
+					bioTxt.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+				else 
+					bioTxt.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+				
+				//terminos
+				if(!aceptoRBttn.isSelected() && !noAceptoRBttn.isSelected()) {
+					aceptoRBttn.setForeground(Color.red);
+					noAceptoRBttn.setForeground(Color.red);
+				}
+				else {
+					aceptoRBttn.setForeground(Color.decode("#1B313F"));
+					noAceptoRBttn.setForeground(Color.decode("#1B313F"));
+				}
+				
+				//preferencias
+				if(!dulceChckBx.isSelected() && !saladoChckBx.isSelected() && !saludableChckBx.isSelected()) {
+					dulceChckBx.setForeground(Color.red);
+					saladoChckBx.setForeground(Color.red);
+					saludableChckBx.setForeground(Color.red);
+				}
+				else {
+					dulceChckBx.setForeground(Color.decode("#1B313F"));
+					saladoChckBx.setForeground(Color.decode("#1B313F"));
+					saludableChckBx.setForeground(Color.decode("#1B313F"));
+				}
+					
+				//comboBox
+				if((coloniasCmbBx.getSelectedItem().equals(""))) 
+					coloniasCmbBx.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+				else 
+					coloniasCmbBx.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.green));
+				
+			}
+			
+		});
+		this.add(crearBttn);
+
+		return registroPnl; //añadir panel al marco (JFrame)
+	}
 }
