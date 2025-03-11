@@ -162,13 +162,13 @@ public class Register extends JFrame{
 		saladoChckBx.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
 		this.add(saladoChckBx);
 		
-		JCheckBox SaludableChckBx = new JCheckBox("Saludable");
-		SaludableChckBx.setSize(90, 20);
-		SaludableChckBx.setLocation(300, 318);
-		SaludableChckBx.setOpaque(false); //tiene fondo o no
-		SaludableChckBx.setForeground(Color.decode("#1B313F")); //color de letra
-		SaludableChckBx.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
-		this.add(SaludableChckBx);
+		JCheckBox saludableChckBx = new JCheckBox("Saludable");
+		saludableChckBx.setSize(90, 20);
+		saludableChckBx.setLocation(300, 318);
+		saludableChckBx.setOpaque(false); //tiene fondo o no
+		saludableChckBx.setForeground(Color.decode("#1B313F")); //color de letra
+		saludableChckBx.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
+		this.add(saludableChckBx);
 		
 		JLabel terminosLbl= new JLabel("Términos");
 		terminosLbl.setSize(290, 30);
@@ -246,12 +246,25 @@ public class Register extends JFrame{
 					aceptoRBttn.setForeground(Color.decode("#1B313F"));
 					noAceptoRBttn.setForeground(Color.decode("#1B313F"));
 				}
+				
+				//preferencias
+				if(!dulceChckBx.isSelected() && !saladoChckBx.isSelected() && !saludableChckBx.isSelected()) {
+					dulceChckBx.setForeground(Color.red);
+					saladoChckBx.setForeground(Color.red);
+					saludableChckBx.setForeground(Color.red);
+				}
+				else {
+					dulceChckBx.setForeground(Color.decode("#1B313F"));
+					saladoChckBx.setForeground(Color.decode("#1B313F"));
+					saludableChckBx.setForeground(Color.decode("#1B313F"));
+				}
 					
 				//comboBox
 				if((coloniasCmbBx.getSelectedItem().equals(""))) 
 					coloniasCmbBx.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
 				else 
 					coloniasCmbBx.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.green));
+				
 			}
 			
 		});
