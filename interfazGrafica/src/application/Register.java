@@ -3,6 +3,9 @@ package application;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -207,17 +210,52 @@ public class Register extends JFrame{
 		coloniasCmbBx.setFont(new Font("Tahoma", Font.BOLD, 15));//fuente, tipo y tamaño
 		this.add(coloniasCmbBx);
 		
-		JButton CrearBttn = new JButton("Crear Cuenta");
-		CrearBttn.setSize(240, 50);
-		CrearBttn.setLocation(124, 465);
-		CrearBttn.setBackground(Color.decode("#1B313F"));
-		CrearBttn.setForeground(Color.white); //color de letra
-		CrearBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
-		CrearBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
-		CrearBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
-		CrearBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
-		CrearBttn.setFont(new Font("Tahoma", Font.BOLD, 22)); //fuente, tipo y tamaño
-		this.add(CrearBttn);
+		JButton crearBttn = new JButton("Crear Cuenta");
+		crearBttn.setSize(240, 50);
+		crearBttn.setLocation(124, 465);
+		crearBttn.setBackground(Color.decode("#1B313F"));
+		crearBttn.setForeground(Color.white); //color de letra
+		crearBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
+		crearBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		crearBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
+		crearBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
+		crearBttn.setFont(new Font("Tahoma", Font.BOLD, 22)); //fuente, tipo y tamaño
+		crearBttn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				//usuario
+				if(userTxtFld.getText().equals("")) 
+					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+				else 
+					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+
+				//contraseña
+				if(bioTxt.getText().equals("")) 
+					bioTxt.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+				else 
+					bioTxt.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+				
+				//terminos
+				if(!aceptoRBttn.isSelected() && !noAceptoRBttn.isSelected()) {
+					aceptoRBttn.setForeground(Color.red);
+					noAceptoRBttn.setForeground(Color.red);
+				}
+				else {
+					aceptoRBttn.setForeground(Color.decode("#1B313F"));
+					noAceptoRBttn.setForeground(Color.decode("#1B313F"));
+				}
+					
+				//comboBox
+				if((coloniasCmbBx.getSelectedItem().equals(""))) 
+					coloniasCmbBx.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+				else 
+					coloniasCmbBx.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.green));
+			}
+			
+		});
+		this.add(crearBttn);
 
 		return registroPnl; //añadir panel al marco (JFrame)
 	}

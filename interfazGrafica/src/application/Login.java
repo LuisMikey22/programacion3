@@ -1,13 +1,12 @@
 package application;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -195,7 +194,7 @@ public class Login extends JFrame{
 		//decisiones
 		JButton olvidarBttn = new JButton("¿Olvidó su contraseña?");
 		olvidarBttn.setSize(146, 20);
-		olvidarBttn.setLocation(245, 345);
+		olvidarBttn.setLocation(260, 345);
 		olvidarBttn.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode("#1B313F")));
 		olvidarBttn.setForeground(Color.decode("#1B313F")); //color de letra
 		olvidarBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
@@ -231,7 +230,7 @@ public class Login extends JFrame{
 		cuentaBttn.setFont(new Font("Tahoma", Font.BOLD, 16)); //fuente, tipo y tamaño
 		loginPnl.add(cuentaBttn);
 		
-		JButton ingresarBttn = new JButton("Ingresar");
+		JButton ingresarBttn = new JButton("Ingresar");;
 		ingresarBttn.setSize(150, 50);
 		ingresarBttn.setLocation(258, 390);
 		ingresarBttn.setBackground(Color.decode("#1B313F"));
@@ -241,6 +240,27 @@ public class Login extends JFrame{
 		ingresarBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
 		ingresarBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
 		ingresarBttn.setFont(new Font("Tahoma", Font.BOLD, 16)); //fuente, tipo y tamaño
+		
+		ingresarBttn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//usuario
+				if(userTxtFld.getText().equals("")) 
+					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+				else 
+					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+
+				//contraseña
+				String passTxt = new String(PasswordFld.getPassword());
+				if(passTxt.equals(""))
+					PasswordFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+				else 
+					PasswordFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+			}
+			
+		});
+		
 		loginPnl.add(ingresarBttn);
 		
 		/*JLabel cuentaLbl = new JLabel("¿No tiene una cuenta?");
