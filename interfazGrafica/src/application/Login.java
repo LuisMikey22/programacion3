@@ -12,7 +12,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,6 +40,7 @@ public class Login extends JFrame{
 	
 	private String contraseña = "amatista1234";
 	private String correoUsuario = "llucatero_23@alu.uabcs.mx";
+	private boolean passwordVisible = false;
 	
 	public Login(String title) {
 		this.setTitle(title); //colorcar título a la ventana
@@ -226,22 +226,50 @@ public class Login extends JFrame{
 		lockIcon.setHorizontalAlignment(JLabel.LEFT);
 		passwordElementsPnl.add(lockIcon, BorderLayout.WEST);
 		
+		JPasswordField passwordFld = new JPasswordField();
+		passwordFld.setForeground(Color.decode("#1B313F")); //color de letra
+		passwordFld.setOpaque(true); //tiene fondo o no
+		passwordFld.setHorizontalAlignment(JPasswordField.LEFT);
+		passwordFld.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
+		passwordElementsPnl.add(passwordFld, BorderLayout.CENTER);
+		
 		Image imageEye = new ImageIcon("eyeSeesIcon.png").getImage().getScaledInstance(30, 16, Image.SCALE_SMOOTH);
 		ImageIcon imageEyeIcon = new ImageIcon(imageEye);
 		JButton seeBttn = new JButton();
 		seeBttn.setIcon(imageEyeIcon);
-		seeBttn.setFocusPainted(true); //hace invisible el recuadro blanco al presionar el botón
+		seeBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		seeBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		seeBttn.setContentAreaFilled(false); //hace invisible la animacion al presionar el botón
 		seeBttn.setHorizontalAlignment(JButton.LEFT); //centrar el botón
 		passwordElementsPnl.add(seeBttn, BorderLayout.EAST);
 		
-		JPasswordField PasswordFld = new JPasswordField();
-		PasswordFld.setForeground(Color.decode("#1B313F")); //color de letra
-		PasswordFld.setOpaque(true); //tiene fondo o no
-		PasswordFld.setHorizontalAlignment(JPasswordField.LEFT);
-		PasswordFld.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
-		passwordElementsPnl.add(PasswordFld, BorderLayout.CENTER);
+		//botón para mostrar u ocultar la contraseña
+		seeBttn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Image imageEyeBttn;
+				ImageIcon imageEyeBttnIcon;
+				
+				//mostrar contraseña
+				if(!passwordVisible) {
+					passwordFld.setEchoChar((char)0); //representar los caracteres de la contraseña con letras 'ABCdario'	
+					imageEyeBttn = new ImageIcon("eyeSeesIcon.png").getImage().getScaledInstance(30, 16, Image.SCALE_SMOOTH);
+					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
+					seeBttn.setIcon(imageEyeBttnIcon);
+					passwordVisible = true;
+				}else {
+					//mostrar contraseña
+					passwordFld.setEchoChar('*'); //representar los caracteres de la contraseña con asteriscos '*'				
+					imageEyeBttn = new ImageIcon("eyeClosedIcon.png").getImage().getScaledInstance(30, 16, Image.SCALE_SMOOTH);
+					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
+					seeBttn.setIcon(imageEyeBttnIcon);
+					passwordVisible = false;
+				}
+				
+			}
+			
+		});
+		
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(20, 0, 0, 0);  //relleno en la parte de arriba
@@ -297,8 +325,8 @@ public class Login extends JFrame{
 		cuentaBttn.setFont(new Font("Tahoma", Font.BOLD, 16)); //fuente, tipo y tamaño
 		actionButtonsPnl.add(cuentaBttn);
 		
+		//abrir ventana de registro
 		cuentaBttn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -325,48 +353,53 @@ public class Login extends JFrame{
 		loginPnl.add(actionButtonsPnl, c);
 		
 		ingresarBttn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//banderas
+				//banderas de campos completados
 				boolean flag1 = false, flag2 = false;
 				
-				//correo
+				//correo vacío
 				if(userEmailTxtFld.getText().equals("")) {
 					userEmailTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
-				}else {
-					userEmailTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+				}else { 
+					userEmailTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green)); //completado
 					flag1 = true;
 				}
 				
-				//contraseña
-				String passTxt = new String(PasswordFld.getPassword());
+				
+				//contraseña vacía
+				String passTxt = new String(passwordFld.getPassword());
 				if(passTxt.equals("")) {
-					PasswordFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
-				}else {
-					PasswordFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+					passwordFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+				}else { 
+					passwordFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green)); //completada
 					flag2 = true;
 				}
 				
-				//validar si el correo de usuario y la contraseña coinciden con los valores guardados
+				
+				//validar si los dos campos han sido completados
 				if(flag1 && flag2) {
-					//cuando ambos campos son correctos
+					//cuando ambos campos coinciden con los datos de la cuenta del usuario
 					if(userEmailTxtFld.getText().equals(correoUsuario) && passTxt.equals(contraseña) ) {
 						String message = "Hola, bienvenido";
-						JOptionPane.showMessageDialog(null, message, "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, message, "Datos correctos", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
 					}
 					else {
 						//cuando alguno de los dos campos no es correcto
-						if(!userEmailTxtFld.getText().equals(correoUsuario))
-							userEmailTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.yellow));
-						else
-							PasswordFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.yellow));
+						if(!userEmailTxtFld.getText().equals(correoUsuario)) 
+							userEmailTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+						if(!passTxt.equals(contraseña))
+							passwordFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
 						
-						//ventana emergente
 						String message = "Nombre de usuario o contraseña incorrectos. \n Por favor, inténtelo otra vez.";
-						JOptionPane.showMessageDialog(null, message, "Datos incorrectos", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, message, "Datos incorrectos", JOptionPane.ERROR_MESSAGE); //ventana emergente
 					}
+				}else { 
+					//uno o los dos componentes se encuentran vacíos
+					String message = "Uno o más campos obligatorios se encuentran vacíos.";
+					JOptionPane.showMessageDialog(null, message, "Campos vacíos", JOptionPane.WARNING_MESSAGE); //ventana emergente
 				}
+				
 			}
 			
 		});
@@ -443,7 +476,7 @@ public class Login extends JFrame{
 		userTxtFld.setHorizontalAlignment(JLabel.LEFT);
 		userTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(10,0,0,0); //relleno en la parte de arriba
+		c.insets = new Insets(10, 0, 0, 0); //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 2;
 		registerPnl.add(userTxtFld, c);
@@ -465,7 +498,7 @@ public class Login extends JFrame{
 		bioTxt.setForeground(Color.decode("#1B313F")); //color de letra
 		bioTxt.setOpaque(true); //tiene fondo o no
 		bioTxt.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
-		bioTxt.setBorder(BorderFactory.createDashedBorder(Color.decode("#1B313F"), 6, 10));
+		bioTxt.setBorder(BorderFactory.createDashedBorder(Color.decode("#1B313F"), 16, 10));
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(10, 0, 0, 0); //relleno en la parte de arriba
 		c.gridx = 0;
@@ -590,45 +623,67 @@ public class Login extends JFrame{
 		registerPnl.add(crearBttn, c);
 		
 		crearBttn.addActionListener(new ActionListener() {
-					
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				//usuario
-				if(userTxtFld.getText().equals("")) 
-					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
-				else 
-					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+				//contador de campos completados
+				int counter = 0;
 
-				//contraseña
-				if(bioTxt.getText().equals("")) 
-					bioTxt.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
-				else 
-					bioTxt.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+				//usuario vacío
+				if(userTxtFld.getText().equals("")) {
+					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+					counter = 0;
+				}else {
+					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green)); //completado
+					counter++;
+				}
+					
 				
-				//términos
+				//contraseña vacía
+				if(bioTxt.getText().equals("")) {
+					bioTxt.setBorder(BorderFactory.createDashedBorder(Color.red, 16, 10));
+					counter = 0;
+				}else {
+					bioTxt.setBorder(BorderFactory.createDashedBorder(Color.green, 16, 10));
+					counter++;
+				}
+				
+				
+				//términos no seleccionados
 				if(!aceptoRBttn.isSelected() && !noAceptoRBttn.isSelected()) {
 					aceptoRBttn.setForeground(Color.red);
 					noAceptoRBttn.setForeground(Color.red);
-				}
-				else {
-					aceptoRBttn.setForeground(Color.decode("#1B313F"));
+					counter = 0;
+				}else {
+					aceptoRBttn.setForeground(Color.decode("#1B313F")); //seleccionado por lo menos uno
 					noAceptoRBttn.setForeground(Color.decode("#1B313F"));
+					counter++;
 				}
 				
-				//preferencias
+				
+				//preferencias no seleccionadas
 				if(!dulceChckBx.isSelected() && !saladoChckBx.isSelected() && !saludableChckBx.isSelected()) {
 					dulceChckBx.setForeground(Color.red);
 					saladoChckBx.setForeground(Color.red);
 					saludableChckBx.setForeground(Color.red);
-				}
-				else {
-					dulceChckBx.setForeground(Color.decode("#1B313F"));
+					counter = 0;
+				}else {
+					dulceChckBx.setForeground(Color.decode("#1B313F")); //seleccionada por lo menos una
 					saladoChckBx.setForeground(Color.decode("#1B313F"));
 					saludableChckBx.setForeground(Color.decode("#1B313F"));
+					counter++;
 				}
-						
-				windowManager("login");
+					
+				
+				//solo si todos los campos han sido completados se abrirá la ventana de login
+				if(counter==4) {
+					String message = "Hola, bienvenido";
+					JOptionPane.showMessageDialog(null, message, "Cuenta creada", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+					windowManager("login");
+				}else { 
+					//existe al menos un campo vacío
+					String message = "Uno o más campos obligatorios se encuentran vacíos."; 
+					JOptionPane.showMessageDialog(null, message, "Campos vacíos", JOptionPane.WARNING_MESSAGE); //ventana emergente
+				}
 				
 			}
 			
