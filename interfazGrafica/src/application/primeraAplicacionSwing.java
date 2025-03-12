@@ -83,6 +83,7 @@ public class primeraAplicacionSwing {
 		
 		JLabel userRegisterLbl = new JLabel("Registro de usuarios");
 		userRegisterLbl.setFont(new Font("Tahoma", Font.BOLD, 20));
+		userRegisterLbl.setBackground(Color.pink);
 		userRegisterLbl.setForeground(Color.black); 
 		generalPnl.add(userRegisterLbl, BorderLayout.NORTH);
 		

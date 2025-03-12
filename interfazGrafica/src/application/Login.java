@@ -4,11 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -27,11 +32,15 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 public class Login extends JFrame{
 	
 	String colonias[] = {"Camino Real", "Bellavista", "Progreso", "Pedregal", "Calafia", "Diana Laura",
 			 "El Mezquitito", "Indeco", "La Fuente", "Las Américas", "Miramar"};
+	
+	private String contraseña = "amatista1234";
+	private String correoUsuario = "llucatero_23@alu.uabcs.mx";
 	
 	public Login(String title) {
 		this.setTitle(title); //colorcar título a la ventana
@@ -45,12 +54,12 @@ public class Login extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
 		this.setSize(1000, 750); //colocar tamaño predeterminado
 		this.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
-		this.setMinimumSize(new Dimension(300, 400));
-		this.setMaximumSize(new Dimension(1000, 750)); 
+		this.setMinimumSize(new Dimension(1000, 750));
+		//this.setMaximumSize(new Dimension(1100, 850));
 		this.setResizable(isMaximumSizeSet());
 
-		this.add(this.login(), BorderLayout.CENTER);
-		//this.add(this.registro(), BorderLayout.CENTER);
+		this.add(this.mainWindow(), BorderLayout.CENTER);
+		this.add(this.signIn(), BorderLayout.CENTER);
 		
 		JMenuBar barra = new JMenuBar(); //barra de munus
 		
@@ -78,23 +87,32 @@ public class Login extends JFrame{
 
 		this.setJMenuBar(barra);
 		
+		this.validate();
+		this.revalidate();
 		this.repaint();
 	}
 	
-	public JPanel login() {
-		JPanel generalPnl = new JPanel();
-		generalPnl.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
-		generalPnl.setSize(1000, 750);
-		generalPnl.setLocation(0, 0);
-		generalPnl.setOpaque(true);
+	public JPanel mainWindow() {
+		JPanel generalPnl1 = new JPanel();
+		generalPnl1.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
+		generalPnl1.setSize(1000, 750);
+		generalPnl1.setLocation(0, 0);
+		generalPnl1.setOpaque(true);
+		generalPnl1.setVisible(true);
 		
-		//panel con los elementos interactivos para iniciar sesión
+		//agregar panel con los elementos interactivos para iniciar sesión al panel general
 		JPanel loginPnl = new JPanel(); 
 		loginPnl.setSize(500, 500);
-		loginPnl.setLocation(250, 105);
+		loginPnl.setLocation(250, 125);
+		loginPnl.setBorder(new LineBorder(Color.decode("#1B313F"), 15)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
 		loginPnl.setBackground(Color.decode("#BFE4FF"));
 		loginPnl.setOpaque(true);
-		generalPnl.add(loginPnl, BorderLayout.CENTER);
+		loginPnl.setVisible(true);
+		loginPnl.setLayout(new GridBagLayout());;
+		GridBagConstraints c = new GridBagConstraints(); //crear GridBagConstraints
+		c.fill = GridBagConstraints.HORIZONTAL; //horizontal
+		generalPnl1.add(loginPnl, BorderLayout.CENTER);
+		
 		
 		//imagen de fondo
 		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
@@ -102,119 +120,112 @@ public class Login extends JFrame{
 		backgroundLbl.setSize(1000, 750);
 		backgroundLbl.setLocation(0, 0);
 		backgroundLbl.setOpaque(true);
-		generalPnl.add(backgroundLbl);
+		generalPnl1.add(backgroundLbl);
 		
-		//logo version anterior
-		/*Image imageLogo = new ImageIcon("vortexLogo.png").getImage().getScaledInstance(208, 70, Image.SCALE_SMOOTH);
-		ImageIcon imageLogoIcon = new ImageIcon(imageLogo);
-		JLabel logo = new JLabel(imageLogoIcon);
-		logo.setSize(208, 70);
-		logo.setLocation(138, 20);
-		logo.setOpaque(false); //tiene fondo o no
-		logo.setHorizontalAlignment(JLabel.LEFT);
-		loginPnl.add(logo);*/
 		
+		//elementos del loginPnl
 		//cabecera
-		ImageIcon imageHdr = new ImageIcon("vortexLogoHeader.png");
+		ImageIcon imageHdr = new ImageIcon("vortexLogoText.png");
 		JLabel header = new JLabel(imageHdr);
-		header.setSize(500, 111);
-		header.setLocation(0, 0);
-		header.setOpaque(false); //tiene fondo o no
-		header.setHorizontalAlignment(JLabel.LEFT);
-		loginPnl.add(header); //colocar elementos en norte/cabecera
+		header.setBackground(Color.decode("#1B313F"));
+		header.setOpaque(true); //tiene fondo o no
+		header.setHorizontalAlignment(JLabel.CENTER);
+		generalPnl1.add(header, BorderLayout.NORTH); 
 		
 		JLabel loginLbl = new JLabel("Iniciar sesión");
-		loginLbl.setSize(240, 40);
-		loginLbl.setLocation(130, 130);
 		loginLbl.setForeground(Color.decode("#1B313F")); //color de letra
 		loginLbl.setOpaque(false); //tiene fondo o no
-		loginLbl.setHorizontalAlignment(JLabel.CENTER);
+		loginLbl.setHorizontalAlignment(JLabel.CENTER); //posición del elemento
+		loginLbl.setHorizontalAlignment(SwingConstants.CENTER); //posición del texto
 		loginLbl.setFont(new Font("Tahoma", Font.BOLD, 34)); //fuente, tipo y tamaño
-		loginPnl.add(loginLbl); //colocar elementos en norte/cabecera
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		loginPnl.add(loginLbl, c); 
 		
 		
-		JLabel userLbl = new JLabel("Nombre de usuario");
-		userLbl.setSize(300, 40); 
-		userLbl.setLocation(92, 186);
-		userLbl.setForeground(Color.decode("#1B313F")); //color de letra
-		userLbl.setOpaque(false); //tiene fondo o no
-		userLbl.setHorizontalAlignment(JLabel.LEFT);
-		userLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		loginPnl.add(userLbl);
+		//elementos de usuario
+		JPanel userElementsPnl = new JPanel();
+		userElementsPnl.setOpaque(false);
+		userElementsPnl.setLayout(new BorderLayout(10, 0));
+		
+		JLabel userEmailLbl = new JLabel("Correo electrónico");
+		userEmailLbl.setForeground(Color.decode("#1B313F")); //color de letra
+		userEmailLbl.setOpaque(false); //tiene fondo o no
+		userEmailLbl.setHorizontalAlignment(JLabel.LEFT);
+		userEmailLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		userElementsPnl.add(userEmailLbl, BorderLayout.NORTH);
 		
 		Image imageUser = new ImageIcon("userIcon.png").getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
 		ImageIcon imageUserIcon = new ImageIcon(imageUser);
 		JLabel userIcon = new JLabel(imageUserIcon);
-		userIcon.setSize(20, 26);
-		userIcon.setLocation(92, 220);
 		userIcon.setOpaque(false); //tiene fondo o no
 		userIcon.setHorizontalAlignment(JLabel.LEFT);
-		loginPnl.add(userIcon);
+		userElementsPnl.add(userIcon, BorderLayout.WEST);
 		
-		JTextField userTxtFld = new JTextField();
-		userTxtFld.setSize(296, 30);
-		userTxtFld.setLocation(112, 220);
-		userTxtFld.setForeground(Color.decode("#1B313F")); //color de letra
-		userTxtFld.setOpaque(true); //tiene fondo o no
-		userTxtFld.setHorizontalAlignment(JLabel.LEFT);
-		userTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
-		loginPnl.add(userTxtFld);
+		JTextField userEmailTxtFld = new JTextField();
+		userEmailTxtFld.setForeground(Color.decode("#1B313F")); //color de letra
+		userEmailTxtFld.setOpaque(true); //tiene fondo o no
+		userEmailTxtFld.setHorizontalAlignment(JLabel.LEFT);
+		userEmailTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
+		userElementsPnl.add(userEmailTxtFld, BorderLayout.CENTER);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(40, 0, 0, 0);  //relleno en la parte de arriba
+		c.gridx = 0; //posición
+		c.gridy = 1; //posición
+		loginPnl.add(userElementsPnl, c);
 		
 		
 		//elementos de contraseña
+		JPanel passwordElementsPnl = new JPanel();
+		passwordElementsPnl.setOpaque(false);
+		passwordElementsPnl.setLayout(new BorderLayout(10, 0));
+		
 		JLabel passwordLbL = new JLabel("Contraseña");
-		passwordLbL.setSize(300, 40);
-		passwordLbL.setLocation(92, 256);
 		passwordLbL.setForeground(Color.decode("#1B313F")); //color de letra
 		passwordLbL.setOpaque(false); //tiene fondo o no
 		passwordLbL.setHorizontalAlignment(JLabel.LEFT);
 		passwordLbL.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		loginPnl.add(passwordLbL);
+		passwordElementsPnl.add(passwordLbL, BorderLayout.NORTH);
 		
 		Image imageLock = new ImageIcon("lockIcon.png").getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
 		ImageIcon imageLockIcon = new ImageIcon(imageLock);
 		JLabel lockIcon = new JLabel(imageLockIcon);
-		lockIcon.setSize(20, 26);
-		lockIcon.setLocation(92, 290);
 		lockIcon.setOpaque(false); //tiene fondo o no
 		lockIcon.setHorizontalAlignment(JLabel.LEFT);
-		loginPnl.add(lockIcon);
+		passwordElementsPnl.add(lockIcon, BorderLayout.WEST);
 		
 		Image imageEye = new ImageIcon("eyeSeesIcon.png").getImage().getScaledInstance(30, 16, Image.SCALE_SMOOTH);
 		ImageIcon imageEyeIcon = new ImageIcon(imageEye);
-		JLabel eyeIcon = new JLabel(imageEyeIcon);
-		eyeIcon.setSize(30, 16);
-		eyeIcon.setLocation(362, 296);
-		eyeIcon.setOpaque(false); //tiene fondo o no
-		eyeIcon.setHorizontalAlignment(JLabel.LEFT);
-		loginPnl.add(eyeIcon);
+		JButton seeBttn = new JButton();
+		seeBttn.setIcon(imageEyeIcon);
+		seeBttn.setFocusPainted(true); //hace invisible el recuadro blanco al presionar el botón
+		seeBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
+		seeBttn.setContentAreaFilled(false); //hace invisible la animacion al presionar el botón
+		seeBttn.setHorizontalAlignment(JButton.LEFT); //centrar el botón
+		passwordElementsPnl.add(seeBttn, BorderLayout.EAST);
 		
 		JPasswordField PasswordFld = new JPasswordField();
-		PasswordFld.setSize(296, 30);
-		PasswordFld.setLocation(112, 290);
 		PasswordFld.setForeground(Color.decode("#1B313F")); //color de letra
 		PasswordFld.setOpaque(true); //tiene fondo o no
-		PasswordFld.setHorizontalAlignment(JLabel.LEFT);
+		PasswordFld.setHorizontalAlignment(JPasswordField.LEFT);
 		PasswordFld.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
-		loginPnl.add(PasswordFld);
+		passwordElementsPnl.add(PasswordFld, BorderLayout.CENTER);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(40, 0, 0, 0);  //relleno en la parte de arriba
+		c.gridx = 0; //posición
+		c.gridy = 2; //posición
+		loginPnl.add(passwordElementsPnl, c);
 		
 		
-		//decisiones
-		JButton olvidarBttn = new JButton("¿Olvidó su contraseña?");
-		olvidarBttn.setSize(146, 20);
-		olvidarBttn.setLocation(260, 345);
-		olvidarBttn.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode("#1B313F")));
-		olvidarBttn.setForeground(Color.decode("#1B313F")); //color de letra
-		olvidarBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
-		olvidarBttn.setContentAreaFilled(false);
-		olvidarBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
-		olvidarBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
-		olvidarBttn.setFont(new Font("Tahoma", Font.BOLD, 12)); //fuente, tipo y tamaño
-		loginPnl.add(olvidarBttn);
+		//botones
+		JPanel extraOptionsPnl = new JPanel();
+		extraOptionsPnl.setOpaque(false);
+		extraOptionsPnl.setLayout(new GridLayout(1, 2));
 		
 		JCheckBox recordarChkBx = new JCheckBox("Recordar nombre");
-		recordarChkBx.setSize(240, 20);
-		recordarChkBx.setLocation(88, 345);
 		recordarChkBx.setOpaque(false); //tiene fondo o no
 		recordarChkBx.setForeground(Color.decode("#1B313F")); //color de letra
 		recordarChkBx.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
@@ -222,13 +233,31 @@ public class Login extends JFrame{
 		recordarChkBx.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
 		recordarChkBx.setHorizontalAlignment(SwingConstants.LEFT); // centrar texto del check box
 		recordarChkBx.setFont(new Font("Tahoma", Font.BOLD, 12)); //fuente, tipo y tamaño
-		loginPnl.add(recordarChkBx);
+		extraOptionsPnl.add(recordarChkBx);
+		
+		JButton olvidarBttn = new JButton("¿Olvidó su contraseña?");
+		olvidarBttn.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode("#1B313F")));
+		olvidarBttn.setForeground(Color.decode("#1B313F")); //color de letra
+		olvidarBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		olvidarBttn.setContentAreaFilled(false);
+		olvidarBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
+		olvidarBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
+		olvidarBttn.setFont(new Font("Tahoma", Font.BOLD, 12)); //fuente, tipo y tamaño
+		extraOptionsPnl.add(olvidarBttn);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(30, 0, 0, 0);  //relleno en la parte de arriba
+		c.gridx = 0; //posición
+		c.gridy = 3; //posición
+		loginPnl.add(extraOptionsPnl, c);
 		
 		
 		//botones
+		JPanel actionButtonsPnl = new JPanel();
+		actionButtonsPnl.setOpaque(false);
+		actionButtonsPnl.setLayout(new GridLayout(1, 2, 20, 10));
+		
 		JButton cuentaBttn = new JButton("Crear Cuenta");
-		cuentaBttn.setSize(150, 50);
-		cuentaBttn.setLocation(92, 390);
 		cuentaBttn.setBackground(Color.decode("#33627F"));
 		cuentaBttn.setForeground(Color.white); //color de letra
 		cuentaBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
@@ -236,11 +265,9 @@ public class Login extends JFrame{
 		cuentaBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
 		cuentaBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
 		cuentaBttn.setFont(new Font("Tahoma", Font.BOLD, 16)); //fuente, tipo y tamaño
-		loginPnl.add(cuentaBttn);
+		actionButtonsPnl.add(cuentaBttn);
 		
 		JButton ingresarBttn = new JButton("Ingresar");;
-		ingresarBttn.setSize(150, 50);
-		ingresarBttn.setLocation(258, 390);
 		ingresarBttn.setBackground(Color.decode("#1B313F"));
 		ingresarBttn.setForeground(Color.white); //color de letra
 		ingresarBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
@@ -248,177 +275,258 @@ public class Login extends JFrame{
 		ingresarBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
 		ingresarBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
 		ingresarBttn.setFont(new Font("Tahoma", Font.BOLD, 16)); //fuente, tipo y tamaño
+		actionButtonsPnl.add(ingresarBttn);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(30, 0, 0,0);  //relleno en la parte de arriba
+		c.gridx = 0; //posición
+		c.gridy = 4; //posición
+		loginPnl.add(actionButtonsPnl, c);
 		
 		ingresarBttn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//usuario
-				if(userTxtFld.getText().equals("")) 
-					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
-				else 
-					userTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
-
+				//banderas
+				boolean flag1 = false, flag2 = false;
+				
+				//correo
+				if(userEmailTxtFld.getText().equals("")) {
+					userEmailTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+				}else {
+					userEmailTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+					flag1 = true;
+				}
+				
 				//contraseña
 				String passTxt = new String(PasswordFld.getPassword());
-				if(passTxt.equals(""))
+				if(passTxt.equals("")) {
 					PasswordFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
-				else 
+				}else {
 					PasswordFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+					flag2 = true;
+				}
+				
+				//validar si el correo de usuario y la contraseña coinciden con los valores guardados
+				if(flag1==true && flag2==true) {
+					if(userEmailTxtFld.getText().equals(correoUsuario) && passTxt.equals(contraseña) ) {
+						String message = "Hola, bienvenido";
+						JOptionPane.showMessageDialog(null, message, "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else {
+						String message = "Nombre de usuario o contraseña incorrectos. \n Por favor, inténtelo otra vez.";
+						JOptionPane.showMessageDialog(null, message, "Datos incorrectos", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
 			}
 			
 		});
-		
-		loginPnl.add(ingresarBttn);
-		
-		/*JLabel cuentaLbl = new JLabel("¿No tiene una cuenta?");
-		cuentaLbl.setSize(180, 20); 
-		cuentaLbl.setLocation(160, 458);
-		cuentaLbl.setForeground(Color.decode("#1B313F")); //color de letra
-		cuentaLbl.setOpaque(false); //tiene fondo o no
-		cuentaLbl.setHorizontalAlignment(JLabel.LEFT);
-		cuentaLbl.setFont(new Font("Tahoma", Font.BOLD, 12)); //fuente, tipo y tamaño
-		loginPnl.add(cuentaLbl);*/
-		
-		return generalPnl; //añadir panel al marco (JFrame)
-	}
 
-	public JPanel registro() {
-		JPanel registroPnl = new JPanel(); 
-		registroPnl.setSize(500, 600);
-		registroPnl.setLocation(0, 0);
-		registroPnl.setBackground(Color.decode("#BFE4FF"));
-		registroPnl.setOpaque(true); //tiene fondo o no
+		return generalPnl1; //añadir panel al marco (JFrame)
+		
+	}
+	
+
+	//panel de registro
+	public JPanel signIn() {
+		JPanel generalPnl2 = new JPanel();
+		generalPnl2.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
+		generalPnl2.setSize(1000, 750);
+		generalPnl2.setLocation(0, 0);
+		generalPnl2.setOpaque(true);
+		generalPnl2.setVisible(false);
+		
+		JPanel registerPnl = new JPanel(); 
+		registerPnl.setSize(500, 550);
+		registerPnl.setLocation(250, 105);
+		registerPnl.setBorder(new LineBorder(Color.decode("#1B313F"), 15)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
+		registerPnl.setBackground(Color.decode("#BFE4FF"));
+		registerPnl.setOpaque(true); //tiene fondo o no
+		registerPnl.setVisible(true);
+		registerPnl.setLayout(new GridBagLayout());;
+		GridBagConstraints c = new GridBagConstraints(); //crear GridBagConstraints
+		c.fill = GridBagConstraints.HORIZONTAL; //horizontal
+		generalPnl2.add(registerPnl);
+		
+		//imagen de fondo
+		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
+		JLabel backgroundLbl = new JLabel(windowBackground); 
+		backgroundLbl.setSize(1000, 750);
+		backgroundLbl.setLocation(0, 0);
+		backgroundLbl.setOpaque(true);
+		generalPnl2.add(backgroundLbl);
+		
+		
+		//elementos del registerPnl
+		//cabecera
+		ImageIcon imageHdr = new ImageIcon("vortexLogoText.png");
+		JLabel header = new JLabel(imageHdr);
+		header.setBackground(Color.decode("#1B313F"));
+		header.setOpaque(true); //tiene fondo o no
+		header.setHorizontalAlignment(JLabel.CENTER);
+		generalPnl2.add(header, BorderLayout.NORTH); 
+	
 		
 		JLabel registroLbl = new JLabel("Registro");
-		registroLbl.setSize(240, 40);
-		registroLbl.setLocation(118, 32);
-		registroLbl.setForeground(Color.white); //color de letra
+		registroLbl.setForeground(Color.decode("#1B313F")); //color de letra
 		registroLbl.setOpaque(false); //tiene fondo o no
 		registroLbl.setHorizontalAlignment(JLabel.CENTER);
 		registroLbl.setFont(new Font("Tahoma", Font.BOLD, 28)); //fuente, tipo y tamaño
-		this.add(registroLbl);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.insets = new Insets(0, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 0;
+		registerPnl.add(registroLbl, c);
 		
-		JLabel header = new JLabel();
-		header.setSize(500, 84);
-		header.setLocation(0, 0);
-		header.setOpaque(true); //tiene fondo o no
-		header.setBackground(Color.decode("#1B313F")); 
-		header.setHorizontalAlignment(JLabel.LEFT);
-		this.add(header);
-		
+		//nombre usuario
 		JLabel userLbl = new JLabel("Nombre de usuario:");
-		userLbl.setSize(290, 40);
-		userLbl.setLocation(98, 100);
 		userLbl.setForeground(Color.decode("#1B313F")); //color de letra
 		userLbl.setOpaque(false); //tiene fondo o no
 		userLbl.setHorizontalAlignment(JLabel.LEFT);
 		userLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		this.add(userLbl);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(30, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 1;
+		registerPnl.add(userLbl, c);
 		
 		JTextField userTxtFld = new JTextField();
-		userTxtFld.setSize(290, 30);
-		userTxtFld.setLocation(98, 145);
 		userTxtFld.setForeground(Color.decode("#1B313F")); //color de letra
 		userTxtFld.setOpaque(true); //tiene fondo o no
 		userTxtFld.setHorizontalAlignment(JLabel.LEFT);
 		userTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
-		this.add(userTxtFld);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(10,0,0,0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 2;
+		registerPnl.add(userTxtFld, c);
 		
+		
+		//biografía
 		JLabel bioLbL = new JLabel("Biografía:");
-		bioLbL.setSize(290, 40);
-		bioLbL.setLocation(98, 180);
 		bioLbL.setForeground(Color.decode("#1B313F")); //color de letra
 		bioLbL.setOpaque(false); //tiene fondo o no
 		bioLbL.setHorizontalAlignment(JLabel.LEFT);
 		bioLbL.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		this.add(bioLbL);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(10, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 3;
+		registerPnl.add(bioLbL, c);
 		
 		JTextArea bioTxt= new JTextArea();
-		bioTxt.setSize(290, 50);
-		bioTxt.setLocation(98, 228);
 		bioTxt.setForeground(Color.decode("#1B313F")); //color de letra
 		bioTxt.setOpaque(true); //tiene fondo o no
 		bioTxt.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
 		bioTxt.setBorder(BorderFactory.createDashedBorder(Color.decode("#1B313F"), 6, 10));
-		this.add(bioTxt);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(10, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 4;
+		c.ipady = 40;
+		registerPnl.add(bioTxt, c);
 		
+		
+		c.ipady = 0;
+		
+		
+		//preferencias
 		JLabel preferencesLbl = new JLabel("Preferencias");
-		preferencesLbl.setSize(240, 20);
-		preferencesLbl.setLocation(120, 292);
 		preferencesLbl.setForeground(Color.decode("#1B313F")); //color de letra
 		preferencesLbl.setHorizontalAlignment(JLabel.LEFT); //centrar 
 		preferencesLbl.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto
 		preferencesLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		this.add(preferencesLbl);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(20, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 5;
+		registerPnl.add(preferencesLbl, c);
+		
+		JPanel preferencesPnl = new JPanel();
+		preferencesPnl.setOpaque(false);
+		preferencesPnl.setLayout(new GridLayout(1, 3));
 		
 		JCheckBox dulceChckBx = new JCheckBox("Dulce");
-		dulceChckBx.setSize(60, 20);
-		dulceChckBx.setLocation(98, 318);
 		dulceChckBx.setOpaque(false); //tiene fondo o no
 		dulceChckBx.setForeground(Color.decode("#1B313F")); //color de letra
 		dulceChckBx.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
-		this.add(dulceChckBx);
+		preferencesPnl.add(dulceChckBx);
 		
 		JCheckBox saladoChckBx = new JCheckBox("Salado");
-		saladoChckBx.setSize(70, 20);
-		saladoChckBx.setLocation(200, 318);
 		saladoChckBx.setOpaque(false); //tiene fondo o no
 		saladoChckBx.setForeground(Color.decode("#1B313F")); //color de letra
 		saladoChckBx.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
-		this.add(saladoChckBx);
+		preferencesPnl.add(saladoChckBx);
 		
 		JCheckBox saludableChckBx = new JCheckBox("Saludable");
-		saludableChckBx.setSize(90, 20);
-		saludableChckBx.setLocation(300, 318);
 		saludableChckBx.setOpaque(false); //tiene fondo o no
 		saludableChckBx.setForeground(Color.decode("#1B313F")); //color de letra
 		saludableChckBx.setFont(new Font("Tahoma", Font.BOLD, 13)); //fuente, tipo y tamaño
-		this.add(saludableChckBx);
+		preferencesPnl.add(saludableChckBx);
 		
-		JLabel terminosLbl= new JLabel("Términos");
-		terminosLbl.setSize(290, 30);
-		terminosLbl.setLocation(98, 345); 
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(10, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 6;
+		registerPnl.add(preferencesPnl, c);
+		
+		
+		//términos y condiciones
+		JLabel terminosLbl= new JLabel("Términos"); 
 		terminosLbl.setForeground(Color.decode("#1B313F")); //color de letra
 		terminosLbl.setHorizontalAlignment(JLabel.LEFT); //centrar 
 		terminosLbl.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto 
 		terminosLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		this.add(terminosLbl);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(20, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 7;
+		registerPnl.add(terminosLbl, c);
 		
+		JPanel termsPnl = new JPanel();
+		termsPnl.setOpaque(false);
+		termsPnl.setLayout(new GridLayout(1, 2));
 		
+		//grupo de botones que permite seleccionar uno a la vez
 		ButtonGroup terminosBttnGrp = new ButtonGroup();
 		
 		JRadioButton aceptoRBttn = new JRadioButton("Acepto términos");
-		aceptoRBttn.setSize(130, 20);
-		aceptoRBttn.setLocation(98, 380);
 		aceptoRBttn.setOpaque(false); //tiene fondo o no
 		aceptoRBttn.setForeground(Color.decode("#1B313F")); //color de letra
 		aceptoRBttn.setFont(new Font("Tahoma", Font.BOLD, 12)); //fuente, tipo y tamaño
-		this.add(aceptoRBttn);
+		termsPnl.add(aceptoRBttn);
 		
 		JRadioButton noAceptoRBttn = new JRadioButton("No acepto términos");
-		noAceptoRBttn.setSize(150, 20);
-		noAceptoRBttn.setLocation(242, 380);
+
 		noAceptoRBttn.setOpaque(false); //tiene fondo o no
 		noAceptoRBttn.setForeground(Color.decode("#1B313F")); //color de letra
 		noAceptoRBttn.setFont(new Font("Tahoma", Font.BOLD, 12)); //fuente, tipo y tamaño
-		this.add(noAceptoRBttn);
+		termsPnl.add(noAceptoRBttn);
 		
 		terminosBttnGrp.add(aceptoRBttn); // al estar agrupados solo se puede escoger un Radio Button
 		terminosBttnGrp.add(noAceptoRBttn);
 		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(10, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 8;
+		registerPnl.add(termsPnl, c);
 		
+		
+		//lista de colonias
 		JComboBox<String> coloniasCmbBx = new JComboBox<>(colonias);
-		coloniasCmbBx.setSize(240, 20);
-		coloniasCmbBx.setLocation(124, 425);
 		coloniasCmbBx.setBackground(Color.white); 
 		coloniasCmbBx.setForeground(Color.decode("#1B313F")); //color de letra
 		coloniasCmbBx.setFont(new Font("Tahoma", Font.BOLD, 15));//fuente, tipo y tamaño
-		this.add(coloniasCmbBx);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(20, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 9;
+		registerPnl.add(coloniasCmbBx, c);
 		
+		
+		//botón para crear cuenta
 		JButton crearBttn = new JButton("Crear Cuenta");
-		crearBttn.setSize(240, 50);
-		crearBttn.setLocation(124, 465);
 		crearBttn.setBackground(Color.decode("#1B313F"));
 		crearBttn.setForeground(Color.white); //color de letra
 		crearBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
@@ -426,6 +534,14 @@ public class Login extends JFrame{
 		crearBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
 		crearBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
 		crearBttn.setFont(new Font("Tahoma", Font.BOLD, 22)); //fuente, tipo y tamaño
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(20, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 10;
+		
+		registerPnl.add(crearBttn, c);
+		
 		crearBttn.addActionListener(new ActionListener() {
 
 			@Override
@@ -443,7 +559,7 @@ public class Login extends JFrame{
 				else 
 					bioTxt.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
 				
-				//terminos
+				//términos
 				if(!aceptoRBttn.isSelected() && !noAceptoRBttn.isSelected()) {
 					aceptoRBttn.setForeground(Color.red);
 					noAceptoRBttn.setForeground(Color.red);
@@ -464,18 +580,12 @@ public class Login extends JFrame{
 					saladoChckBx.setForeground(Color.decode("#1B313F"));
 					saludableChckBx.setForeground(Color.decode("#1B313F"));
 				}
-					
-				//comboBox
-				if((coloniasCmbBx.getSelectedItem().equals(""))) 
-					coloniasCmbBx.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
-				else 
-					coloniasCmbBx.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.green));
 				
 			}
 			
 		});
-		this.add(crearBttn);
 
-		return registroPnl; //añadir panel al marco (JFrame)
+		return generalPnl2; //añadir panel al marco (JFrame)
+		
 	}
 }
