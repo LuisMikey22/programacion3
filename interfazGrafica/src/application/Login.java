@@ -52,39 +52,71 @@ public class Login extends JFrame{
 		this.setIconImage(vortexIcon.getImage());
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
-		this.setSize(1000, 750); //colocar tamaño predeterminado
+		this.setSize(1000, 850); //colocar tamaño predeterminado
 		this.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
-		this.setMinimumSize(new Dimension(1000, 750));
+		this.setMinimumSize(new Dimension(1000, 850));
 		//this.setMaximumSize(new Dimension(1100, 850));
 		this.setResizable(isMaximumSizeSet());
 
-		this.add(this.mainWindow(), BorderLayout.CENTER);
-		this.add(this.signIn(), BorderLayout.CENTER);
+		this.add(this.login(), BorderLayout.CENTER);
+		//this.add(this.signIn(), BorderLayout.CENTER);
 		
 		JMenuBar barra = new JMenuBar(); //barra de munus
 		
 		JMenu menu1 = new JMenu("Archivo");
 		JMenu menu2 = new JMenu("Ayuda");
+		JMenu menu3 = new JMenu("Ventana");
 		
+		//primer menú
 		JMenuItem opNew = new JMenuItem("Nuevo");
 		JMenuItem opOpen = new JMenuItem("Abrir");
 		JMenuItem opSave = new JMenuItem("Guardar");
 		JMenuItem opClose = new JMenuItem("Cerrar");
-		
 		menu1.add(opNew);
 		menu1.add(opOpen);
 		menu1.add(opSave);
 		menu1.add(opClose);
 		
+		//segundo menú
 		JRadioButtonMenuItem opHelp = new JRadioButtonMenuItem("Manual de Usuario: ");
 		JCheckBoxMenuItem opSupport = new JCheckBoxMenuItem("Soporte tecnico: ");
-
 		menu2.add(opHelp);
 		menu2.add(opSupport);
 		
+		//tercer menú
+		JMenuItem goToLogin = new JMenuItem("Login");
+		JMenuItem goToSignIn= new JMenuItem("Registro");
+		menu3.add(goToLogin);
+		menu3.add(goToSignIn);
+		
+		//agregar los menús a la barra de navegación
 		barra.add(menu1);
 		barra.add(menu2);
+		barra.add(menu3);
 
+		
+		//agregar acción a los menus de ventana
+		goToLogin.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				windowManager("login");
+			}
+			
+		});
+		
+		goToSignIn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				windowManager("signIn");
+			}
+			
+		});
+		
+		
 		this.setJMenuBar(barra);
 		
 		this.validate();
@@ -92,22 +124,20 @@ public class Login extends JFrame{
 		this.repaint();
 	}
 	
-	public JPanel mainWindow() {
+	public JPanel login() {
 		JPanel generalPnl1 = new JPanel();
 		generalPnl1.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
-		generalPnl1.setSize(1000, 750);
+		generalPnl1.setSize(1000, 850);
 		generalPnl1.setLocation(0, 0);
 		generalPnl1.setOpaque(true);
-		generalPnl1.setVisible(true);
 		
 		//agregar panel con los elementos interactivos para iniciar sesión al panel general
 		JPanel loginPnl = new JPanel(); 
 		loginPnl.setSize(500, 500);
-		loginPnl.setLocation(250, 125);
+		loginPnl.setLocation(250, 180);
 		loginPnl.setBorder(new LineBorder(Color.decode("#1B313F"), 15)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
 		loginPnl.setBackground(Color.decode("#BFE4FF"));
 		loginPnl.setOpaque(true);
-		loginPnl.setVisible(true);
 		loginPnl.setLayout(new GridBagLayout());;
 		GridBagConstraints c = new GridBagConstraints(); //crear GridBagConstraints
 		c.fill = GridBagConstraints.HORIZONTAL; //horizontal
@@ -117,7 +147,7 @@ public class Login extends JFrame{
 		//imagen de fondo
 		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
 		JLabel backgroundLbl = new JLabel(windowBackground); 
-		backgroundLbl.setSize(1000, 750);
+		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
 		backgroundLbl.setOpaque(true);
 		generalPnl1.add(backgroundLbl);
@@ -147,7 +177,7 @@ public class Login extends JFrame{
 		//elementos de usuario
 		JPanel userElementsPnl = new JPanel();
 		userElementsPnl.setOpaque(false);
-		userElementsPnl.setLayout(new BorderLayout(10, 0));
+		userElementsPnl.setLayout(new BorderLayout(10, 5));
 		
 		JLabel userEmailLbl = new JLabel("Correo electrónico");
 		userEmailLbl.setForeground(Color.decode("#1B313F")); //color de letra
@@ -180,7 +210,7 @@ public class Login extends JFrame{
 		//elementos de contraseña
 		JPanel passwordElementsPnl = new JPanel();
 		passwordElementsPnl.setOpaque(false);
-		passwordElementsPnl.setLayout(new BorderLayout(10, 0));
+		passwordElementsPnl.setLayout(new BorderLayout(10, 5));
 		
 		JLabel passwordLbL = new JLabel("Contraseña");
 		passwordLbL.setForeground(Color.decode("#1B313F")); //color de letra
@@ -214,7 +244,7 @@ public class Login extends JFrame{
 		passwordElementsPnl.add(PasswordFld, BorderLayout.CENTER);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(40, 0, 0, 0);  //relleno en la parte de arriba
+		c.insets = new Insets(20, 0, 0, 0);  //relleno en la parte de arriba
 		c.gridx = 0; //posición
 		c.gridy = 2; //posición
 		loginPnl.add(passwordElementsPnl, c);
@@ -267,6 +297,17 @@ public class Login extends JFrame{
 		cuentaBttn.setFont(new Font("Tahoma", Font.BOLD, 16)); //fuente, tipo y tamaño
 		actionButtonsPnl.add(cuentaBttn);
 		
+		cuentaBttn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				windowManager("signIn");
+			}
+			
+		});
+		
+		
 		JButton ingresarBttn = new JButton("Ingresar");;
 		ingresarBttn.setBackground(Color.decode("#1B313F"));
 		ingresarBttn.setForeground(Color.white); //color de letra
@@ -308,14 +349,22 @@ public class Login extends JFrame{
 				}
 				
 				//validar si el correo de usuario y la contraseña coinciden con los valores guardados
-				if(flag1==true && flag2==true) {
+				if(flag1 && flag2) {
+					//cuando ambos campos son correctos
 					if(userEmailTxtFld.getText().equals(correoUsuario) && passTxt.equals(contraseña) ) {
 						String message = "Hola, bienvenido";
 						JOptionPane.showMessageDialog(null, message, "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
 					}
 					else {
+						//cuando alguno de los dos campos no es correcto
+						if(!userEmailTxtFld.getText().equals(correoUsuario))
+							userEmailTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.yellow));
+						else
+							PasswordFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.yellow));
+						
+						//ventana emergente
 						String message = "Nombre de usuario o contraseña incorrectos. \n Por favor, inténtelo otra vez.";
-						JOptionPane.showMessageDialog(null, message, "Datos incorrectos", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, message, "Datos incorrectos", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -331,32 +380,30 @@ public class Login extends JFrame{
 	public JPanel signIn() {
 		JPanel generalPnl2 = new JPanel();
 		generalPnl2.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
-		generalPnl2.setSize(1000, 750);
+		generalPnl2.setSize(1000, 850);
 		generalPnl2.setLocation(0, 0);
 		generalPnl2.setOpaque(true);
-		generalPnl2.setVisible(false);
 		
 		JPanel registerPnl = new JPanel(); 
-		registerPnl.setSize(500, 550);
+		registerPnl.setSize(500, 600);
 		registerPnl.setLocation(250, 105);
 		registerPnl.setBorder(new LineBorder(Color.decode("#1B313F"), 15)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
 		registerPnl.setBackground(Color.decode("#BFE4FF"));
 		registerPnl.setOpaque(true); //tiene fondo o no
-		registerPnl.setVisible(true);
 		registerPnl.setLayout(new GridBagLayout());;
 		GridBagConstraints c = new GridBagConstraints(); //crear GridBagConstraints
 		c.fill = GridBagConstraints.HORIZONTAL; //horizontal
 		generalPnl2.add(registerPnl);
-		
+	
 		//imagen de fondo
 		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
 		JLabel backgroundLbl = new JLabel(windowBackground); 
-		backgroundLbl.setSize(1000, 750);
+		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
 		backgroundLbl.setOpaque(true);
 		generalPnl2.add(backgroundLbl);
 		
-		
+				
 		//elementos del registerPnl
 		//cabecera
 		ImageIcon imageHdr = new ImageIcon("vortexLogoText.png");
@@ -373,7 +420,7 @@ public class Login extends JFrame{
 		registroLbl.setHorizontalAlignment(JLabel.CENTER);
 		registroLbl.setFont(new Font("Tahoma", Font.BOLD, 28)); //fuente, tipo y tamaño
 		c.fill = GridBagConstraints.HORIZONTAL;
-		//c.insets = new Insets(0, 0, 0, 0); //relleno en la parte de arriba
+		c.insets = new Insets(20, 0, 0, 0); //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 0;
 		registerPnl.add(registroLbl, c);
@@ -536,14 +583,14 @@ public class Login extends JFrame{
 		crearBttn.setFont(new Font("Tahoma", Font.BOLD, 22)); //fuente, tipo y tamaño
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(20, 0, 0, 0); //relleno en la parte de arriba
+		c.insets = new Insets(20, 0, 40, 0); //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 10;
 		
 		registerPnl.add(crearBttn, c);
 		
 		crearBttn.addActionListener(new ActionListener() {
-
+					
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -580,6 +627,8 @@ public class Login extends JFrame{
 					saladoChckBx.setForeground(Color.decode("#1B313F"));
 					saludableChckBx.setForeground(Color.decode("#1B313F"));
 				}
+						
+				windowManager("login");
 				
 			}
 			
@@ -587,5 +636,20 @@ public class Login extends JFrame{
 
 		return generalPnl2; //añadir panel al marco (JFrame)
 		
+	}
+	
+	
+	public void windowManager(String targetWindow){
+		this.getContentPane().removeAll();
+		
+		if(targetWindow.equals("signIn")){
+			this.add(this.signIn());
+		}
+		if(targetWindow.equals("login")){
+			this.add(this.login());
+		}
+		
+		this.repaint();
+		this.revalidate();
 	}
 }
