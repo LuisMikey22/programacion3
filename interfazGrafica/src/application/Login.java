@@ -233,7 +233,7 @@ public class Login extends JFrame{
 		passwordFld.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
 		passwordElementsPnl.add(passwordFld, BorderLayout.CENTER);
 		
-		Image imageEye = new ImageIcon("eyeSeesIcon.png").getImage().getScaledInstance(30, 16, Image.SCALE_SMOOTH);
+		Image imageEye = new ImageIcon("eyeClosedIcon.png").getImage().getScaledInstance(30, 16, Image.SCALE_SMOOTH);
 		ImageIcon imageEyeIcon = new ImageIcon(imageEye);
 		JButton seeBttn = new JButton();
 		seeBttn.setIcon(imageEyeIcon);
@@ -258,7 +258,7 @@ public class Login extends JFrame{
 					seeBttn.setIcon(imageEyeBttnIcon);
 					passwordVisible = true;
 				}else {
-					//mostrar contraseña
+					//ocultar contraseña
 					passwordFld.setEchoChar('*'); //representar los caracteres de la contraseña con asteriscos '*'				
 					imageEyeBttn = new ImageIcon("eyeClosedIcon.png").getImage().getScaledInstance(30, 16, Image.SCALE_SMOOTH);
 					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
