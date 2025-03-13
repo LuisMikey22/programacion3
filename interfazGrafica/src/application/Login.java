@@ -28,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -38,9 +40,30 @@ public class Login extends JFrame{
 	String colonias[] = {"Camino Real", "Bellavista", "Progreso", "Pedregal", "Calafia", "Diana Laura",
 			 "El Mezquitito", "Indeco", "La Fuente", "Las Américas", "Miramar"};
 	
+	String[] columnNames = {"ID", "Nombre", "Correo electrónico", "Edad", "Estado"};
+	
+	Object[][] data = {{"10001", "Adriana", "pelosDeRata123@gmail.com", 20, false},
+			 		   {"10002", "Bertha", "caguamasA5pesos@gmail.com", 31, true},
+			 		   {"10003", "Carlos", "ilovemoviesOMG@gmail.com", 28, false},
+			 		   {"10004", "David", "odioProgramar@gmail.com",27, true},
+			 		   {"10005", "Eduardo", "karaoke234@gmail.com", 44, false},
+			 		   {"10006", "Fátima", "siTeacuerdasDEmi783@gmail.com", 25, false},
+			 		   {"10007", "Gerardo", "jjajaJAjaj2_hola@gmail.com", 33, true},
+			 		   {"10008", "Hectór", "elefantesrosas34@gmail.com", 55, false},
+			 		   {"10009", "Isabella", "JAJAJeJEJIJIJUJU43@gmail.com", 23, true},
+			 		   {"100010", "Jonathan", "elSOLmeQueMA29@gmail.com", 49, false},
+			 		   {"100011", "Saúl", "lAnostalgiaMEsIGUE_UnU@gmail.com", 36, true},
+			 		   {"100012", "Jessica", "piedrasENELARROLLO_23@gmail.com", 52, false}};
+	
 	private String contraseña = "amatista1234";
 	private String correoUsuario = "llucatero_23@alu.uabcs.mx";
 	private boolean passwordVisible = false;
+	
+	//cabecera
+	ImageIcon imageHdr;
+	JLabel header;
+	ImageIcon windowBackground;
+	JLabel backgroundLbl;
 	
 	public Login(String title) {
 		this.setTitle(title); //colorcar título a la ventana
@@ -59,35 +82,36 @@ public class Login extends JFrame{
 		this.setResizable(isMaximumSizeSet());
 
 		this.add(this.login(), BorderLayout.CENTER);
-		//this.add(this.signIn(), BorderLayout.CENTER);
 		
 		JMenuBar barra = new JMenuBar(); //barra de munus
 		
-		JMenu menu1 = new JMenu("Archivo");
-		JMenu menu2 = new JMenu("Ayuda");
-		JMenu menu3 = new JMenu("Ventana");
+		JMenu menu1 = new JMenu("Cuenta");
+		JMenu menu2 = new JMenu("Usuarios");
+		JMenu menu3 = new JMenu("Ayuda");
 		
 		//primer menú
-		JMenuItem opNew = new JMenuItem("Nuevo");
-		JMenuItem opOpen = new JMenuItem("Abrir");
-		JMenuItem opSave = new JMenuItem("Guardar");
-		JMenuItem opClose = new JMenuItem("Cerrar");
-		menu1.add(opNew);
-		menu1.add(opOpen);
-		menu1.add(opSave);
-		menu1.add(opClose);
+		JMenuItem login = new JMenuItem("Login");
+		JMenuItem signIn= new JMenuItem("Registro");
+		JMenuItem recoverAccnt= new JMenuItem("Recuperación de cuenta");
+		menu1.add(login);
+		menu1.add(signIn);
+		menu1.add(recoverAccnt);
 		
 		//segundo menú
-		JRadioButtonMenuItem opHelp = new JRadioButtonMenuItem("Manual de Usuario: ");
-		JCheckBoxMenuItem opSupport = new JCheckBoxMenuItem("Soporte tecnico: ");
-		menu2.add(opHelp);
-		menu2.add(opSupport);
+		JMenuItem newAccnt = new JMenuItem("Alta");
+		JMenuItem deleteAccnt = new JMenuItem("Baja");
+		JMenuItem consultUser = new JMenuItem("Consultar");
+		menu2.add(newAccnt);
+		menu2.add(deleteAccnt);
+		menu2.add(consultUser);
 		
 		//tercer menú
-		JMenuItem goToLogin = new JMenuItem("Login");
-		JMenuItem goToSignIn= new JMenuItem("Registro");
-		menu3.add(goToLogin);
-		menu3.add(goToSignIn);
+		JMenuItem howToCreateUser = new JMenuItem("¿Cómo crear un usuario?");
+		JMenuItem howToAccess= new JMenuItem("¿Cómo acceder al sistema?");
+		JMenuItem forgotPssWrd= new JMenuItem("¿Qué pasa si olvidé mi contraseña?");
+		menu3.add(howToCreateUser);
+		menu3.add(howToAccess);
+		menu3.add(forgotPssWrd);
 		
 		//agregar los menús a la barra de navegación
 		barra.add(menu1);
@@ -96,7 +120,7 @@ public class Login extends JFrame{
 
 		
 		//agregar acción a los menus de ventana
-		goToLogin.addActionListener(new ActionListener() {
+		login.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -106,7 +130,7 @@ public class Login extends JFrame{
 			
 		});
 		
-		goToSignIn.addActionListener(new ActionListener() {
+		signIn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -116,20 +140,93 @@ public class Login extends JFrame{
 			
 		});
 		
+		recoverAccnt.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				windowManager("recoverAccnt");
+			}
+			
+		});
+		
+		newAccnt.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				windowManager("newAccnt");
+			}
+			
+		});
+		
+		deleteAccnt.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				windowManager("deleteAccnt");
+			}
+			
+		});;
+		
+		consultUser.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				windowManager("consultUser");
+			}
+			
+		});
+		
+		howToCreateUser.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				windowManager("howToCreateUser");
+			}
+			
+		});
+		
+		howToAccess.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				windowManager("howToAccess");
+			}
+			
+		});
+		
+		forgotPssWrd.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				windowManager("forgotPssWrd");
+			}
+			
+		});
+		
 		
 		this.setJMenuBar(barra);
+	
 		
 		this.validate();
 		this.revalidate();
 		this.repaint();
 	}
 	
+	
+	//panel para iniciar sesión
 	public JPanel login() {
-		JPanel generalPnl1 = new JPanel();
-		generalPnl1.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
-		generalPnl1.setSize(1000, 850);
-		generalPnl1.setLocation(0, 0);
-		generalPnl1.setOpaque(true);
+		JPanel loginBckGrndPnl = new JPanel();
+		loginBckGrndPnl.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
+		loginBckGrndPnl.setSize(1000, 850);
+		loginBckGrndPnl.setLocation(0, 0);
+		loginBckGrndPnl.setOpaque(true);
 		
 		//agregar panel con los elementos interactivos para iniciar sesión al panel general
 		JPanel loginPnl = new JPanel(); 
@@ -141,26 +238,26 @@ public class Login extends JFrame{
 		loginPnl.setLayout(new GridBagLayout());;
 		GridBagConstraints c = new GridBagConstraints(); //crear GridBagConstraints
 		c.fill = GridBagConstraints.HORIZONTAL; //horizontal
-		generalPnl1.add(loginPnl, BorderLayout.CENTER);
+		loginBckGrndPnl.add(loginPnl, BorderLayout.CENTER);
 		
 		
 		//imagen de fondo
-		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
-		JLabel backgroundLbl = new JLabel(windowBackground); 
+		windowBackground = new ImageIcon("windowBackground.png");
+		backgroundLbl = new JLabel(windowBackground); 
 		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
 		backgroundLbl.setOpaque(true);
-		generalPnl1.add(backgroundLbl);
+		loginBckGrndPnl.add(backgroundLbl);
 		
 		
 		//elementos del loginPnl
 		//cabecera
-		ImageIcon imageHdr = new ImageIcon("vortexLogoText.png");
-		JLabel header = new JLabel(imageHdr);
+		imageHdr = new ImageIcon("vortexLogoText.png");
+		header = new JLabel(imageHdr);
 		header.setBackground(Color.decode("#1B313F"));
 		header.setOpaque(true); //tiene fondo o no
 		header.setHorizontalAlignment(JLabel.CENTER);
-		generalPnl1.add(header, BorderLayout.NORTH); 
+		loginBckGrndPnl.add(header, BorderLayout.NORTH); 
 		
 		JLabel loginLbl = new JLabel("Iniciar sesión");
 		loginLbl.setForeground(Color.decode("#1B313F")); //color de letra
@@ -227,6 +324,7 @@ public class Login extends JFrame{
 		passwordElementsPnl.add(lockIcon, BorderLayout.WEST);
 		
 		JPasswordField passwordFld = new JPasswordField();
+		passwordFld.setEchoChar('*');
 		passwordFld.setForeground(Color.decode("#1B313F")); //color de letra
 		passwordFld.setOpaque(true); //tiene fondo o no
 		passwordFld.setHorizontalAlignment(JPasswordField.LEFT);
@@ -404,18 +502,18 @@ public class Login extends JFrame{
 			
 		});
 
-		return generalPnl1; //añadir panel al marco (JFrame)
+		return loginBckGrndPnl; //añadir panel al marco (JFrame)
 		
 	}
 	
 
 	//panel de registro
 	public JPanel signIn() {
-		JPanel generalPnl2 = new JPanel();
-		generalPnl2.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
-		generalPnl2.setSize(1000, 850);
-		generalPnl2.setLocation(0, 0);
-		generalPnl2.setOpaque(true);
+		JPanel signInBckGrndPnl = new JPanel();
+		signInBckGrndPnl.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
+		signInBckGrndPnl.setSize(1000, 850);
+		signInBckGrndPnl.setLocation(0, 0);
+		signInBckGrndPnl.setOpaque(true);
 		
 		JPanel registerPnl = new JPanel(); 
 		registerPnl.setSize(500, 600);
@@ -426,25 +524,25 @@ public class Login extends JFrame{
 		registerPnl.setLayout(new GridBagLayout());;
 		GridBagConstraints c = new GridBagConstraints(); //crear GridBagConstraints
 		c.fill = GridBagConstraints.HORIZONTAL; //horizontal
-		generalPnl2.add(registerPnl);
+		signInBckGrndPnl.add(registerPnl);
 	
 		//imagen de fondo
-		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
-		JLabel backgroundLbl = new JLabel(windowBackground); 
+		windowBackground = new ImageIcon("windowBackground.png");
+		backgroundLbl = new JLabel(windowBackground); 
 		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
 		backgroundLbl.setOpaque(true);
-		generalPnl2.add(backgroundLbl);
+		signInBckGrndPnl.add(backgroundLbl);
 		
 				
 		//elementos del registerPnl
 		//cabecera
-		ImageIcon imageHdr = new ImageIcon("vortexLogoText.png");
-		JLabel header = new JLabel(imageHdr);
+		imageHdr = new ImageIcon("vortexLogoText.png");
+		header = new JLabel(imageHdr);
 		header.setBackground(Color.decode("#1B313F"));
 		header.setOpaque(true); //tiene fondo o no
 		header.setHorizontalAlignment(JLabel.CENTER);
-		generalPnl2.add(header, BorderLayout.NORTH); 
+		signInBckGrndPnl.add(header, BorderLayout.NORTH); 
 	
 		
 		JLabel registroLbl = new JLabel("Registro");
@@ -689,19 +787,229 @@ public class Login extends JFrame{
 			
 		});
 
-		return generalPnl2; //añadir panel al marco (JFrame)
+		return signInBckGrndPnl; //añadir panel al marco (JFrame)
 		
 	}
 	
 	
+	//panel para la recuperación de una cuenta
+	public JPanel recoverAccnt() {
+		JPanel recoverAccntBckGrndPnl = new JPanel();
+		recoverAccntBckGrndPnl.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
+		recoverAccntBckGrndPnl.setSize(1000, 850);
+		recoverAccntBckGrndPnl.setLocation(0, 0);
+		recoverAccntBckGrndPnl.setOpaque(true);
+		
+		JLabel recoverAccntLbl = new JLabel("Recuperar cuenta");
+		recoverAccntLbl.setForeground(Color.decode("#1B313F")); //color de letra
+		recoverAccntLbl.setOpaque(false); //tiene fondo o no
+		recoverAccntLbl.setHorizontalAlignment(JLabel.CENTER);
+		recoverAccntLbl.setFont(new Font("Tahoma", Font.BOLD, 28)); //fuente, tipo y tamaño
+		recoverAccntBckGrndPnl.add(recoverAccntLbl, BorderLayout.NORTH);
+		
+		return recoverAccntBckGrndPnl;
+	}
+	
+	//panel para crear una cuenta
+	public JPanel newAccnt() {
+		JPanel newUserBckGrndPnl = new JPanel();
+		newUserBckGrndPnl.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
+		newUserBckGrndPnl.setSize(1000, 850);
+		newUserBckGrndPnl.setLocation(0, 0);
+		newUserBckGrndPnl.setOpaque(true);
+		
+		JLabel newAccntLbl = new JLabel("Alta de usuario");
+		newAccntLbl.setForeground(Color.decode("#1B313F")); //color de letra
+		newAccntLbl.setOpaque(false); //tiene fondo o no
+		newAccntLbl.setHorizontalAlignment(JLabel.CENTER);
+		newAccntLbl.setFont(new Font("Tahoma", Font.BOLD, 28)); //fuente, tipo y tamaño
+		newUserBckGrndPnl.add(newAccntLbl, BorderLayout.NORTH);
+		
+		return newUserBckGrndPnl;
+	}
+	
+	//panel para eliminar una cuenta
+	public JPanel deleteAccnt() {
+		JPanel deleteAccntBckGrndPnl = new JPanel();
+		deleteAccntBckGrndPnl.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
+		deleteAccntBckGrndPnl.setSize(1000, 850);
+		deleteAccntBckGrndPnl.setLocation(0, 0);
+		deleteAccntBckGrndPnl.setOpaque(true);
+		
+		JLabel deleteAccntLbl = new JLabel("Baja de usuario");
+		deleteAccntLbl.setForeground(Color.decode("#1B313F")); //color de letra
+		deleteAccntLbl.setOpaque(false); //tiene fondo o no
+		deleteAccntLbl.setHorizontalAlignment(JLabel.CENTER);
+		deleteAccntLbl.setFont(new Font("Tahoma", Font.BOLD, 28)); //fuente, tipo y tamaño
+		deleteAccntBckGrndPnl.add(deleteAccntLbl, BorderLayout.NORTH);
+		
+		return deleteAccntBckGrndPnl;
+	}
+	
+	
+	//panel de información de usuarios
+ 	public JPanel consultUser() {
+		JPanel consultUserBckGrndPnl = new JPanel(); 
+		consultUserBckGrndPnl.setSize(1000, 600);
+		consultUserBckGrndPnl.setLocation(0, 0);
+		consultUserBckGrndPnl.setBackground(Color.decode("#BFE4FF"));
+		consultUserBckGrndPnl.setOpaque(true);
+		
+		JLabel userLbl = new JLabel("Usuarios");
+		userLbl.setSize(130, 40);
+		userLbl.setLocation(435, 32);
+		userLbl.setForeground(Color.white); //color de letra
+		userLbl.setOpaque(false); //tiene fondo o no
+		userLbl.setHorizontalAlignment(JLabel.CENTER);
+		userLbl.setFont(new Font("Tahoma", Font.BOLD, 28)); //fuente, tipo y tamaño
+		this.add(userLbl);
+		
+		JLabel header = new JLabel();
+		header.setSize(1000, 84);
+		header.setLocation(0, 0);
+		header.setOpaque(true); //tiene fondo o no
+		header.setBackground(Color.decode("#1B313F"));
+		header.setHorizontalAlignment(JLabel.LEFT);
+		this.add(header);
+		
+		JLabel totalUsers = new JLabel("Total de usuarios: ");
+		totalUsers.setSize(160, 44);
+		totalUsers.setLocation(70, 140);
+		totalUsers.setOpaque(false); //tiene fondo o no
+		totalUsers.setForeground(Color.white);
+		totalUsers.setFont(new Font("Tahoma", Font.BOLD, 14));
+		totalUsers.setHorizontalAlignment(JLabel.LEFT);
+		this.add(totalUsers);
+		
+		JLabel usersWdgt = new JLabel();
+		usersWdgt.setSize(190, 64);
+		usersWdgt.setLocation(50, 130);
+		usersWdgt.setOpaque(true); //tiene fondo o no
+		usersWdgt.setBackground(Color.decode("#33627F"));
+		usersWdgt.setHorizontalAlignment(JLabel.LEFT);
+		this.add(usersWdgt);
+		
+		JButton exportBttn = new JButton("Exportar");
+		exportBttn.setSize(140, 50);
+		exportBttn.setLocation(630, 150);
+		exportBttn.setBackground(Color.decode("#1B313F"));
+		exportBttn.setForeground(Color.white); //color de letra
+		exportBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
+		exportBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		exportBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
+		exportBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
+		exportBttn.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		this.add(exportBttn);
+		
+		JButton addBttn = new JButton("Añadir");
+		addBttn.setSize(140, 50);
+		addBttn.setLocation(790, 150);
+		addBttn.setBackground(Color.decode("#1B313F"));
+		addBttn.setForeground(Color.white); //color de letra
+		addBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
+		addBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		addBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
+		addBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
+		addBttn.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		this.add(addBttn);
+		
+		JTable table = new JTable(data, columnNames);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setSize(880, 200);
+		scrollPane.setLocation(50, 250);
+		this.add(scrollPane);
+		
+		return consultUserBckGrndPnl;
+	}
+	
+	
+ 	//panel de ayuda para crear un usuario
+	public JPanel howToCreateUser() {
+		JPanel howToCreateUserBckGrndPnl = new JPanel();
+		howToCreateUserBckGrndPnl.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
+		howToCreateUserBckGrndPnl.setSize(1000, 850);
+		howToCreateUserBckGrndPnl.setLocation(0, 0);
+		howToCreateUserBckGrndPnl.setOpaque(true);
+		
+		JLabel createUserQLbl = new JLabel("¿Cómo crear un usuario?");
+		createUserQLbl.setForeground(Color.decode("#1B313F")); //color de letra
+		createUserQLbl.setOpaque(false); //tiene fondo o no
+		createUserQLbl.setHorizontalAlignment(JLabel.CENTER);
+		createUserQLbl.setFont(new Font("Tahoma", Font.BOLD, 28)); //fuente, tipo y tamaño
+		howToCreateUserBckGrndPnl.add(createUserQLbl, BorderLayout.NORTH);
+		
+		return howToCreateUserBckGrndPnl;
+	}
+	
+	
+	//panel de ayuda para acceder al sistema
+	public JPanel howToAccess() {
+		JPanel howToAccessBckGrndPnl = new JPanel();
+		howToAccessBckGrndPnl.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
+		howToAccessBckGrndPnl.setSize(1000, 850);
+		howToAccessBckGrndPnl.setLocation(0, 0);
+		howToAccessBckGrndPnl.setOpaque(true);
+		
+		JLabel accessSystemQLbl = new JLabel("¿Cómo acceder al sistema?");
+		accessSystemQLbl.setForeground(Color.decode("#1B313F")); //color de letra
+		accessSystemQLbl.setOpaque(false); //tiene fondo o no
+		accessSystemQLbl.setHorizontalAlignment(JLabel.CENTER);
+		accessSystemQLbl.setFont(new Font("Tahoma", Font.BOLD, 28)); //fuente, tipo y tamaño
+		howToAccessBckGrndPnl.add(accessSystemQLbl, BorderLayout.NORTH);
+		
+		return howToAccessBckGrndPnl;
+	}
+ 	
+	
+	//panel de ayuda para crear un usuario
+	public JPanel forgotPssWrd() {
+		JPanel forgotPssWrdBckGrndPnl = new JPanel();
+		forgotPssWrdBckGrndPnl.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
+		forgotPssWrdBckGrndPnl.setSize(1000, 850);
+		forgotPssWrdBckGrndPnl.setLocation(0, 0);
+		forgotPssWrdBckGrndPnl.setOpaque(true);
+		
+		JLabel forgotPsswrdQLbl = new JLabel("Olvidé mi contraseña");
+		forgotPsswrdQLbl.setForeground(Color.decode("#1B313F")); //color de letra
+		forgotPsswrdQLbl.setOpaque(false); //tiene fondo o no
+		forgotPsswrdQLbl.setHorizontalAlignment(JLabel.CENTER);
+		forgotPsswrdQLbl.setFont(new Font("Tahoma", Font.BOLD, 28)); //fuente, tipo y tamaño
+		forgotPssWrdBckGrndPnl.add(forgotPsswrdQLbl, BorderLayout.NORTH);
+		
+		return forgotPssWrdBckGrndPnl;
+	}
+	
+	
+	//manejador de ventanas
 	public void windowManager(String targetWindow){
 		this.getContentPane().removeAll();
 		
-		if(targetWindow.equals("signIn")){
+		if(targetWindow.equals("login")){ //login
+			this.add(this.login());
+		}
+		else if(targetWindow.equals("signIn")){ //registro
 			this.add(this.signIn());
 		}
-		if(targetWindow.equals("login")){
-			this.add(this.login());
+		else if (targetWindow.equals("recoverAccnt")){ //recuperar cuenta
+			this.add(this.recoverAccnt());
+		}
+		else if (targetWindow.equals("newAccnt")){ //crear cuenta
+			this.add(this.newAccnt());
+		}
+		else if (targetWindow.equals("deleteAccnt")){ //borrar cuenta
+			this.add(this.deleteAccnt());
+		}
+		else if (targetWindow.equals("consultUser")){ //consultar usuario/s
+			this.add(this.consultUser());
+		}
+		else if (targetWindow.equals("howToCreateUser")){ //¿cómo crear un usuario?
+			this.add(this.howToCreateUser());
+		}
+		else if (targetWindow.equals("howToAccess")){ //¿cómo acceder al sistema?
+			this.add(this.howToAccess());
+		}
+		else if (targetWindow.equals("forgotPssWrd")){ //olvidé mi contraseña
+			this.add(this.forgotPssWrd());
 		}
 		
 		this.repaint();
