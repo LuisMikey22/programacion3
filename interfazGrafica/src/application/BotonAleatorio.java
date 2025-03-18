@@ -10,6 +10,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class BotonAleatorio extends JFrame{
@@ -55,11 +56,22 @@ public class BotonAleatorio extends JFrame{
 				// TODO Auto-generated method stub
 				Random rand = new Random();
 				
-				JButton nuevoBoton = new JButton("Click Me");
+				JButton nuevoBoton = new JButton("Click Me " + rand.nextInt(250));
 				nuevoBoton.setBackground(new Color(rand.nextInt(250), rand.nextInt(250), rand.nextInt(250)));
 				nuevoBoton.setLocation(rand.nextInt(1000), rand.nextInt(1000));
 				nuevoBoton.setSize(150, 50);
 				fondo.add(nuevoBoton);
+			
+				nuevoBoton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						String message = nuevoBoton.getText();
+						JOptionPane.showMessageDialog(null, message, "Nuevo Botón", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+					}
+					
+				});
 				
 				fondo.repaint();
 			}
