@@ -950,78 +950,47 @@ public class Login extends JFrame{
 		c.gridx = 0;
 		c.gridy = 0;
 		recoverAccntPnl.add(recoverAccntLbl, c);
-		
-		
-		//panel de correo electrónico
-		JPanel emailInfoPnl = new JPanel();
-		emailInfoPnl.setOpaque(false);
-		emailInfoPnl.setLayout(new GridLayout(1, 2));
+				
 		
 		JLabel emailLbl = new JLabel("Correo electrónico:");
 		emailLbl.setOpaque(false);
 		emailLbl.setHorizontalAlignment(SwingConstants.LEFT);
 		emailLbl.setForeground(Color.white);
 		emailLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		emailInfoPnl.add(emailLbl);
-		
-		Image imageInfo = new ImageIcon("infoIcon.png").getImage().getScaledInstance(12, 12, Image.SCALE_SMOOTH);
-		ImageIcon imageInforIcon = new ImageIcon(imageInfo);
-		JButton infoBttn = new JButton();
-		infoBttn.setIcon(imageInforIcon);
-		infoBttn.setForeground(Color.white);
-		infoBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
-		infoBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
-		infoBttn.setContentAreaFilled(false); //hace invisible la animacion al presionar el botón
-		infoBttn.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		emailInfoPnl.add(infoBttn);
-		
-		//volver a login
-		infoBttn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				String message = "\nSi olvidó su nombre de usuario y/o contraseña\n"
-							   + "solicite un correo de activación/recuperación.\n"
-							   + "\n"
-							   + "En caso de que la dirección de correo electrónico\n"
-							   + "proporcionada coincida con los registros de Vortex,\n"
-						       + "recibirá un correo con la información solicitada.";
-				JOptionPane.showMessageDialog(null, message, "Información", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
-			}
-			
-		});
-		
-		//crear efecto Hover cuando el ratón está encima del botón
-		infoBttn.addMouseListener(new MouseAdapter() {
-		    public void mouseEntered(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("infoIcon2.png").getImage().getScaledInstance(12, 12, Image.SCALE_SMOOTH);
-				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
-				infoBttn.setIcon(imageReturnIcon);
-		    }
-
-		    public void mouseExited(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("infoIcon.png").getImage().getScaledInstance(12, 12, Image.SCALE_SMOOTH);
-				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
-				infoBttn.setIcon(imageReturnIcon);
-		    }
-		});
-		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(60, 0, 0, 100); //relleno en la parte de arriba
+		c.insets = new Insets(20, 0, 0, 0); //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 1;
-		recoverAccntPnl.add(emailInfoPnl, c);
+		recoverAccntPnl.add(emailLbl, c);
 		
-		
+	
 		JTextField emailTxtFld = new JTextField();
-		emailTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.decode("#1B313F")));
+		emailTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.decode("#33627F"))); 
 		emailTxtFld.setHorizontalAlignment(JLabel.LEFT);
 		emailTxtFld.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		c.insets = new Insets(20, 0, 0, 0); //relleno en la parte de arriba
+		c.insets = new Insets(5, 0, 20, 0); //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 2;
 		recoverAccntPnl.add(emailTxtFld, c);
+		
+		
+		//como recuperar cuenta con un correo
+		String info = "<html> Si olvidó su nombre de usuario y/o contraseña <br>"
+				           + "solicite un correo de activación/recuperación. <br><br>"
+				           + "En caso de que la dirección de correo electrónico <br>"
+				           + "proporcionada coincida con registros existentes, <br>"
+			               + "recibirá un correo con la información solicitada.";
+		
+		JLabel createUserInfoLbl = new JLabel(info);
+		createUserInfoLbl.setForeground(Color.white); //color de letra
+		createUserInfoLbl.setOpaque(false); //tiene fondo o no
+		createUserInfoLbl.setHorizontalAlignment(JLabel.CENTER);
+		createUserInfoLbl.setFont(new Font("Tahoma", Font.BOLD, 15)); //fuente, tipo y tamaño
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(10, 0, 20, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 3;
+		recoverAccntPnl.add(createUserInfoLbl, c);
 		
 		
 		//panel de botones
@@ -1081,9 +1050,10 @@ public class Login extends JFrame{
 		actionBttnsPnl.add(continueBttn);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(140, 0, 0, 0); //relleno en la parte de arriba
+		c.insets = new Insets(20, 0, 0, 0); //relleno en la parte de arriba
 		c.gridx = 0;
-		c.gridy = 3;
+		c.gridy = 4;
+		c.ipady = 20;
 		recoverAccntPnl.add(actionBttnsPnl, c);
 		
 
@@ -1101,8 +1071,8 @@ public class Login extends JFrame{
 		
 		//agregar panel con los elementos interactivos para crear una cuenta
 		JPanel newUserPnl = new JPanel(); 
-		newUserPnl.setSize(600, 600); 
-		newUserPnl.setLocation(200, 100);
+		newUserPnl.setSize(500, 600); 
+		newUserPnl.setLocation(250, 100);
 		newUserPnl.setBorder(new LineBorder(Color.white, 2)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
 		newUserPnl.setBackground(Color.decode("#1B313F"));
 		newUserPnl.setOpaque(true);
@@ -1142,8 +1112,9 @@ public class Login extends JFrame{
 		c.gridy = 1;
 		newUserPnl.add(userNameLbl, c);
 		
+		//campo de usuario
 		JTextField userNameTxtFld = new JTextField();
-		userNameTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.decode("#1B313F")));
+		userNameTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.decode("#33627F"))); 
 		userNameTxtFld.setHorizontalAlignment(JLabel.LEFT);
 		userNameTxtFld.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
 		c.insets = new Insets(5, 0, 0, 0); //relleno en la parte de arriba
@@ -1152,6 +1123,7 @@ public class Login extends JFrame{
 		newUserPnl.add(userNameTxtFld, c);
 		
 		
+		//foto de perfil
 		JLabel photoLbl = new JLabel("Foto:");
 		photoLbl.setOpaque(false);
 		photoLbl.setHorizontalAlignment(SwingConstants.LEFT);
@@ -1173,6 +1145,7 @@ public class Login extends JFrame{
 		c.gridy = 4;
 		newUserPnl.add(userPhotoImgLbl, c);
 		
+		//boton para subir archivo JPG, PNG, etc.
 		JButton examinateBttn = new JButton("Examinar");
 		examinateBttn.setBackground(Color.white);
 		examinateBttn.setForeground(Color.decode("#1B313F"));
@@ -1260,14 +1233,16 @@ public class Login extends JFrame{
 		});
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(60, 0, 0, 0); //relleno en la parte de arriba
+		c.insets = new Insets(40, 0, 0, 0); //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 6;
+		c.ipady = 20;
 		newUserPnl.add(actionBttnsPnl, c);
 		
 		
 		return newUserBckGrndPnl;
 	}
+	
 	
 	//panel para eliminar una cuenta
 	public JPanel deleteUser() {
@@ -1279,8 +1254,8 @@ public class Login extends JFrame{
 		
 		//agregar panel con los elementos interactivos para eliminar una cuenta
 		JPanel deleteUserPnl = new JPanel(); 
-		deleteUserPnl.setSize(700, 600); 
-		deleteUserPnl.setLocation(150, 100);
+		deleteUserPnl.setSize(500, 600); 
+		deleteUserPnl.setLocation(250, 100);
 		deleteUserPnl.setBorder(new LineBorder(Color.white, 2)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
 		deleteUserPnl.setBackground(Color.decode("#1B313F"));
 		deleteUserPnl.setOpaque(true);
@@ -1303,10 +1278,126 @@ public class Login extends JFrame{
 		deleteUserLbl.setHorizontalAlignment(JLabel.CENTER);
 		deleteUserLbl.setFont(new Font("Tahoma", Font.BOLD, 34)); //fuente, tipo y tamaño
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(20, 0, 40, 0); //relleno en la parte de arriba
+		c.insets = new Insets(20, 0, 20, 0); //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 0;
 		deleteUserPnl.add(deleteUserLbl, c);
+		
+		
+		//elementos de usuario
+		JPanel userElementsPnl = new JPanel();
+		userElementsPnl.setOpaque(false);
+		userElementsPnl.setLayout(new BorderLayout(10, 5));
+		
+		JLabel userEmailLbl = new JLabel("Correo electrónico");
+		userEmailLbl.setForeground(Color.white); //color de letra
+		userEmailLbl.setOpaque(false); //tiene fondo o no
+		userEmailLbl.setHorizontalAlignment(JLabel.LEFT);
+		userEmailLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		userElementsPnl.add(userEmailLbl, BorderLayout.NORTH);
+		
+		Image imageUser = new ImageIcon("userIcon.png").getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
+		ImageIcon imageUserIcon = new ImageIcon(imageUser);
+		JLabel userIcon = new JLabel(imageUserIcon);
+		userIcon.setOpaque(false); //tiene fondo o no
+		userIcon.setHorizontalAlignment(JLabel.LEFT);
+		userElementsPnl.add(userIcon, BorderLayout.WEST);
+		
+		JTextField userEmailTxtFld = new JTextField();
+		userEmailTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.decode("#33627F"))); 
+		userEmailTxtFld.setForeground(Color.decode("#1B313F")); //color de letra
+		userEmailTxtFld.setOpaque(true); //tiene fondo o no
+		userEmailTxtFld.setHorizontalAlignment(JLabel.LEFT);
+		userEmailTxtFld.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		userElementsPnl.add(userEmailTxtFld, BorderLayout.CENTER);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(40, 0, 0, 0);  //relleno en la parte de arriba
+		c.gridx = 0; //posición
+		c.gridy = 1; //posición
+		deleteUserPnl.add(userElementsPnl, c);
+		
+		
+		//elementos de contraseña
+		JPanel passwordElementsPnl = new JPanel();
+		passwordElementsPnl.setOpaque(false);
+		passwordElementsPnl.setLayout(new BorderLayout(10, 5));
+		
+		JLabel passwordLbL = new JLabel("Contraseña");
+		passwordLbL.setForeground(Color.white); //color de letra
+		passwordLbL.setOpaque(false); //tiene fondo o no
+		passwordLbL.setHorizontalAlignment(JLabel.LEFT);
+		passwordLbL.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		passwordElementsPnl.add(passwordLbL, BorderLayout.NORTH);
+		
+		Image imageLock = new ImageIcon("lockIcon.png").getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
+		ImageIcon imageLockIcon = new ImageIcon(imageLock);
+		JLabel lockIcon = new JLabel(imageLockIcon);
+		lockIcon.setOpaque(false); //tiene fondo o no
+		lockIcon.setHorizontalAlignment(JLabel.LEFT);
+		passwordElementsPnl.add(lockIcon, BorderLayout.WEST);
+		
+		
+		//panel con el campo para escribir la contraseña y el botón para mostrarla u ocultarla
+		JPanel jPssWrdFldPnl = new JPanel();
+		jPssWrdFldPnl.setBackground(Color.WHITE);
+		//borde para crear la ilusión de que el campo de texto y el botón con icono de ojo son uno mismo
+		jPssWrdFldPnl.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.decode("#33627F"))); 
+		jPssWrdFldPnl.setLayout(new BorderLayout());
+		
+		JPasswordField passwordFld = new JPasswordField(5);
+		passwordFld.setEchoChar('*');
+		passwordFld.setBorder(null); //quitar borde por defecto
+		passwordFld.setForeground(Color.decode("#1B313F")); //color de letra
+		passwordFld.setOpaque(true); //tiene fondo o no
+		passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
+		jPssWrdFldPnl.add(passwordFld, BorderLayout.CENTER);
+		
+		Image imageEye = new ImageIcon("eyeClosedIcon.png").getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+		ImageIcon imageEyeIcon = new ImageIcon(imageEye);
+		JButton seeBttn = new JButton();
+		seeBttn.setIcon(imageEyeIcon);
+		seeBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		seeBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
+		seeBttn.setContentAreaFilled(false); //hace invisible la animacion al presionar el botón
+		jPssWrdFldPnl.add(seeBttn, BorderLayout.EAST);
+		
+		//botón para mostrar u ocultar la contraseña
+		seeBttn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Image imageEyeBttn;
+				ImageIcon imageEyeBttnIcon;
+				
+				//mostrar contraseña
+				if(!passwordVisible) {
+					passwordFld.setEchoChar((char)0); //representar los caracteres de la contraseña con letras 'ABCdario'	
+					passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
+					imageEyeBttn = new ImageIcon("eyeSeesIcon.png").getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
+					seeBttn.setIcon(imageEyeBttnIcon);
+					passwordVisible = true;
+				}else {
+					//ocultar contraseña
+					passwordFld.setEchoChar('*'); //representar los caracteres de la contraseña con asteriscos '*'				
+					passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
+					imageEyeBttn = new ImageIcon("eyeClosedIcon.png").getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
+					seeBttn.setIcon(imageEyeBttnIcon);
+					passwordVisible = false;
+				}
+				
+			}
+			
+		});
+		
+		passwordElementsPnl.add(jPssWrdFldPnl, BorderLayout.CENTER);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(40, 0, 0, 0);  //relleno en la parte de arriba
+		c.gridx = 0; //posición
+		c.gridy = 2; //posición
+		deleteUserPnl.add(passwordElementsPnl, c);
 		
 		
 		//razones de eliminar la cuenta
@@ -1315,16 +1406,16 @@ public class Login extends JFrame{
 		reasonsCmbBx.setForeground(Color.decode("#1B313F")); //color de letra
 		reasonsCmbBx.setFont(new Font("Tahoma", Font.BOLD, 15));//fuente, tipo y tamaño
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(60, 0, 40, 0); //relleno en la parte de arriba
+		c.insets = new Insets(40, 0, 20, 0); //relleno en la parte de arriba
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 3;
 		deleteUserPnl.add(reasonsCmbBx, c);
 		
 		
 		//panel de botones
 		JPanel actionBttnsPnl = new JPanel();
 		actionBttnsPnl.setOpaque(false);
-		actionBttnsPnl.setLayout(new GridLayout(1, 3, 20, 10));
+		actionBttnsPnl.setLayout(new GridLayout(1, 2, 20, 10));
 		
 		//botón para regresar al inicio
 		Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
@@ -1340,7 +1431,6 @@ public class Login extends JFrame{
 		
 		//volver a login
 		returnHomeBttn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -1363,29 +1453,6 @@ public class Login extends JFrame{
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.white);
-		    }
-		});
-	
-		
-		//botón cancelar
-		JButton cancelBttn = new JButton("Cancelar");
-		cancelBttn.setBackground(Color.white);
-		cancelBttn.setForeground(Color.decode("#1B313F"));
-		cancelBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
-		cancelBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
-		cancelBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
-		cancelBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
-		cancelBttn.setFont(new Font("Tahoma", Font.BOLD, 22)); //fuente, tipo y tamaño
-		actionBttnsPnl.add(cancelBttn);
-		
-		//crear efecto Hover cuando el ratón está encima del botón
-		cancelBttn.addMouseListener(new MouseAdapter() {
-		    public void mouseEntered(MouseEvent evt) {
-		    	cancelBttn.setBackground(Color.gray);
-		    }
-
-		    public void mouseExited(MouseEvent evt) {
-		    	cancelBttn.setBackground(Color.white);
 		    }
 		});
 		
@@ -1413,9 +1480,10 @@ public class Login extends JFrame{
 		});
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(80, 0, 0, 0); //relleno en la parte de arriba
+		c.insets = new Insets(40, 0, 20, 0); //relleno en la parte de arriba
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 4;
+		c.ipady = 10;
 		deleteUserPnl.add(actionBttnsPnl, c);
 		
 		
@@ -1426,82 +1494,120 @@ public class Login extends JFrame{
 	//panel de información de usuarios
  	public JPanel consultUser() {
 		JPanel consultUserBckGrndPnl = new JPanel(); 
-		consultUserBckGrndPnl.setSize(1000, 600);
+		consultUserBckGrndPnl.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
+		consultUserBckGrndPnl.setSize(1000, 850);
 		consultUserBckGrndPnl.setLocation(0, 0);
-		consultUserBckGrndPnl.setBackground(Color.decode("#BFE4FF"));
 		consultUserBckGrndPnl.setOpaque(true);
 		
+		//agregar panel con los elementos interactivos de ayuda para crear un usuario
+		JPanel consultUserPnl = new JPanel(); 
+		consultUserPnl.setSize(800, 600); 
+		consultUserPnl.setLocation(100, 100);
+		consultUserPnl.setBorder(new LineBorder(Color.white, 2)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
+		consultUserPnl.setBackground(Color.decode("#1B313F"));
+		consultUserPnl.setOpaque(true);
+		consultUserPnl.setLayout(new GridBagLayout());;
+		GridBagConstraints c = new GridBagConstraints(); //crear GridBagConstraints
+		c.fill = GridBagConstraints.HORIZONTAL; //horizontal
+		consultUserBckGrndPnl.add(consultUserPnl, BorderLayout.CENTER);
+		
+		//imagen de fondo
+		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
+		JLabel backgroundLbl = new JLabel(windowBackground); 
+		backgroundLbl.setSize(1000, 850);
+		backgroundLbl.setLocation(0, 0);
+		backgroundLbl.setOpaque(true);
+		consultUserBckGrndPnl.add(backgroundLbl);
+		
+		//cabecera
 		JLabel userLbl = new JLabel("Usuarios");
-		userLbl.setSize(130, 40);
-		userLbl.setLocation(435, 32);
 		userLbl.setForeground(Color.white); //color de letra
 		userLbl.setOpaque(false); //tiene fondo o no
 		userLbl.setHorizontalAlignment(JLabel.CENTER);
-		userLbl.setFont(new Font("Tahoma", Font.BOLD, 28)); //fuente, tipo y tamaño
-		this.add(userLbl);
+		userLbl.setFont(new Font("Tahoma", Font.BOLD, 34)); //fuente, tipo y tamaño
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(40, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 0;
+		consultUserPnl.add(userLbl, c);
 		
-		JLabel header = new JLabel();
-		header.setSize(1000, 84);
-		header.setLocation(0, 0);
-		header.setOpaque(true); //tiene fondo o no
-		header.setBackground(Color.decode("#1B313F"));
-		header.setHorizontalAlignment(JLabel.LEFT);
-		this.add(header);
+		
+		//panel de barra de navegación
+		JPanel navPnl = new JPanel();
+		navPnl.setLayout(new GridLayout(1, 2));
+		navPnl.setOpaque(false);
+		
+		JPanel navUserPnl = new JPanel(); //subpanel de barra de navegación
+		navUserPnl.setLayout(new GridLayout(1, 2));
+		navUserPnl.setOpaque(false);
 		
 		JLabel totalUsers = new JLabel("Total de usuarios: ");
-		totalUsers.setSize(160, 44);
-		totalUsers.setLocation(70, 140);
 		totalUsers.setOpaque(false); //tiene fondo o no
 		totalUsers.setForeground(Color.white);
-		totalUsers.setFont(new Font("Tahoma", Font.BOLD, 14));
+		totalUsers.setFont(new Font("Tahoma", Font.BOLD, 18));
 		totalUsers.setHorizontalAlignment(JLabel.LEFT);
-		this.add(totalUsers);
+		navUserPnl.add(totalUsers);
 		
-		JLabel usersWdgt = new JLabel();
-		usersWdgt.setSize(190, 64);
-		usersWdgt.setLocation(50, 130);
-		usersWdgt.setOpaque(true); //tiene fondo o no
-		usersWdgt.setBackground(Color.decode("#33627F"));
+		JLabel usersWdgt = new JLabel("100");
+		usersWdgt.setOpaque(false); //tiene fondo o no
+		usersWdgt.setForeground(Color.white);
+		usersWdgt.setFont(new Font("Tahoma", Font.BOLD, 16));
 		usersWdgt.setHorizontalAlignment(JLabel.LEFT);
-		this.add(usersWdgt);
+		navUserPnl.add(usersWdgt);
+		
+		navPnl.add(navUserPnl);
+		
+		
+		JPanel navButtonsPnl = new JPanel(); //subpanel de barra de navegación
+		navButtonsPnl.setLayout(new GridLayout(1, 2, 10, 0));
+		navButtonsPnl.setOpaque(false);
 		
 		JButton exportBttn = new JButton("Exportar");
-		exportBttn.setSize(140, 50);
-		exportBttn.setLocation(630, 150);
-		exportBttn.setBackground(Color.decode("#1B313F"));
+		exportBttn.setBackground(Color.decode("#DE7728"));
 		exportBttn.setForeground(Color.white); //color de letra
 		exportBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		exportBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		exportBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
 		exportBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
-		exportBttn.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		this.add(exportBttn);
+		exportBttn.setFont(new Font("Tahoma", Font.BOLD, 22)); //fuente, tipo y tamaño
+		navButtonsPnl.add(exportBttn);
 		
 		JButton addBttn = new JButton("Añadir");
-		addBttn.setSize(140, 50);
-		addBttn.setLocation(790, 150);
-		addBttn.setBackground(Color.decode("#1B313F"));
+		addBttn.setBackground(Color.decode("#238600"));
 		addBttn.setForeground(Color.white); //color de letra
 		addBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		addBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		addBttn.setHorizontalAlignment(JLabel.LEFT); //centrar el botón
 		addBttn.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
-		addBttn.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		this.add(addBttn);
+		addBttn.setFont(new Font("Tahoma", Font.BOLD, 22)); //fuente, tipo y tamaño
+		navButtonsPnl.add(addBttn);
 		
+		navPnl.add(navButtonsPnl);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(60, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 1;
+		consultUserPnl.add(navPnl, c);
+		
+		
+		//tabla
 		JTable table = new JTable(data, columnNames);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setSize(880, 200);
-		scrollPane.setLocation(50, 250);
-		this.add(scrollPane);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(60, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 2;
+		c.ipady = 80;
+		consultUserPnl.add(scrollPane, c);
 		
+		//reiniciar valor
+		c.ipady = 0;
 		
 		//botón para regresar al inicio
 		Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 		JButton returnHomeBttn = new JButton("Regresar");
-		returnHomeBttn.setSize(200, 40);
-		returnHomeBttn.setLocation(400, 550);
 		returnHomeBttn.setIcon(imageReturnIcon);
 		returnHomeBttn.setForeground(Color.white);
 		returnHomeBttn.setBackground(Color.decode("#1B313F"));
@@ -1509,7 +1615,12 @@ public class Login extends JFrame{
 		returnHomeBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		//returnHomeBttn.setContentAreaFilled(false); //hace invisible la animacion al presionar el botón
 		returnHomeBttn.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		this.add(returnHomeBttn);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(40, 0, 0, 0); //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 3;
+		c.ipady = 10;
+		consultUserPnl.add(returnHomeBttn, c);
 		
 		//volver a login
 		returnHomeBttn.addActionListener(new ActionListener() {
@@ -1522,7 +1633,7 @@ public class Login extends JFrame{
 			
 		});
 		
-		/*//crear efecto Hover cuando el ratón está encima del botón
+		//crear efecto Hover cuando el ratón está encima del botón
 		returnHomeBttn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
 		    	Image imageReturn = new ImageIcon("returnHomeIcon2.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
@@ -1537,7 +1648,8 @@ public class Login extends JFrame{
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.white);
 		    }
-		});*/
+		});
+		
 		
 		return consultUserBckGrndPnl;
 	}
@@ -1591,6 +1703,7 @@ public class Login extends JFrame{
 						   + "5.- Seleccione una foto de perfil <br>"
 						   + "6.- Pique el botón de Crear cuenta <br>"
 						   + "<html>";
+		
 		JLabel createUserInfoLbl = new JLabel(info);
 		createUserInfoLbl.setForeground(Color.white); //color de letra
 		createUserInfoLbl.setOpaque(false); //tiene fondo o no
@@ -1672,9 +1785,10 @@ public class Login extends JFrame{
 		});
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(40, 0, 0, 0); //relleno en la parte de arriba
+		c.insets = new Insets(30, 0, 0, 0); //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 2;
+		c.ipady = 10;
 		howToCreateUserPnl.add(actionBttnsPnl, c);
 	
 		
@@ -1727,6 +1841,7 @@ public class Login extends JFrame{
 						   + "2.- Coloque la contraseña de la cuenta de forma correcta <br>"
 						   + "3.- Pique el botón de Ingresar <br>"
 						   + "<html>";
+		
 		JLabel accessSystemInfoLbl = new JLabel(info);
 		accessSystemInfoLbl.setForeground(Color.white); //color de letra
 		accessSystemInfoLbl.setOpaque(false); //tiene fondo o no
@@ -1808,9 +1923,10 @@ public class Login extends JFrame{
 		});
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(40, 0, 0, 0); //relleno en la parte de arriba
+		c.insets = new Insets(30, 0, 0, 0); //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 2;
+		c.ipady = 10;
 		howToAccessPnl.add(actionBttnsPnl, c);
 		
 		return howToAccessBckGrndPnl;
@@ -1975,9 +2091,10 @@ public class Login extends JFrame{
 		});
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(40, 0, 0, 0); //relleno en la parte de arriba
+		c.insets = new Insets(30, 0, 0, 0); //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 5;
+		c.ipady = 10;
 		forgotPssWrdPnl.add(actionBttnsPnl, c);
 		
 		
