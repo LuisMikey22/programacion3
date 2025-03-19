@@ -173,7 +173,7 @@ public class InterfazExamen2 extends JFrame{
 		//botón para ver listado de facturas
 		Image image = new ImageIcon("listIcon.png").getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon imageIcon = new ImageIcon(image);
-		JButton listaBoton = new JButton("Ver listado de facturas                             ");
+		JButton listaBoton = new JButton("Ver listado de facturas                               ");
 		listaBoton.setIcon(imageIcon);
 		listaBoton.setBorder(null);
 		listaBoton.setContentAreaFilled(false); //hace invisible la animacion al presionar el botón

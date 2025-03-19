@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,47 +37,55 @@ public class BotonAleatorio extends JFrame{
 	}
 	
 	public JPanel interfaz() {
-		JPanel fondo = new JPanel();
-		fondo.setBackground(Color.pink);
-		fondo.setLocation(0, 0);
-		fondo.setSize(1000, 850);
+		JPanel fondoPanel = new JPanel();
+		fondoPanel.setBackground(Color.pink);
+		fondoPanel.setLocation(0, 0);
+		fondoPanel.setSize(1000, 850);
 		
-		JButton agregar = new JButton("Agregar");
-		agregar.setBackground(Color.orange);
-		agregar.setLocation(400, 500);
-		agregar.setSize(150, 50);
-		fondo.add(agregar);
+		JButton agregarBoton = new JButton("Agregar");
+		agregarBoton.setBackground(Color.orange);
+		agregarBoton.setLocation(400, 500);
+		agregarBoton.setSize(150, 50);
+		fondoPanel.add(agregarBoton);
 		
-		agregar.addActionListener(new ActionListener() {
-
+		agregarBoton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				Random rand = new Random();
+				Random rand = new Random(); //variable Random para generar valores aleatorios
 				
 				JButton nuevoBoton = new JButton("Click Me " + rand.nextInt(250));
 				nuevoBoton.setBackground(new Color(rand.nextInt(250), rand.nextInt(250), rand.nextInt(250)));
+				nuevoBoton.setForeground(new Color(rand.nextInt(250), rand.nextInt(250), rand.nextInt(250)));
 				nuevoBoton.setLocation(rand.nextInt(1000), rand.nextInt(1000));
 				nuevoBoton.setSize(150, 50);
-				fondo.add(nuevoBoton);
+				fondoPanel.add(nuevoBoton);
 			
 				nuevoBoton.addActionListener(new ActionListener() {
-
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						String message = nuevoBoton.getText();
-						JOptionPane.showMessageDialog(null, message, "Nuevo Botón", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+						//JOptionPane.showMessageDialog(null, message, "Nuevo Botón", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+						String valorBoton = nuevoBoton.getText();
+						
+						int borrar = 0;
+						borrar = JOptionPane.showConfirmDialog(null,"¿Desea borrar el botón '" + valorBoton + "'?", "Borrar botón", JOptionPane.YES_NO_OPTION);
+						
+				    	if(borrar==0) { //borrar
+				    		fondoPanel.remove(nuevoBoton);
+				    	}
+				    	
+				    	fondoPanel.repaint();
 					}
 					
 				});
 				
-				fondo.repaint();
+				fondoPanel.repaint();
 			}
 			
 		});
 		
-		return fondo;
+		return fondoPanel;
 	}
 	
 	public static void main(String[] args) {
