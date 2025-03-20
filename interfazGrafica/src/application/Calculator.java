@@ -49,23 +49,12 @@ public class Calculator extends JFrame{
 		setLayout(new BorderLayout());
 		
 		JPanel calculatorPnl = new JPanel(); 
-		//calculatorPnl.setSize(400, 600);
-		//calculatorPnl.setLocation(0, 0);
 		calculatorPnl.setBackground(Color.black);
 		calculatorPnl.setOpaque(true);
 		
-		/*JLabel header = new JLabel("");
-		header.setSize(240, 40);
-		header.setLocation(60, 30);
-		header.setOpaque(true); //tiene fondo o no
-		header.setBorder(BorderFactory.createEtchedBorder(20, Color.decode("#1B313F"), Color.decode("#1B313F")));
-		header.setBackground(Color.white);
-		header.setHorizontalAlignment(JLabel.LEFT);
-		this.add(header, BorderLayout.NORTH);*/
+		
 		
 		JLabel loginLbl = new JLabel("365 + 1");
-		//loginLbl.setSize(240, 120);
-		//loginLbl.setLocation(105, 40);
 		loginLbl.setForeground(Color.decode("#1B313F")); //color de letra
 		loginLbl.setBorder(BorderFactory.createEtchedBorder(20, Color.decode("#1B313F"), Color.decode("#1B313F")));
 		loginLbl.setBackground(Color.white);
@@ -73,13 +62,8 @@ public class Calculator extends JFrame{
 		loginLbl.setHorizontalAlignment(JLabel.CENTER);
 		loginLbl.setFont(tahoma); //fuente, tipo y tamaño
 		this.add(loginLbl, BorderLayout.NORTH);
-		
-		//JPanel matrixPnl = new JPanel(); //crear el panel de botones
-		//matrixPnl.setOpaque(false);
-		//matrixPnl.setSize(330, 450);
-		//matrixPnl.setLocation(60, 130);
+
 		calculatorPnl.setLayout(new GridLayout(5, 4, 10, 10)); 
-		//this.add(matrixPnl, BorderLayout.CENTER);//agregar el panel de la matriz de botones al panel principal
 		
 	    for(i=0; i<arrangementBttn.length; i++) { //renglon       	
 	    	arrangementBttn[i] = new JButton(chars[i]);
