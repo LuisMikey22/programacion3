@@ -69,7 +69,7 @@ public class Login extends JFrame{
 		this.setResizable(true); //redimensionar la ventana
 		//this.setLayout(null); //desactivar los contenedores por defecto
 		
-		ImageIcon vortexIcon = new ImageIcon("vortexIcon.png");
+		ImageIcon vortexIcon = new ImageIcon(getClass().getResource("vortexIcon.png"));
 		this.setIconImage(vortexIcon.getImage());
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
@@ -86,7 +86,7 @@ public class Login extends JFrame{
 		barra.setBorder(null);
 		
 		
-		Image image = new ImageIcon("infoIcon.png").getImage().getScaledInstance(10, 10, Image.SCALE_SMOOTH);
+		Image image = new ImageIcon(getClass().getResource("infoIcon.png")).getImage().getScaledInstance(10, 10, Image.SCALE_SMOOTH);
 		ImageIcon imageIcon = new ImageIcon(image);
 		JMenu menu1 = new JMenu("Cuenta");
 		menu1.setIcon(imageIcon);
@@ -252,7 +252,7 @@ public class Login extends JFrame{
 		loginBckGrndPnl.add(loginPnl, BorderLayout.CENTER);
 		
 		//imagen de fondo
-		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
+		ImageIcon windowBackground = new ImageIcon(getClass().getResource("windowBackground.png"));
 		JLabel backgroundLbl = new JLabel(windowBackground); 
 		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
@@ -262,7 +262,7 @@ public class Login extends JFrame{
 		
 		//elementos del loginPnl
 		//cabecera
-		Image vortexIcon = new ImageIcon("vortexIcon.png").getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+		Image vortexIcon = new ImageIcon(getClass().getResource("vortexIcon.png")).getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
 		ImageIcon imageHdr = new ImageIcon(vortexIcon);
 		JLabel header = new JLabel(imageHdr);
 		header.setOpaque(false);
@@ -297,7 +297,7 @@ public class Login extends JFrame{
 		userEmailLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
 		userElementsPnl.add(userEmailLbl, BorderLayout.NORTH);
 		
-		Image imageUser = new ImageIcon("userIcon.png").getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
+		Image imageUser = new ImageIcon(getClass().getResource("userIcon.png")).getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
 		ImageIcon imageUserIcon = new ImageIcon(imageUser);
 		JLabel userIcon = new JLabel(imageUserIcon);
 		userIcon.setOpaque(false); //tiene fondo o no
@@ -331,7 +331,7 @@ public class Login extends JFrame{
 		passwordLbL.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
 		passwordElementsPnl.add(passwordLbL, BorderLayout.NORTH);
 		
-		Image imageLock = new ImageIcon("lockIcon.png").getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
+		Image imageLock = new ImageIcon(getClass().getResource("lockIcon.png")).getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
 		ImageIcon imageLockIcon = new ImageIcon(imageLock);
 		JLabel lockIcon = new JLabel(imageLockIcon);
 		lockIcon.setOpaque(false); //tiene fondo o no
@@ -354,7 +354,7 @@ public class Login extends JFrame{
 		passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
 		jPssWrdFldPnl.add(passwordFld, BorderLayout.CENTER);
 		
-		Image imageEye = new ImageIcon("eyeClosedIcon.png").getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+		Image imageEye = new ImageIcon(getClass().getResource("eyeClosedIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
 		ImageIcon imageEyeIcon = new ImageIcon(imageEye);
 		JButton seeBttn = new JButton();
 		seeBttn.setIcon(imageEyeIcon);
@@ -374,7 +374,7 @@ public class Login extends JFrame{
 				if(!passwordVisible) {
 					passwordFld.setEchoChar((char)0); //representar los caracteres de la contraseña con letras 'ABCdario'	
 					passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
-					imageEyeBttn = new ImageIcon("eyeSeesIcon.png").getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+					imageEyeBttn = new ImageIcon(getClass().getResource("eyeSeesIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
 					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
 					seeBttn.setIcon(imageEyeBttnIcon);
 					passwordVisible = true;
@@ -382,7 +382,7 @@ public class Login extends JFrame{
 					//ocultar contraseña
 					passwordFld.setEchoChar('*'); //representar los caracteres de la contraseña con asteriscos '*'				
 					passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
-					imageEyeBttn = new ImageIcon("eyeClosedIcon.png").getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+					imageEyeBttn = new ImageIcon(getClass().getResource("eyeClosedIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
 					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
 					seeBttn.setIcon(imageEyeBttnIcon);
 					passwordVisible = false;
@@ -593,7 +593,7 @@ public class Login extends JFrame{
 		signinBckGrndPnl.add(registerPnl, BorderLayout.CENTER);
 	
 		//imagen de fondo
-		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
+		ImageIcon windowBackground = new ImageIcon(getClass().getResource("windowBackground.png"));
 		JLabel backgroundLbl = new JLabel(windowBackground); 
 		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
@@ -772,7 +772,7 @@ public class Login extends JFrame{
 		actionBttnsPnl.setLayout(new GridLayout(1, 2, 20, 10));
 		
 		//botón para regresar al inicio
-		Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 		JButton returnHomeBttn = new JButton("Regresar");
 		returnHomeBttn.setIcon(imageReturnIcon);
@@ -797,14 +797,14 @@ public class Login extends JFrame{
 		//crear efecto Hover cuando el ratón está encima del botón
 		returnHomeBttn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon2.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon2.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.decode("#BFE4FF"));
 		    }
 
 		    public void mouseExited(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.white);
@@ -933,7 +933,7 @@ public class Login extends JFrame{
 		recoverAccntBckGrndPnl.add(recoverAccntPnl, BorderLayout.CENTER);
 		
 		//imagen de fondo
-		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
+		ImageIcon windowBackground = new ImageIcon(getClass().getResource("windowBackground.png"));
 		JLabel backgroundLbl = new JLabel(windowBackground); 
 		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
@@ -999,7 +999,7 @@ public class Login extends JFrame{
 		actionBttnsPnl.setLayout(new GridLayout(1, 2, 20, 10));
 		
 		//botón para regresar al inicio
-		Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 		JButton returnHomeBttn = new JButton("Regresar");
 		returnHomeBttn.setIcon(imageReturnIcon);
@@ -1024,14 +1024,14 @@ public class Login extends JFrame{
 		//crear efecto Hover cuando el ratón está encima del botón
 		returnHomeBttn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon2.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon2.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.decode("#BFE4FF"));
 		    }
 
 		    public void mouseExited(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.white);
@@ -1082,7 +1082,7 @@ public class Login extends JFrame{
 		newUserBckGrndPnl.add(newUserPnl, BorderLayout.CENTER);
 		
 		//imagen de fondo
-		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
+		ImageIcon windowBackground = new ImageIcon(getClass().getResource("windowBackground.png"));
 		JLabel backgroundLbl = new JLabel(windowBackground); 
 		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
@@ -1135,7 +1135,7 @@ public class Login extends JFrame{
 		c.gridy = 3;
 		newUserPnl.add(photoLbl, c);
 		
-		Image userPhoto = new ImageIcon("baldProfilePicture.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		Image userPhoto = new ImageIcon(getClass().getResource("baldProfilePicture.png")).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 		ImageIcon userPhotoIcon = new ImageIcon(userPhoto);
 		JLabel userPhotoImgLbl = new JLabel(userPhotoIcon);
 		userPhotoImgLbl.setHorizontalAlignment(JLabel.CENTER);
@@ -1171,7 +1171,7 @@ public class Login extends JFrame{
 		actionBttnsPnl.setLayout(new GridLayout(1, 2, 20, 10));
 		
 		//botón para regresar al inicio
-		Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 		JButton returnHomeBttn = new JButton("Regresar");
 		returnHomeBttn.setIcon(imageReturnIcon);
@@ -1196,14 +1196,14 @@ public class Login extends JFrame{
 		//crear efecto Hover cuando el ratón está encima del botón
 		returnHomeBttn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon2.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon2.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.decode("#BFE4FF"));
 		    }
 
 		    public void mouseExited(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.white);
@@ -1265,7 +1265,7 @@ public class Login extends JFrame{
 		deleteUserBckGrndPnl.add(deleteUserPnl, BorderLayout.CENTER);
 		
 		//imagen de fondo
-		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
+		ImageIcon windowBackground = new ImageIcon(getClass().getResource("windowBackground.png"));
 		JLabel backgroundLbl = new JLabel(windowBackground); 
 		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
@@ -1296,7 +1296,7 @@ public class Login extends JFrame{
 		userEmailLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
 		userElementsPnl.add(userEmailLbl, BorderLayout.NORTH);
 		
-		Image imageUser = new ImageIcon("userIcon.png").getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
+		Image imageUser = new ImageIcon(getClass().getResource("userIcon.png")).getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
 		ImageIcon imageUserIcon = new ImageIcon(imageUser);
 		JLabel userIcon = new JLabel(imageUserIcon);
 		userIcon.setOpaque(false); //tiene fondo o no
@@ -1330,7 +1330,7 @@ public class Login extends JFrame{
 		passwordLbL.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
 		passwordElementsPnl.add(passwordLbL, BorderLayout.NORTH);
 		
-		Image imageLock = new ImageIcon("lockIcon.png").getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
+		Image imageLock = new ImageIcon(getClass().getResource("lockIcon.png")).getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
 		ImageIcon imageLockIcon = new ImageIcon(imageLock);
 		JLabel lockIcon = new JLabel(imageLockIcon);
 		lockIcon.setOpaque(false); //tiene fondo o no
@@ -1353,7 +1353,7 @@ public class Login extends JFrame{
 		passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
 		jPssWrdFldPnl.add(passwordFld, BorderLayout.CENTER);
 		
-		Image imageEye = new ImageIcon("eyeClosedIcon.png").getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+		Image imageEye = new ImageIcon(getClass().getResource("eyeClosedIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
 		ImageIcon imageEyeIcon = new ImageIcon(imageEye);
 		JButton seeBttn = new JButton();
 		seeBttn.setIcon(imageEyeIcon);
@@ -1373,7 +1373,7 @@ public class Login extends JFrame{
 				if(!passwordVisible) {
 					passwordFld.setEchoChar((char)0); //representar los caracteres de la contraseña con letras 'ABCdario'	
 					passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
-					imageEyeBttn = new ImageIcon("eyeSeesIcon.png").getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+					imageEyeBttn = new ImageIcon(getClass().getResource("eyeSeesIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
 					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
 					seeBttn.setIcon(imageEyeBttnIcon);
 					passwordVisible = true;
@@ -1381,7 +1381,7 @@ public class Login extends JFrame{
 					//ocultar contraseña
 					passwordFld.setEchoChar('*'); //representar los caracteres de la contraseña con asteriscos '*'				
 					passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
-					imageEyeBttn = new ImageIcon("eyeClosedIcon.png").getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+					imageEyeBttn = new ImageIcon(getClass().getResource("eyeClosedIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
 					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
 					seeBttn.setIcon(imageEyeBttnIcon);
 					passwordVisible = false;
@@ -1418,7 +1418,7 @@ public class Login extends JFrame{
 		actionBttnsPnl.setLayout(new GridLayout(1, 2, 20, 10));
 		
 		//botón para regresar al inicio
-		Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 		JButton returnHomeBttn = new JButton("Regresar");
 		returnHomeBttn.setIcon(imageReturnIcon);
@@ -1442,14 +1442,14 @@ public class Login extends JFrame{
 		//crear efecto Hover cuando el ratón está encima del botón
 		returnHomeBttn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon2.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon2.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.decode("#BFE4FF"));
 		    }
 
 		    public void mouseExited(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.white);
@@ -1512,7 +1512,7 @@ public class Login extends JFrame{
 		consultUserBckGrndPnl.add(consultUserPnl, BorderLayout.CENTER);
 		
 		//imagen de fondo
-		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
+		ImageIcon windowBackground = new ImageIcon(getClass().getResource("windowBackground.png"));
 		JLabel backgroundLbl = new JLabel(windowBackground); 
 		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
@@ -1605,7 +1605,7 @@ public class Login extends JFrame{
 		c.ipady = 0;
 		
 		//botón para regresar al inicio
-		Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 		JButton returnHomeBttn = new JButton("Regresar");
 		returnHomeBttn.setIcon(imageReturnIcon);
@@ -1636,14 +1636,14 @@ public class Login extends JFrame{
 		//crear efecto Hover cuando el ratón está encima del botón
 		returnHomeBttn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon2.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon2.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.decode("#BFE4FF"));
 		    }
 
 		    public void mouseExited(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.white);
@@ -1676,7 +1676,7 @@ public class Login extends JFrame{
 		howToCreateUserBckGrndPnl.add(howToCreateUserPnl, BorderLayout.CENTER);
 		
 		//imagen de fondo
-		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
+		ImageIcon windowBackground = new ImageIcon(getClass().getResource("windowBackground.png"));
 		JLabel backgroundLbl = new JLabel(windowBackground); 
 		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
@@ -1722,7 +1722,7 @@ public class Login extends JFrame{
 		actionBttnsPnl.setLayout(new GridLayout(1, 3, 20, 10));
 		
 		//botón para regresar al inicio
-		Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 		JButton returnHomeBttn = new JButton("Regresar");
 		returnHomeBttn.setIcon(imageReturnIcon);
@@ -1747,14 +1747,14 @@ public class Login extends JFrame{
 		//crear efecto Hover cuando el ratón está encima del botón
 		returnHomeBttn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon2.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon2.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.decode("#BFE4FF"));
 		    }
 
 		    public void mouseExited(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.white);
@@ -1817,7 +1817,7 @@ public class Login extends JFrame{
 		howToAccessBckGrndPnl.add(howToAccessPnl, BorderLayout.CENTER);
 		
 		//imagen de fondo
-		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
+		ImageIcon windowBackground = new ImageIcon(getClass().getResource("windowBackground.png"));
 		JLabel backgroundLbl = new JLabel(windowBackground); 
 		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
@@ -1860,7 +1860,7 @@ public class Login extends JFrame{
 		actionBttnsPnl.setLayout(new GridLayout(1, 3, 20, 10));
 		
 		//botón para regresar al inicio
-		Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 		JButton returnHomeBttn = new JButton("Regresar");
 		returnHomeBttn.setIcon(imageReturnIcon);
@@ -1885,14 +1885,14 @@ public class Login extends JFrame{
 		//crear efecto Hover cuando el ratón está encima del botón
 		returnHomeBttn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon2.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon2.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.decode("#BFE4FF"));
 		    }
 
 		    public void mouseExited(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.white);
@@ -1954,7 +1954,7 @@ public class Login extends JFrame{
 		forgotPssWrdBckGrndPnl.add(forgotPssWrdPnl, BorderLayout.CENTER);
 		
 		//imagen de fondo
-		ImageIcon windowBackground = new ImageIcon("windowBackground.png");
+		ImageIcon windowBackground = new ImageIcon(getClass().getResource("windowBackground.png"));
 		JLabel backgroundLbl = new JLabel(windowBackground); 
 		backgroundLbl.setSize(1000, 850);
 		backgroundLbl.setLocation(0, 0);
@@ -2028,7 +2028,7 @@ public class Login extends JFrame{
 		actionBttnsPnl.setLayout(new GridLayout(1, 3, 20, 10));
 		
 		//botón para regresar al inicio
-		Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 		JButton returnHomeBttn = new JButton("Regresar");
 		returnHomeBttn.setIcon(imageReturnIcon);
@@ -2053,14 +2053,14 @@ public class Login extends JFrame{
 		//crear efecto Hover cuando el ratón está encima del botón
 		returnHomeBttn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon2.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon2.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.decode("#BFE4FF"));
 		    }
 
 		    public void mouseExited(MouseEvent evt) {
-		    	Image imageReturn = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		    	Image imageReturn = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 				ImageIcon imageReturnIcon = new ImageIcon(imageReturn);
 				returnHomeBttn.setIcon(imageReturnIcon);
 		    	returnHomeBttn.setForeground(Color.white);
