@@ -26,7 +26,7 @@ import javax.swing.JTextArea;
 import javax.swing.JCheckBox;
 import javax.swing.border.LineBorder;
 
-public class primeraAplicacionSwing {
+public class PrimeraAplicacionSwing {
 
 	private JFrame frame;
 	
@@ -48,7 +48,7 @@ public class primeraAplicacionSwing {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					primeraAplicacionSwing window = new primeraAplicacionSwing();
+					PrimeraAplicacionSwing window = new PrimeraAplicacionSwing();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,7 +60,7 @@ public class primeraAplicacionSwing {
 	/**
 	 * Create the application.
 	 */
-	public primeraAplicacionSwing() {
+	public PrimeraAplicacionSwing() {
 		initialize();
 	}
 
@@ -69,7 +69,7 @@ public class primeraAplicacionSwing {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		ImageIcon vortexIcon = new ImageIcon("vortexIcon.png");
+		ImageIcon vortexIcon = new ImageIcon(getClass().getResource("vortexIcon.png"));
 		frame.setIconImage(vortexIcon.getImage());
 		frame.setBounds(100, 100, 800, 650);
 		frame.setMinimumSize(new Dimension(800, 650));
@@ -216,7 +216,7 @@ public class primeraAplicacionSwing {
 		userProfilePnl.setLayout(new BorderLayout(0, 0));
 		generalPnl.add(userProfilePnl, BorderLayout.CENTER);
 				
-		Image imageUser = new ImageIcon("baldProfilePicture.png").getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+		Image imageUser = new ImageIcon(getClass().getResource("baldProfilePicture.png")).getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
 		ImageIcon imageUserIcon = new ImageIcon(imageUser);
 		JLabel userImageLbl = new JLabel(imageUserIcon);
 		userProfilePnl.add(userImageLbl, BorderLayout.NORTH);
@@ -247,7 +247,7 @@ public class primeraAplicacionSwing {
 		generalPnl.add(buttonOptionsPnl, BorderLayout.SOUTH);
 		
 		JButton newUserBttn = new JButton("Nuevo");
-		Image newImage = new ImageIcon("addIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH); //redimensionar la imagen
+		Image newImage = new ImageIcon(getClass().getResource("addIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH); //redimensionar la imagen
 		ImageIcon newImageIcon = new ImageIcon(newImage);
 		newUserBttn.setIcon(newImageIcon);
 		newUserBttn.setBorder(new LineBorder(new Color(255, 255, 255), 20)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
@@ -259,7 +259,7 @@ public class primeraAplicacionSwing {
 		buttonOptionsPnl.add(newUserBttn);
 		
 		JButton saveInfBttn = new JButton("Guardar");
-		Image saveImage = new ImageIcon("saveIcon.png").getImage().getScaledInstance(25, 20, Image.SCALE_SMOOTH); //redimensionar la imagen
+		Image saveImage = new ImageIcon(getClass().getResource("saveIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH); //redimensionar la imagen
 		ImageIcon saveImageIcon = new ImageIcon(saveImage);
 		saveInfBttn.setIcon(saveImageIcon);
 		saveInfBttn.setBorder(new LineBorder(new Color(255, 255, 255), 20)); //borde del color del panel padre para crear ilusion de un elemento más pequeño
@@ -271,7 +271,7 @@ public class primeraAplicacionSwing {
 		buttonOptionsPnl.add(saveInfBttn);
 		
 		JButton closeBttn = new JButton("Salir");
-		Image returnImage = new ImageIcon("returnHomeIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH); //redimensionar la imagen
+		Image returnImage = new ImageIcon(getClass().getResource("returnHomeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH); //redimensionar la imagen
 		ImageIcon returnImageIcon = new ImageIcon(returnImage);
 		closeBttn.setIcon(returnImageIcon);
 		closeBttn.setBorder(new LineBorder(new Color(255, 255, 255), 20)); //borde del color del panel padre para crear ilusion de un elemento más pequeño

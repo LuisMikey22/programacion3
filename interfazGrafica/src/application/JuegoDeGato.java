@@ -2,18 +2,15 @@ package application;
 
 import java.awt.EventQueue;
 import java.awt.Font;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -70,8 +67,14 @@ public class JuegoDeGato {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		
+		ImageIcon estambreIcon = new ImageIcon(getClass().getResource("ballOfYarnIcon.png")); //ícono de la ventana
+		frame.setIconImage(estambreIcon.getImage());
+		
 		frame.setTitle("Juego del gato");
 		frame.setBounds(500, 200, 600, 650);
+		frame.setResizable(false);
+ 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panelMatriz = new JPanel();
@@ -82,7 +85,8 @@ public class JuegoDeGato {
 		JButton botonReiniciar = new JButton("REINICIAR");
 		botonReiniciar.setBackground(Color.decode("#EBA834"));
 		botonReiniciar.setForeground(Color.black);
-		botonReiniciar.setFont(new Font("Kefe", Font.BOLD, 15)); //fuente, tipo y tamaño
+		botonReiniciar.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		botonReiniciar.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
 		frame.getContentPane().add(botonReiniciar, BorderLayout.SOUTH);
 		
 		JPanel panelEtiquetas = new JPanel();
@@ -95,10 +99,10 @@ public class JuegoDeGato {
 		puntosXLbl.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosXLbl);
 		
-		puntosXLblNum = new JLabel("");
+		puntosXLblNum = new JLabel("0");
 		puntosXLblNum.setForeground(Color.black);
 		puntosXLblNum.setHorizontalAlignment(SwingConstants.LEFT);
-		puntosXLblNum.setFont(new Font("Kefe", Font.BOLD, 15)); //fuente, tipo y tamaño
+		puntosXLblNum.setFont(new Font("Kefe", Font.BOLD, 18)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosXLblNum);
 		
 		puntosOLbl = new JLabel("Puntos de O: ");
@@ -106,10 +110,10 @@ public class JuegoDeGato {
 		puntosOLbl.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosOLbl);
 		
-		puntosOLblNum = new JLabel("");
+		puntosOLblNum = new JLabel("0");
 		puntosOLblNum.setForeground(Color.black);
 		puntosOLblNum.setHorizontalAlignment(SwingConstants.LEFT);
-		puntosOLblNum.setFont(new Font("Kefe", Font.BOLD, 15)); //fuente, tipo y tamaño
+		puntosOLblNum.setFont(new Font("Kefe", Font.BOLD, 18)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosOLblNum);
 		
 		

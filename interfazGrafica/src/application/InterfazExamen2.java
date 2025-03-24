@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,7 +38,7 @@ public class InterfazExamen2 extends JFrame{
 		this.setResizable(true); //redimensionar la ventana
 		//this.setLayout(null); //desactivar los contenedores por defecto
 		
-		ImageIcon vortexIcon = new ImageIcon("vortexIcon.png");
+		ImageIcon vortexIcon = new ImageIcon(getClass().getResource("vortexIcon.png"));
 		this.setIconImage(vortexIcon.getImage());
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
