@@ -11,6 +11,9 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
@@ -27,9 +30,9 @@ public class PuzzleNumerico {
 
 	private JButton matrizBotones[][];
 	int x, y;
+	int numPos;
 	
-	String numeros[] = {"1", "2",  "3",  "4",  "5",  "6",  "7", 
-						"8", "9", "10", "11", "12", "13", "14", "15"};
+	Integer[] numeros = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 	
 	Random rand = new Random();
 	
@@ -154,32 +157,54 @@ public class PuzzleNumerico {
 		temporizadorPnl.add(temporizadorLblNum);
 		
 		
-		//botón reiniciar
-		JButton reiniciarBtn = new JButton("Reiniciar");
-		reiniciarBtn.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.decode("#3F2B18")));
-		reiniciarBtn.setBackground(Color.decode("#3F2B18"));
-		reiniciarBtn.setForeground(Color.decode("#FFD09E"));
-		reiniciarBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
-		reiniciarBtn.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
+		//botón reiniciar temporizador
+		JButton reiniciarTempBtn = new JButton("Reiniciar Temporizador");
+		reiniciarTempBtn.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.decode("#3F2B18")));
+		reiniciarTempBtn.setBackground(Color.decode("#3F2B18"));
+		reiniciarTempBtn.setForeground(Color.decode("#FFD09E"));
+		reiniciarTempBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		reiniciarTempBtn.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
+		reiniciarTempBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(10, 0, 0, 20);  //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 2;
 		c.ipady = 20;
-		barraLateral.add(reiniciarBtn, c);
+		barraLateral.add(reiniciarTempBtn, c);
+		
+		//botón reiniciar tablero
+		JButton reiniciarTablaBtn = new JButton("Reiniciar Tablero");
+		reiniciarTablaBtn.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.decode("#3F2B18")));
+		reiniciarTablaBtn.setBackground(Color.decode("#3F2B18"));
+		reiniciarTablaBtn.setForeground(Color.decode("#FFD09E"));
+		reiniciarTablaBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		reiniciarTablaBtn.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
+		reiniciarTablaBtn.setHorizontalAlignment(SwingConstants.CENTER);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(10, 0, 0, 20);  //relleno en la parte de arriba
+		c.gridx = 0;
+		c.gridy = 3;
+		c.ipady = 20;
+		barraLateral.add(reiniciarTablaBtn, c);
 		
 		
 		//crear la matriz de botones
 		matrizBotones = new JButton[4][4]; 
  		
+		
+        List<Integer> l = Arrays.asList(numeros); //convertir el Arreglo a Lista
+        Collections.shuffle(l); //revolver la Lista
+        numeros = l.toArray(new Integer[0]); //convertir la Lista a Arreglo
+
+		
  		//crear botones
-		int numPos = 0;
+		numPos = 0;
  		for(y=0; y<4; y++) { //renglon       	
  			for(x=0; x<4; x++) { //columna
  				if(y==0 && x==0) { //dejar el primer espacio vacío
  					matrizBotones[y][x] = new JButton(" ");
  				}else {
- 					matrizBotones[y][x] = new JButton(numeros[numPos-1]);
+ 					matrizBotones[y][x] = new JButton(""+numeros[numPos-1]);
  				}
  				numPos++;
  				System.out.println("numPos: " + numPos);
@@ -194,6 +219,32 @@ public class PuzzleNumerico {
  			}
  		}
  		
+ 		
+ 		//agregar accion al botón de reiniciar tablero
+ 		reiniciarTablaBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				numPos = 0;
+				
+				List<Integer> l = Arrays.asList(numeros); //convertir el Arreglo a Lista
+				Collections.shuffle(l); //revolver la Lista
+				numeros = l.toArray(new Integer[0]); //convertir la Lista a Arreglo
+				
+				 for(y=0; y<4; y++) { //renglon       	
+			 		for(x=0; x<4; x++) { //columna
+			 			if(y==0 && x==0) { //dejar el primer espacio vacío
+		 					matrizBotones[y][x].setText(" ");
+		 				}else {
+				 			matrizBotones[y][x].setText(""+numeros[numPos-1]);
+		 				}
+			 			numPos++;
+			 		}
+			 	}
+			}
+			
+		});
+ 		
 	}
 
 	
@@ -202,7 +253,32 @@ public class PuzzleNumerico {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+
+				String aux = null;
+				if(x!=0 && matrizBotones[y][x-1].getText().equals(" ")){
+					aux = boton.getText();
+					boton.setText(" ");
+					matrizBotones[y][x-1].setText(aux);
+				}
 				
+				if(y!=0 && matrizBotones[y-1][x].getText().equals(" ")){
+					aux = boton.getText();
+					boton.setText(" ");
+					matrizBotones[y-1][x].setText(aux);
+							
+				}
+				
+				if(x!=3 && matrizBotones[y][x+1].getText().equals(" ")){
+					aux = boton.getText();
+					boton.setText(" ");
+					matrizBotones[y][x+1].setText(aux);
+				}
+
+				if(y!=3 && matrizBotones[y+1][x].getText().equals(" ")){
+					aux = boton.getText();
+					boton.setText(" ");
+					matrizBotones[y+1][x].setText(aux);		
+				}
 			}
         	
         });
