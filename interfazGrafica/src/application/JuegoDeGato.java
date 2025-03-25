@@ -2,16 +2,17 @@ package application;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ImageIcon;
+
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -33,11 +34,6 @@ public class JuegoDeGato {
 	
 	JButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9;
 	JLabel puntosXLbl, puntosXLblNum, puntosOLbl, puntosOLblNum;
-	
-	Image imageNeedle = new ImageIcon(getClass().getResource("knittingNeedlesIcon.png")).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-	ImageIcon imageNeedleIcon = new ImageIcon(imageNeedle);
-	Image imageYarn = new ImageIcon(getClass().getResource("ballOfYarnIcon.png")).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-	ImageIcon imageYarnIcon = new ImageIcon(imageYarn);
 
 	/**
 	 * Launch the application.
@@ -67,14 +63,8 @@ public class JuegoDeGato {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		
-		ImageIcon estambreIcon = new ImageIcon(getClass().getResource("ballOfYarnIcon.png")); //ícono de la ventana
-		frame.setIconImage(estambreIcon.getImage());
-		
 		frame.setTitle("Juego del gato");
-		frame.setBounds(500, 200, 600, 650);
-		frame.setResizable(false);
- 		frame.setLocationRelativeTo(null);
+		frame.setBounds(500, 200, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panelMatriz = new JPanel();
@@ -85,8 +75,7 @@ public class JuegoDeGato {
 		JButton botonReiniciar = new JButton("REINICIAR");
 		botonReiniciar.setBackground(Color.decode("#EBA834"));
 		botonReiniciar.setForeground(Color.black);
-		botonReiniciar.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
-		botonReiniciar.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
+		botonReiniciar.setFont(new Font("Kefe", Font.BOLD, 15)); //fuente, tipo y tamaño
 		frame.getContentPane().add(botonReiniciar, BorderLayout.SOUTH);
 		
 		JPanel panelEtiquetas = new JPanel();
@@ -99,10 +88,10 @@ public class JuegoDeGato {
 		puntosXLbl.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosXLbl);
 		
-		puntosXLblNum = new JLabel("0");
+		puntosXLblNum = new JLabel("");
 		puntosXLblNum.setForeground(Color.black);
 		puntosXLblNum.setHorizontalAlignment(SwingConstants.LEFT);
-		puntosXLblNum.setFont(new Font("Kefe", Font.BOLD, 18)); //fuente, tipo y tamaño
+		puntosXLblNum.setFont(new Font("Kefe", Font.BOLD, 15)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosXLblNum);
 		
 		puntosOLbl = new JLabel("Puntos de O: ");
@@ -110,18 +99,17 @@ public class JuegoDeGato {
 		puntosOLbl.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosOLbl);
 		
-		puntosOLblNum = new JLabel("0");
+		puntosOLblNum = new JLabel("");
 		puntosOLblNum.setForeground(Color.black);
 		puntosOLblNum.setHorizontalAlignment(SwingConstants.LEFT);
-		puntosOLblNum.setFont(new Font("Kefe", Font.BOLD, 18)); //fuente, tipo y tamaño
+		puntosOLblNum.setFont(new Font("Kefe", Font.BOLD, 15)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosOLblNum);
 		
 		
 		btn1 = new JButton();
  		btn1.setBackground(new Color(255, 255, 255));
  		btn1.setForeground(new Color(255, 255, 255));
- 		btn1.setHorizontalAlignment(SwingConstants.CENTER);
- 		btn1.setFont(new Font("Kefe", Font.BOLD, 1)); //fuente, tipo y tamaño
+ 		btn1.setFont(new Font("Kefe", Font.BOLD, 80)); //fuente, tipo y tamaño
  		btn1.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
  		panelMatriz.add(btn1);
  		
@@ -130,16 +118,20 @@ public class JuegoDeGato {
  			@Override
  			public void actionPerformed(ActionEvent e) {
  				// TODO Auto-generated method stub
+ 				contadorFichas++; //fichas ocupadas
  				if(btn1.getText().equals("")) { //solo si el botón no tiene ficha asignada
- 					contadorFichas++; //fichas ocupadas
  					if(turno) {
  	 					turno = false;
  	 					jugador = "X";
- 	 					btn1.setIcon(imageNeedleIcon);
+ 	 					btn1.setBackground(Color.red);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn1.setBackground(Color.decode("#FC033D"));
  	 				}else {
  	 					turno = true;
  	 					jugador = "O";
- 	 					btn1.setIcon(imageYarnIcon);
+ 	 					btn1.setBackground(Color.blue);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn1.setBackground(Color.decode("#035AFC"));
  	 				}
  					System.out.println("fichas ocupadas: " + contadorFichas);
  	 				btn1.setText(jugador);
@@ -153,8 +145,7 @@ public class JuegoDeGato {
  		btn2 = new JButton();
  		btn2.setBackground(new Color(255, 255, 255));
  		btn2.setForeground(new Color(255, 255, 255));
- 		btn2.setHorizontalAlignment(SwingConstants.CENTER);
- 		btn2.setFont(new Font("Kefe", Font.BOLD, 1)); //fuente, tipo y tamaño
+ 		btn2.setFont(new Font("Kefe", Font.BOLD, 80)); //fuente, tipo y tamaño
  		btn2.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
  		panelMatriz.add(btn2);
  		
@@ -163,16 +154,20 @@ public class JuegoDeGato {
  			@Override
  			public void actionPerformed(ActionEvent e) {
  				// TODO Auto-generated method stub	
+ 				contadorFichas++; //fichas ocupadas
  				if(btn2.getText().equals("")) { //solo si el botón no tiene ficha asignada
- 					contadorFichas++; //fichas ocupadas
  					if(turno) {
  	 					turno = false;
  	 					jugador = "X";
- 	 					btn2.setIcon(imageNeedleIcon);
+ 	 					btn2.setBackground(Color.red);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn2.setBackground(Color.decode("#FC033D"));
  	 				}else {
  	 					turno = true;
  	 					jugador = "O";
- 	 					btn2.setIcon(imageYarnIcon);
+ 	 					btn2.setBackground(Color.blue);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn2.setBackground(Color.decode("#035AFC"));
  	 				}
  					System.out.println("fichas ocupadas: " + contadorFichas);
  	 				btn2.setText(jugador);
@@ -186,8 +181,7 @@ public class JuegoDeGato {
  		btn3 = new JButton();
  		btn3.setBackground(new Color(255, 255, 255));
  		btn3.setForeground(new Color(255, 255, 255));
- 		btn3.setHorizontalAlignment(SwingConstants.CENTER);
- 		btn3.setFont(new Font("Kefe", Font.BOLD, 1)); //fuente, tipo y tamaño
+ 		btn3.setFont(new Font("Kefe", Font.BOLD, 80)); //fuente, tipo y tamaño
  		btn3.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
  		panelMatriz.add(btn3);
  		
@@ -196,16 +190,20 @@ public class JuegoDeGato {
  			@Override
  			public void actionPerformed(ActionEvent e) {
  				// TODO Auto-generated method stub
+ 				contadorFichas++; //fichas ocupadas
  				if(btn3.getText().equals("")) { //solo si el botón no tiene ficha asignada
- 					contadorFichas++; //fichas ocupadas
  					if(turno) {
  	 					turno = false;
  	 					jugador = "X";
- 	 					btn3.setIcon(imageNeedleIcon);
+ 	 					btn3.setBackground(Color.red);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn3.setBackground(Color.decode("#FC033D"));
  	 				}else {
  	 					turno = true;
  	 					jugador = "O";
- 	 					btn3.setIcon(imageYarnIcon);
+ 	 					btn3.setBackground(Color.blue);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn3.setBackground(Color.decode("#035AFC"));
  	 				}
  					System.out.println("fichas ocupadas: " + contadorFichas);
  	 				btn3.setText(jugador);
@@ -219,8 +217,7 @@ public class JuegoDeGato {
  		btn4 = new JButton();
  		btn4.setBackground(new Color(255, 255, 255));
  		btn4.setForeground(new Color(255, 255, 255));
- 		btn4.setHorizontalAlignment(SwingConstants.CENTER);
- 		btn4.setFont(new Font("Kefe", Font.BOLD, 1)); //fuente, tipo y tamaño
+ 		btn4.setFont(new Font("Kefe", Font.BOLD, 80)); //fuente, tipo y tamaño
  		btn4.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
  		panelMatriz.add(btn4);
  		
@@ -229,16 +226,20 @@ public class JuegoDeGato {
  			@Override
  			public void actionPerformed(ActionEvent e) {
  				// TODO Auto-generated method stub
+ 				contadorFichas++; //fichas ocupadas
  				if(btn4.getText().equals("")) { //solo si el botón no tiene ficha asignada
- 					contadorFichas++; //fichas ocupadas
  					if(turno) {
  	 					turno = false;
  	 					jugador = "X";
- 	 					btn4.setIcon(imageNeedleIcon);
+ 	 					btn4.setBackground(Color.red);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn4.setBackground(Color.decode("#FC033D"));
  	 				}else {
  	 					turno = true;
  	 					jugador = "O";
- 	 					btn4.setIcon(imageYarnIcon);
+ 	 					btn4.setBackground(Color.blue);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn4.setBackground(Color.decode("#035AFC"));
  	 				}
  					System.out.println("fichas ocupadas: " + contadorFichas);
  	 				btn4.setText(jugador);
@@ -252,8 +253,7 @@ public class JuegoDeGato {
  		btn5 = new JButton();
  		btn5.setBackground(new Color(255, 255, 255));
  		btn5.setForeground(new Color(255, 255, 255));
- 		btn5.setHorizontalAlignment(SwingConstants.CENTER);
- 		btn5.setFont(new Font("Kefe", Font.BOLD, 1)); //fuente, tipo y tamaño
+ 		btn5.setFont(new Font("Kefe", Font.BOLD, 80)); //fuente, tipo y tamaño
  		btn5.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
  		panelMatriz.add(btn5);
  		
@@ -262,16 +262,20 @@ public class JuegoDeGato {
  			@Override
  			public void actionPerformed(ActionEvent e) {
  				// TODO Auto-generated method stub
+ 				contadorFichas++; //fichas ocupadas
  				if(btn5.getText().equals("")) { //solo si el botón no tiene ficha asignada
- 					contadorFichas++; //fichas ocupadas
  					if(turno) {
  	 					turno = false;
  	 					jugador = "X";
- 	 					btn5.setIcon(imageNeedleIcon);
+ 	 					btn5.setBackground(Color.red);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn5.setBackground(Color.decode("#FC033D"));
  	 				}else {
  	 					turno = true;
  	 					jugador = "O";
- 	 					btn5.setIcon(imageYarnIcon);
+ 	 					btn5.setBackground(Color.blue);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn5.setBackground(Color.decode("#035AFC"));
  	 				}
  					System.out.println("fichas ocupadas: " + contadorFichas);
  	 				btn5.setText(jugador);
@@ -285,8 +289,7 @@ public class JuegoDeGato {
  		btn6 = new JButton();
  		btn6.setBackground(new Color(255, 255, 255));
  		btn6.setForeground(new Color(255, 255, 255));
- 		btn6.setHorizontalAlignment(SwingConstants.CENTER);
- 		btn6.setFont(new Font("Kefe", Font.BOLD, 1)); //fuente, tipo y tamaño
+ 		btn6.setFont(new Font("Kefe", Font.BOLD, 80)); //fuente, tipo y tamaño
  		btn6.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
  		panelMatriz.add(btn6);
  		
@@ -295,16 +298,20 @@ public class JuegoDeGato {
  			@Override
  			public void actionPerformed(ActionEvent e) {
  				// TODO Auto-generated method stub
+ 				contadorFichas++; //fichas ocupadas
  				if(btn6.getText().equals("")) { //solo si el botón no tiene ficha asignada
- 					contadorFichas++; //fichas ocupadas
  					if(turno) {
  	 					turno = false;
  	 					jugador = "X";
- 	 					btn6.setIcon(imageNeedleIcon);
+ 	 					btn6.setBackground(Color.red);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn6.setBackground(Color.decode("#FC033D"));
  	 				}else {
  	 					turno = true;
  	 					jugador = "O";
- 	 					btn6.setIcon(imageYarnIcon);
+ 	 					btn6.setBackground(Color.blue);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn6.setBackground(Color.decode("#035AFC"));
  	 				}
  					System.out.println("fichas ocupadas: " + contadorFichas);
  	 				btn6.setText(jugador);
@@ -318,8 +325,7 @@ public class JuegoDeGato {
  		btn7 = new JButton();
  		btn7.setBackground(new Color(255, 255, 255));
  		btn7.setForeground(new Color(255, 255, 255));
- 		btn7.setHorizontalAlignment(SwingConstants.CENTER);
- 		btn7.setFont(new Font("Kefe", Font.BOLD, 1)); //fuente, tipo y tamaño
+ 		btn7.setFont(new Font("Kefe", Font.BOLD, 80)); //fuente, tipo y tamaño
  		btn7.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
  		panelMatriz.add(btn7);
  		
@@ -328,16 +334,20 @@ public class JuegoDeGato {
  			@Override
  			public void actionPerformed(ActionEvent e) {
  				// TODO Auto-generated method stub
+ 				contadorFichas++; //fichas ocupadas
  				if(btn7.getText().equals("")) { //solo si el botón no tiene ficha asignada
- 					contadorFichas++; //fichas ocupadas
  					if(turno) {
  	 					turno = false;
  	 					jugador = "X";
- 	 					btn7.setIcon(imageNeedleIcon);
+ 	 					btn7.setBackground(Color.red);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn7.setBackground(Color.decode("#FC033D"));
  	 				}else {
  	 					turno = true;
  	 					jugador = "O";
- 	 					btn7.setIcon(imageYarnIcon);
+ 	 					btn7.setBackground(Color.blue);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn7.setBackground(Color.decode("#035AFC"));
  	 				}
  					System.out.println("fichas ocupadas: " + contadorFichas);
  	 				btn7.setText(jugador);
@@ -351,8 +361,7 @@ public class JuegoDeGato {
  		btn8 = new JButton();
  		btn8.setBackground(new Color(255, 255, 255));
  		btn8.setForeground(new Color(255, 255, 255));
- 		btn8.setHorizontalAlignment(SwingConstants.CENTER);
- 		btn8.setFont(new Font("Kefe", Font.BOLD, 1)); //fuente, tipo y tamaño
+ 		btn8.setFont(new Font("Kefe", Font.BOLD, 80)); //fuente, tipo y tamaño
  		btn8.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
  		panelMatriz.add(btn8);
  		
@@ -361,16 +370,20 @@ public class JuegoDeGato {
  			@Override
  			public void actionPerformed(ActionEvent e) {
  				// TODO Auto-generated method stub
+ 				contadorFichas++; //fichas ocupadas
  				if(btn8.getText().equals("")) { //solo si el botón no tiene ficha asignada
- 					contadorFichas++; //fichas ocupadas
  					if(turno) {
  	 					turno = false;
  	 					jugador = "X";
- 	 					btn8.setIcon(imageNeedleIcon);
+ 	 					btn8.setBackground(Color.red);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn8.setBackground(Color.decode("#FC033D"));
  	 				}else {
  	 					turno = true;
  	 					jugador = "O";
- 	 					btn8.setIcon(imageYarnIcon);
+ 	 					btn8.setBackground(Color.blue);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn8.setBackground(Color.decode("#035AFC"));
  	 				}
  					System.out.println("fichas ocupadas: " + contadorFichas);
  	 				btn8.setText(jugador);
@@ -384,8 +397,7 @@ public class JuegoDeGato {
  		btn9 = new JButton();
  		btn9.setBackground(new Color(255, 255, 255));
  		btn9.setForeground(new Color(255, 255, 255));
- 		btn9.setHorizontalAlignment(SwingConstants.CENTER);
- 		btn9.setFont(new Font("Kefe", Font.BOLD, 1)); //fuente, tipo y tamaño
+ 		btn9.setFont(new Font("Kefe", Font.BOLD, 80)); //fuente, tipo y tamaño
  		btn9.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
  		panelMatriz.add(btn9);
  		
@@ -394,16 +406,21 @@ public class JuegoDeGato {
  			@Override
  			public void actionPerformed(ActionEvent e) {
  				// TODO Auto-generated method stub
+ 				contadorFichas++; //fichas ocupadas
  				if(btn9.getText().equals("")) { //solo si el botón no tiene ficha asignada
- 					contadorFichas++; //fichas ocupadas
+ 					
  					if(turno) {
  	 					turno = false;
  	 					jugador = "X";
- 	 					btn9.setIcon(imageNeedleIcon);
+ 	 					btn9.setBackground(Color.red);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn9.setBackground(Color.decode("#FC033D"));
  	 				}else {
  	 					turno = true;
  	 					jugador = "O";
- 	 					btn9.setIcon(imageYarnIcon);
+ 	 					btn9.setBackground(Color.blue);
+ 	 					System.out.println("x: " + x + ", y: " + y);
+ 	 					btn9.setBackground(Color.decode("#035AFC"));
  	 				}
  					System.out.println("fichas ocupadas: " + contadorFichas);
  	 				btn9.setText(jugador);
@@ -419,23 +436,19 @@ public class JuegoDeGato {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if(ganador || contadorFichas==9) {
-					//quitar las imágenes de los botones
-					btn1.setIcon(null);btn2.setIcon(null);btn3.setIcon(null);
-		 			btn4.setIcon(null);btn5.setIcon(null);btn6.setIcon(null);
-		 			btn7.setIcon(null);btn8.setIcon(null);btn9.setIcon(null);
-		 			
-		 			//quitar las imágenes de los botones
-		 			btn1.setText("");btn2.setText("");btn3.setText("");btn4.setText("");
-		 			btn5.setText("");btn6.setText("");btn7.setText("");btn8.setText("");
-		 			btn9.setText("");
-		 			
-		 			//deactivar los botones
 					btn1.setEnabled(true);btn2.setEnabled(true);btn3.setEnabled(true);
 		 			btn4.setEnabled(true);btn5.setEnabled(true);btn6.setEnabled(true);
 		 			btn7.setEnabled(true);btn8.setEnabled(true);btn9.setEnabled(true);
 		 			
-		 			ganador = false;
-		 			contadorFichas = 0;
+		 			btn1.setText("");btn2.setText("");btn3.setText("");btn4.setText("");
+		 			btn5.setText("");btn6.setText("");btn7.setText("");btn8.setText("");
+		 			btn9.setText("");
+		 			
+		 			btn1.setBackground(Color.white);btn2.setBackground(Color.white);
+		 			btn3.setBackground(Color.white);btn4.setBackground(Color.white);
+		 			btn5.setBackground(Color.white);btn6.setBackground(Color.white);
+		 			btn7.setBackground(Color.white);btn8.setBackground(Color.white);
+		 			btn9.setBackground(Color.white);
 				}
 			}
  		});
@@ -577,57 +590,43 @@ public class JuegoDeGato {
  		}
  		
  		
- 		//if para solo contar una línea en el caso de que una línea diagonal y otra línea se cruzen creando: _\ o bien /_
- 		if(!ganador) {
- 			//líneas diagonales
- 	 		//línea hacia la derecha
- 	 		if(!btn1.getText().equals("") && btn1.getText().equals(btn5.getText()) &
- 	 		   !btn5.getText().equals("") && btn5.getText().equals(btn9.getText())){
- 	 			if(jugador.equals("X")) {
- 	 				puntosX++;
- 	 				puntosXLblNum.setText(""+puntosX);
- 	 				mensaje = "El Jugador X ganó. :D"; 
- 	 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
- 	 			}else{
- 	 				puntosO++;
- 	 				puntosOLblNum.setText(""+puntosO);
- 	 				mensaje = "El Jugador O ganó. :D"; 
- 	 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
- 	 			}
- 	 			ganador = true;
- 	 		}
- 	 		
- 	 		//línea hacia la izquierda
- 	 		if(!btn3.getText().equals("") && btn3.getText().equals(btn5.getText()) &
- 	 		   !btn5.getText().equals("") && btn5.getText().equals(btn7.getText())){
- 	 			if(jugador.equals("X")) {
- 	 				puntosX++;
- 	 				puntosXLblNum.setText(""+puntosX);
- 	 				mensaje = "El Jugador X ganó. :D"; 
- 	 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
- 	 			}else{
- 	 				puntosO++;
- 	 				puntosOLblNum.setText(""+puntosO);
- 	 				mensaje = "El Jugador O ganó. :D"; 
- 	 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
- 	 			}
- 	 			ganador = true;
- 	 		}
+ 		//líneas diagonales
+ 		//línea hacia la derecha
+ 		if(!btn1.getText().equals("") && btn1.getText().equals(btn5.getText()) &
+ 		   !btn5.getText().equals("") && btn5.getText().equals(btn9.getText())){
+ 			if(jugador.equals("X")) {
+ 				puntosX++;
+ 				puntosXLblNum.setText(""+puntosX);
+ 				mensaje = "El Jugador X ganó. :D"; 
+ 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+ 			}else{
+ 				puntosO++;
+ 				puntosOLblNum.setText(""+puntosO);
+ 				mensaje = "El Jugador O ganó. :D"; 
+ 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+ 			}
+ 			ganador = true;
  		}
  		
- 		
- 		//si existe ganador
- 		if(ganador) {
- 			btn1.setEnabled(false);btn2.setEnabled(false);btn3.setEnabled(false);
- 			btn4.setEnabled(false);btn5.setEnabled(false);btn6.setEnabled(false);
- 			btn7.setEnabled(false);btn8.setEnabled(false);btn9.setEnabled(false);
+ 		//línea hacia la izquierda
+ 		if(!btn3.getText().equals("") && btn3.getText().equals(btn5.getText()) &
+ 		   !btn5.getText().equals("") && btn5.getText().equals(btn7.getText())){
+ 			if(jugador.equals("X")) {
+ 				puntosX++;
+ 				puntosXLblNum.setText(""+puntosX);
+ 				mensaje = "El Jugador X ganó. :D"; 
+ 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+ 			}else{
+ 				puntosO++;
+ 				puntosOLblNum.setText(""+puntosO);
+ 				mensaje = "El Jugador O ganó. :D"; 
+ 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+ 			}
+ 			ganador = true;
  		}
  		
 		//si existe empate
 		if(!ganador & contadorFichas==9) {
-			btn1.setEnabled(false);btn2.setEnabled(false);btn3.setEnabled(false);
- 			btn4.setEnabled(false);btn5.setEnabled(false);btn6.setEnabled(false);
- 			btn7.setEnabled(false);btn8.setEnabled(false);btn9.setEnabled(false);
 			String mensaje = "Existe un empate entre ambos jugadores \n ¿Desea jugar otra vez?"; 
 			JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
 		}
