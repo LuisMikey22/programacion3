@@ -576,7 +576,7 @@ public class JuegoDeGato {
 	 			}
 	 			ganador = true;
 	 		}
- 		}
+ 		}  
  		
  		
  		//if para solo contar una línea en el caso de que una línea diagonal y otra línea se cruzen creando: _\ o bien /_

@@ -1,9 +1,12 @@
 package application;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -11,9 +14,17 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,30 +33,44 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-public class AplicacionDibujo extends JFrame {
+public class AplicacionDibujo extends JFrame implements MouseListener, MouseMotionListener{
+
 	
-	String grosores[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-						 "15", "20", "30", "50", "100", "150", "200", "500"};
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	String[] colores = {"#000000", "#404040", "#ED1C24", "#FF6A00",
+	private PaintPanel panelCuadroDibujo;
+
+	private String grosores[] = {" ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+						         "15", "20", "30", "50", "100", "150", "200", "500"};
+	
+	private String[] colores = {"#000000", "#404040", "#ED1C24", "#FF6A00",
 						"#FFF200", "#22B14C", "#00A2E8", "#3F48CC",
 						"#7448CC", "#FF48CC", "#FFFFFF", "#B97A57",
 						"#44D5E5", "#7F0000", "#C8A3E7", "#B5E61D"};
 	
-	JButton matrizBotones[][];
-	int x, y;
-	int numPos;
+	private ArrayList<PuntoSegmento> arregloDePuntos = new ArrayList<PuntoSegmento>(); //SEGMENTOS
+	private List<List<PuntoSegmento>> matrizDePuntos = new ArrayList<>(); //TRAZO (SEGMENTOS EN CONJUNTO)  
+	private int puntoX, puntoY;
+ 	
+ 	Graphics2D g2;
 	
-	String colorSeleccion;
-	int grosorElemento;
+	private JButton matrizBotones[][];
+	private int x, y;
+	private int numPos;
+	
+	private String colorSeleccion = "#000000";
+	private int grosorPincel = 1;
 
 	public AplicacionDibujo(String title) {
 		this.setTitle(title); //colorcar título a la ventana
 		this.setVisible(true); //hacer visible la ventana
 		this.setResizable(true); //redimensionar la ventana
 		
-		ImageIcon vortexIcon = new ImageIcon(getClass().getResource("brushIcon.png"));
-		this.setIconImage(vortexIcon.getImage());
+		ImageIcon paintIcon = new ImageIcon(getClass().getResource("brushIcon.png"));
+		this.setIconImage(paintIcon.getImage());
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
 		this.setSize(950, 750); //colocar tamaño predeterminado
@@ -72,8 +97,9 @@ public class AplicacionDibujo extends JFrame {
 		
 		//barra superior
 		JPanel barraNavegacion = new JPanel();
-		barraNavegacion.setBackground(Color.decode("#FFFFFF"));
-		barraNavegacion.setLayout(new GridLayout(1, 3));;
+		barraNavegacion.setBorder(BorderFactory.createTitledBorder(null, "Herramientas", 0, 0, null, Color.black));
+		barraNavegacion.setBackground(Color.white);
+		barraNavegacion.setLayout(new GridLayout(1, 4));;
 		panelDeFondo.add(barraNavegacion, BorderLayout.NORTH);
 		
 		JPanel grosorPnl = new JPanel();
@@ -86,49 +112,102 @@ public class AplicacionDibujo extends JFrame {
 		
 		JLabel grosorLbl = new JLabel("Tamaño de pincel:");
 		grosorLbl.setFont(new Font("Kefe", Font.BOLD, 12)); //fuente, tipo y tamaño
-		grosorLbl.setForeground(Color.decode("#000000"));
+		grosorLbl.setForeground(Color.black);
 		nav.fill = GridBagConstraints.HORIZONTAL;
-		nav.insets = new Insets(10, 20, 10, 10);  //relleno 
+		nav.insets = new Insets(10, 0, 5, 00);  //relleno 
 		nav.gridx = 0;
 		nav.gridy = 0;
+		nav.gridwidth = 3;
 		grosorPnl.add(grosorLbl, nav);
 		
 		JButton disminuirBtn = new JButton("-");
-		disminuirBtn.setBackground(Color.decode("#FFFFFF"));
+		disminuirBtn.setBackground(Color.white);
 		disminuirBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		disminuirBtn.setFont(new Font("Kefe", Font.BOLD, 16)); //fuente, tipo y tamaño
-		disminuirBtn.setForeground(Color.decode("#000000"));
+		disminuirBtn.setForeground(Color.black);
 		nav.fill = GridBagConstraints.HORIZONTAL;
 		nav.insets = new Insets(10, 0, 10, 10);  //relleno 
-		nav.gridx = 1;
-		nav.gridy = 0;
+		nav.gridx = 0;
+		nav.gridy = 1;
+		nav.gridwidth = 1;
 		grosorPnl.add(disminuirBtn, nav);
 		
 		JComboBox<String> grosoresCmbBx = new JComboBox<>(grosores);
-		grosoresCmbBx.setBackground(Color.decode("#FFFFFF"));
+		grosoresCmbBx.setBackground(Color.white);
 		nav.fill = GridBagConstraints.HORIZONTAL;
 		nav.insets = new Insets(10, 0, 10, 0);  //relleno 
-		nav.gridx = 2;
-		nav.gridy = 0;
+		nav.gridx = 1;
+		nav.gridy = 1;
+		nav.gridwidth = 1;
 		grosorPnl.add(grosoresCmbBx, nav);
 		
+		//cambiar valor a la variable de grosor cuando se selecciona 
+		grosoresCmbBx.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				//grosor
+				if(e.getStateChange()==ItemEvent.SELECTED) { //si se cambia el elemento seleccionado
+					if(!grosoresCmbBx.getSelectedItem().toString().equals(grosores[0])) {
+						grosorPincel = Integer.parseInt(grosoresCmbBx.getSelectedItem().toString());
+						System.out.println("grosor de pincel: " + grosorPincel);
+					}
+				}
+			}
+			
+		});
+		
 		JButton aumentarBtn = new JButton("+");
-		aumentarBtn.setBackground(Color.decode("#FFFFFF"));  
+		aumentarBtn.setBackground(Color.white);  
 		aumentarBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		aumentarBtn.setFont(new Font("Kefe", Font.PLAIN, 16)); //fuente, tipo y tamaño
-		aumentarBtn.setForeground(Color.decode("#000000"));
+		aumentarBtn.setForeground(Color.black);
 		nav.fill = GridBagConstraints.HORIZONTAL;
-		nav.insets = new Insets(10, 10, 10, 20);  //relleno 
-		nav.gridx = 3;
-		nav.gridy = 0;
+		nav.insets = new Insets(10, 10, 10, 10);  //relleno 
+		nav.gridx = 2;
+		nav.gridy = 1;
+		nav.gridwidth = 1;
 		grosorPnl.add(aumentarBtn, nav);
+		
+		//acción del botón de aumentar grosor 
+		aumentarBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				grosorPincel += 1;//sumar en una unidad
+				grosores[0] = String.valueOf(grosorPincel); 
+				DefaultComboBoxModel<String> valorMod = new DefaultComboBoxModel<String>(grosores);
+				grosoresCmbBx.setModel(valorMod);
+				
+			}
+			
+		});
+		
+		//acción del botón de disminuir grosor 
+		disminuirBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(grosorPincel>1) { //si valorPersonalizado vale por lo menos 1
+					grosorPincel -= 1;//sumar en una unidad
+					grosores[0] = String.valueOf(grosorPincel); 
+					DefaultComboBoxModel<String> valorMod = new DefaultComboBoxModel<String>(grosores);
+					grosoresCmbBx.setModel(valorMod);
+				}
+				
+				
+			}
+			
+		});
 		
 		//pincel
 		Image imageBrush = new ImageIcon(getClass().getResource("brushIcon.png")).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 		ImageIcon imageBrushIcon = new ImageIcon(imageBrush);
 		JButton pincelBtn = new JButton(imageBrushIcon);
-		pincelBtn.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.decode("#303030"))); 
-		pincelBtn.setContentAreaFilled(false); //fondo
+		pincelBtn.setBackground(Color.white);
+		pincelBtn.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 2, Color.decode("#303030"))); 
 		pincelBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		pincelBtn.setHorizontalAlignment(JButton.CENTER); //colocar en el centro al botón
 		pincelBtn.setText("Pincel");
@@ -137,11 +216,44 @@ public class AplicacionDibujo extends JFrame {
 		//crear efecto Hover cuando el ratón está encima del botón
 		pincelBtn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
-		    	pincelBtn.setForeground(Color.gray);
+		    	pincelBtn.setBackground(Color.gray);
 		    }
 
 		    public void mouseExited(MouseEvent evt) {
-		    	pincelBtn.setForeground(Color.black);
+		    	pincelBtn.setBackground(Color.white);
+		    }
+		});
+		
+		//balde de pintura
+		Image imageBucket= new ImageIcon(getClass().getResource("paintBucketIcon.png")).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		ImageIcon imageBucketIcon = new ImageIcon(imageBucket);
+		JButton bucketBtn = new JButton(imageBucketIcon);
+		bucketBtn.setBackground(Color.white);
+		bucketBtn.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 2, Color.decode("#303030"))); 
+		bucketBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		bucketBtn.setHorizontalAlignment(JButton.CENTER); //colocar en el centro al botón
+		bucketBtn.setText("Cubo de pintura");
+		barraNavegacion.add(bucketBtn);
+		
+		//agregar acción al botón de pintar el cuadro de dibujo
+		bucketBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				panelCuadroDibujo.setBackground(Color.decode(colorSeleccion));
+			}
+			
+		});
+		
+		//crear efecto Hover cuando el ratón está encima del botón
+		bucketBtn.addMouseListener(new MouseAdapter() {
+		    public void mouseEntered(MouseEvent evt) {
+		    	bucketBtn.setBackground(Color.gray);
+		    }
+
+		    public void mouseExited(MouseEvent evt) {
+		    	bucketBtn.setBackground(Color.white);
 		    }
 		});
 		
@@ -149,8 +261,8 @@ public class AplicacionDibujo extends JFrame {
 		Image imageEraser = new ImageIcon(getClass().getResource("eraserIcon.png")).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 		ImageIcon imageEraserIcon = new ImageIcon(imageEraser);
 		JButton borradorBtn = new JButton(imageEraserIcon);
-		//borradorBtn.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.decode("#303030")));   
-		borradorBtn.setContentAreaFilled(false); //fondo
+		borradorBtn.setBackground(Color.white);
+		borradorBtn.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 0, Color.decode("#303030")));   
 		borradorBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		borradorBtn.setHorizontalAlignment(JButton.CENTER); //colocar en el centro al botón
 		borradorBtn.setText("Borrador");
@@ -159,11 +271,11 @@ public class AplicacionDibujo extends JFrame {
 		//crear efecto Hover cuando el ratón está encima del botón
 		borradorBtn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
-		    	borradorBtn.setForeground(Color.gray);
+		    	borradorBtn.setBackground(Color.gray);
 		    }
 
 		    public void mouseExited(MouseEvent evt) {
-		    	borradorBtn.setForeground(Color.black);
+		    	borradorBtn.setBackground(Color.white);
 		    }
 		});
 		
@@ -171,7 +283,7 @@ public class AplicacionDibujo extends JFrame {
 		
 		//barra lateral
 		JPanel barraLateral = new JPanel();
-		barraLateral.setBackground(Color.decode("#FFFFFF"));
+		barraLateral.setBackground(Color.white);
 		barraLateral.setLayout(new GridBagLayout());;
 		GridBagConstraints lateral = new GridBagConstraints(); //crear GridBagConstraints
 		lateral.fill = GridBagConstraints.HORIZONTAL; //horizontal
@@ -183,10 +295,10 @@ public class AplicacionDibujo extends JFrame {
 		panelColores.setLayout(new GridLayout(4, 4));
 		panelColores.setOpaque(false);
 		lateral.fill = GridBagConstraints.HORIZONTAL;
-		lateral.insets = new Insets(0, 10, 20, 10);  //relleno 
+		lateral.insets = new Insets(15, 10, 20, 10);  //relleno 
 		lateral.gridx = 0;
 		lateral.gridy = 0;
-		lateral.ipady = 90;
+		lateral.ipady = 100;
 		barraLateral.add(panelColores, lateral);
 		
 		//crear la matriz de botones
@@ -200,7 +312,7 @@ public class AplicacionDibujo extends JFrame {
  				matrizBotones[y][x].setBackground(Color.decode(colores[numPos]));
  				matrizBotones[y][x].setBorderPainted(false); //hace invisible el borde por defecto de los botones   
  				matrizBotones[y][x].setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
- 				agregarAccion(matrizBotones[y][x], y, x); //llamar método que agrega acción al botón
+ 				seleccionarColor(matrizBotones[y][x], colores[numPos]); //llamar método que agrega acción al botón
  				panelColores.add(matrizBotones[y][x]); //agregar la matriz de botones al panel para ser visualizado en la ventana
  				numPos++;
  			}
@@ -208,7 +320,7 @@ public class AplicacionDibujo extends JFrame {
  		
  		//panel con matriz de botones de colores
 		JPanel panelFormas = new JPanel();
-		panelFormas.setBorder(BorderFactory.createTitledBorder(null, "Formas", 0, 0, null, Color.black));
+		panelFormas.setBorder(BorderFactory.createTitledBorder(null, "Formas", 0, 0, null, Color.white));
 		panelFormas.setLayout(new GridLayout(4, 1));
 		panelFormas.setOpaque(false);
 		lateral.fill = GridBagConstraints.HORIZONTAL;
@@ -308,11 +420,11 @@ public class AplicacionDibujo extends JFrame {
 		
 		//panel con matriz de botones de colores
 		JButton limpiarCanvas = new JButton("Limpiar canvas");
-		limpiarCanvas.setBackground(Color.decode("#FFFFFF"));
+		limpiarCanvas.setBackground(Color.white);
 		limpiarCanvas.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#B8CFE5")));
 		limpiarCanvas.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		limpiarCanvas.setFont(new Font("Kefe", Font.BOLD, 15)); //fuente, tipo y tamaño
-		limpiarCanvas.setForeground(Color.decode("#000000"));
+		limpiarCanvas.setForeground(Color.black);
 		lateral.fill = GridBagConstraints.HORIZONTAL;
 		lateral.insets = new Insets(0, 10, 20, 10);  //relleno 
 		lateral.gridx = 0;
@@ -320,26 +432,58 @@ public class AplicacionDibujo extends JFrame {
 		lateral.ipady = 20;
 		barraLateral.add(limpiarCanvas, lateral);
 		
+		//acción del botón de borrar todos los trazos del cuadro de dibujo
+		limpiarCanvas.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				matrizDePuntos.clear(); //limpiar la matriz de puntos
+				panelCuadroDibujo.setBackground(Color.white);
+				panelCuadroDibujo.repaint(); //repintar el cuadro de dibujo para mostrarlo vacío de nuevo
+			}
+			
+		});
 		
 		
-		
-		JPanel panelCuadroDibujo = new JPanel();
-		panelCuadroDibujo.setBackground(Color.decode("#FFFFFF"));
+		panelCuadroDibujo = new PaintPanel();
+		panelCuadroDibujo.addMouseListener(this);
+		panelCuadroDibujo.addMouseMotionListener(this);
 		panelDeFondo.add(panelCuadroDibujo, BorderLayout.CENTER);
-		
 		
 		
 		return panelDeFondo;
 	}
 	
 	
-	void agregarAccion(final JButton boton, final int y, final int x) { //dentro del parenteesis obtiene las ubicaciones correspondientes
+	void seleccionarColor(final JButton boton, final String colorHexadcml) { //dentro del parenteesis obtiene las ubicaciones correspondientes
         boton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
+				colorSeleccion = colorHexadcml; //cambiar el valor al color seleccionado
 				
+				switch(colorSeleccion) { //mostrar en consola el color seleccionado
+					case "#000000": System.out.println("Color del botón: Negro"); break;
+					case "#404040": System.out.println("Color del botón: Gris"); break; 
+					case "#ED1C24": System.out.println("Color del botón: Rojo"); break; 
+					case "#FF6A00": System.out.println("Color del botón: Naranja"); break; 
+					
+					case "#FFF200": System.out.println("Color del botón: Amarillo"); break;
+					case "#22B14C": System.out.println("Color del botón: Verde oscuro"); break;
+					case "#00A2E8": System.out.println("Color del botón: Azul claro"); break;
+					case "#3F48CC": System.out.println("Color del botón: Azul oscuro");break;
+						
+					case "#7448CC": System.out.println("Color del botón: Morado"); break;
+					case "#FF48CC": System.out.println("Color del botón: Rosa"); break;
+					case "#FFFFFF": System.out.println("Color del botón: Blanco"); break;
+					case "#B97A57": System.out.println("Color del botón: Café"); break;
+							
+					case "#44D5E5": System.out.println("Color del botón: Turquesa"); break;
+					case "#7F0000": System.out.println("Color del botón: Guinda"); break;
+					case "#C8A3E7": System.out.println("Color del botón: Lila"); break;
+					case "#B5E61D": System.out.println("Color del botón: Verde limón"); break;
+				}
 			}
         	
         });
@@ -347,8 +491,173 @@ public class AplicacionDibujo extends JFrame {
 	
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		AplicacionDibujo paint = new AplicacionDibujo("Paint");
+		new AplicacionDibujo("Paint");
 	}
 
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {	
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		
+		System.out.println("RELEASED");
+		
+		//crear una copia de los puntos
+		@SuppressWarnings("unchecked")
+		ArrayList<PuntoSegmento> ArrList2  = (ArrayList<PuntoSegmento>)arregloDePuntos.clone();
+ 		
+ 		//se guarda en el historial de dibujos
+		matrizDePuntos.add(ArrList2);
+
+ 		//limpiamos el trazo actual (separar trazos y que no se junten)
+		arregloDePuntos.clear();
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//MouseMotionListener
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+		System.out.println("DRAGGED");
+		
+		//solo dibujar cuando se arrastra el cursor
+		panelCuadroDibujo.repaint(); 
+		puntoX = e.getX();
+		puntoY = e.getY();
+		arregloDePuntos.add(new PuntoSegmento(puntoX, puntoY, colorSeleccion, grosorPincel));
+	}
+
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	//clase PaintPanel
+	class PaintPanel extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1278175958603073892L;
+
+		public PaintPanel() {
+			this.setBackground(Color.white);
+		}
+		
+		@Override
+ 	    public void paintComponent(Graphics g) {
+			System.out.println("Pongan sza");
+			super.paintComponent(g);
+	       
+	        g2 = (Graphics2D)g; 
+	        
+	        if(arregloDePuntos.size()>1) {
+	    	    for(int i=1; i<arregloDePuntos.size(); i++) {  
+	    	    	PuntoSegmento p1 = arregloDePuntos.get(i-1);
+	    	    	PuntoSegmento p2 = arregloDePuntos.get(i);
+	    	    	
+	    	    	p1.DibujarSegmento(p1.getX(), p1.getY(), p2.getX(), p2.getY(), g2);
+	    	    }
+	        }
+	       
+	        for(@SuppressWarnings("rawtypes") Iterator iterator = matrizDePuntos.iterator(); iterator.hasNext();) { //secuencia de puntos
+	        	@SuppressWarnings("unchecked")
+				List<PuntoSegmento> trazo = (List<PuntoSegmento>) iterator.next();
+			
+				if(trazo.size()>1) {
+					for(int i=1; i<trazo.size(); i++) {
+		    		   PuntoSegmento p1 = trazo.get(i-1);
+		    		   PuntoSegmento p2 = trazo.get(i);
+		    		   
+		    		   p1.DibujarSegmento(p1.getX(), p1.getY(), p2.getX(), p2.getY(), g2);
+		    		   
+		    	    }
+		        }
+			
+	        }
+	        
+		}
+		
+	}
+	
+	
+	//clase segmento de punto
+	class PuntoSegmento{
+		
+		public int y;
+		public int x;
+		private String color;
+		private int grosor;
+		
+		public PuntoSegmento(int x, int y, String color, int grosor) {
+			this.x = x;
+			this.y = y;
+			this.color = color;
+			this.grosor = grosor;
+		}
+
+		public int getY() {
+			return y;
+		}
+
+		public void setY(int y) {
+			this.y = y;
+		}
+
+		public int getX() {
+			return x;
+		}
+
+		public void setX(int x) {
+			this.x = x;
+		}
+
+		public String getColor() {
+			return color;
+		}
+
+		public void setColor(String color) {
+			this.color = color;
+		}
+
+		public int getGrosor() {
+			return grosor;
+		}
+
+		public void setGrosor(int grosor) {
+			this.grosor = grosor;
+		}
+
+		public void DibujarSegmento(int p1X, int p1Y, int p2X, int p2Y, Graphics2D g2) {
+			g2.setColor(Color.decode(color));
+			g2.setStroke(new BasicStroke(grosor));
+			g2.drawLine(p1X, p1Y, p2X, p2Y);
+		}
+		
+	}
+	
 }
