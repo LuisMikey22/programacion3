@@ -51,8 +51,14 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 						"#7448CC", "#FF48CC", "#FFFFFF", "#B97A57",
 						"#44D5E5", "#7F0000", "#C8A3E7", "#B5E61D"};
 	
+	
+	
 	private ArrayList<PuntoSegmento> arregloDePuntos = new ArrayList<PuntoSegmento>(); //SEGMENTOS
-	private List<List<PuntoSegmento>> matrizDePuntos = new ArrayList<>(); //TRAZO (SEGMENTOS EN CONJUNTO)  
+	private List<List<PuntoSegmento>> matrizDePuntos = new ArrayList<>(); //TRAZO (SEGMENTOS EN CONJUNTO) 
+	
+	private String herramienta = "";
+	private ArrayList<Figura> arregloDeFiguras = new ArrayList<Figura>(); //SEGMENTOS
+	
 	private int puntoX, puntoY;
  	
  	Graphics2D g2;
@@ -63,6 +69,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	
 	private String colorSeleccion = "#000000";
 	private int grosorPincel = 1;
+	private String tipoHerra;
 
 	public AplicacionDibujo(String title) {
 		this.setTitle(title); //colorcar título a la ventana
@@ -213,6 +220,17 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		pincelBtn.setText("Pincel");
 		barraNavegacion.add(pincelBtn);
 		
+		//agregar accion al botón de pincel
+		pincelBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				herramienta = "Pincel";
+			}
+			
+		});
+		
 		//crear efecto Hover cuando el ratón está encima del botón
 		pincelBtn.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent evt) {
@@ -241,6 +259,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				herramienta = "Cubo";
 				panelCuadroDibujo.setBackground(Color.decode(colorSeleccion));
 			}
 			
@@ -267,6 +286,17 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		borradorBtn.setHorizontalAlignment(JButton.CENTER); //colocar en el centro al botón
 		borradorBtn.setText("Borrador");
 		barraNavegacion.add(borradorBtn);
+		
+		//agregar acción al botón de borrar
+		borradorBtn.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				herramienta = "Borrador";
+			}
+			
+		});
 		
 		//crear efecto Hover cuando el ratón está encima del botón
 		borradorBtn.addMouseListener(new MouseAdapter() {
@@ -439,6 +469,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				matrizDePuntos.clear(); //limpiar la matriz de puntos
+				arregloDeFiguras.clear();
 				panelCuadroDibujo.setBackground(Color.white);
 				panelCuadroDibujo.repaint(); //repintar el cuadro de dibujo para mostrarlo vacío de nuevo
 			}
@@ -497,6 +528,15 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(herramienta.equals("Rectángulo") || herramienta.equals("Círculo") ||
+				herramienta.equals("Triángulo")) {
+			
+		}
+		System.out.println("CLICKED");
+		panelCuadroDibujo.repaint(); 
+		puntoX = e.getX();
+		puntoY = e.getY();
+		arregloDeFiguras.add(new Figura(puntoX, puntoY, grosorPincel, grosorPincel, colorSeleccion, grosorPincel, grosorPincel));
 	}
 
 
@@ -539,14 +579,14 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
+		if(herramienta.equals("Pincel")) { //solo dibujar cuando se arrastra el cursor y la herramienta es pincel
+			System.out.println("DRAGGED");
+			panelCuadroDibujo.repaint(); 
+			puntoX = e.getX();
+			puntoY = e.getY();
+			arregloDePuntos.add(new PuntoSegmento(puntoX, puntoY, colorSeleccion, grosorPincel));
+		}
 		
-		System.out.println("DRAGGED");
-		
-		//solo dibujar cuando se arrastra el cursor
-		panelCuadroDibujo.repaint(); 
-		puntoX = e.getX();
-		puntoY = e.getY();
-		arregloDePuntos.add(new PuntoSegmento(puntoX, puntoY, colorSeleccion, grosorPincel));
 	}
 
 
@@ -575,6 +615,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	       
 	        g2 = (Graphics2D)g; 
 	        
+	        //PINCEL
 	        if(arregloDePuntos.size()>1) {
 	    	    for(int i=1; i<arregloDePuntos.size(); i++) {  
 	    	    	PuntoSegmento p1 = arregloDePuntos.get(i-1);
@@ -598,6 +639,12 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		    	    }
 		        }
 			
+	        }
+	        
+	        
+	        //FIGURAS
+	        for(Figura fig: arregloDeFiguras) {
+	        	fig.DibujarRect(fig.getX(), fig.getY(), g2);
 	        }
 	        
 		}
@@ -636,26 +683,71 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			this.x = x;
 		}
 
-		public String getColor() {
-			return color;
-		}
-
-		public void setColor(String color) {
-			this.color = color;
-		}
-
-		public int getGrosor() {
-			return grosor;
-		}
-
-		public void setGrosor(int grosor) {
-			this.grosor = grosor;
-		}
-
 		public void DibujarSegmento(int p1X, int p1Y, int p2X, int p2Y, Graphics2D g2) {
 			g2.setColor(Color.decode(color));
 			g2.setStroke(new BasicStroke(grosor));
 			g2.drawLine(p1X, p1Y, p2X, p2Y);
+		}
+		
+	}
+	
+	
+	//clase de figura
+	class Figura{
+		public int y;
+		public int x;
+		public int w;
+		public int h;
+		public String color;
+		public int grosor;
+		public int tam;
+		
+		public Figura(int x, int y, int w, int h, String color, int grosor, int tam) {
+			this.x = x;
+			this.y = y;
+			this.w = w;
+			this.h = h;
+			this.color = color;
+			this.grosor = grosor;
+			this.tam = tam;
+		}
+
+		public int getY() {
+			return y;
+		}
+
+		public void setY(int y) {
+			this.y = y;
+		}
+
+		public int getX() {
+			return x;
+		}
+
+		public void setX(int x) {
+			this.x = x;
+		}
+
+		public int getW() {
+			return w;
+		}
+
+		public void setW(int w) {
+			this.w = w;
+		}
+
+		public int getH() {
+			return h;
+		}
+
+		public void setH(int h) {
+			this.h = h;
+		}
+
+		public void DibujarRect(int x, int y, Graphics2D g2) {
+			g2.setColor(Color.decode(color));
+			g2.setStroke(new BasicStroke(grosor/6));
+			g2.drawRect(x, y, tam, tam);
 		}
 		
 	}
