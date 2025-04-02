@@ -17,8 +17,8 @@ import javax.swing.JFrame;
 
 public class Paint extends JFrame{
 	
-	int equis[] = {100, 200, 300};
-	int yes[] = {500, 150, 300};
+	int equis[] = {500, 600, 700};
+	int yes[] = {300, 150, 300};
 	
 	int equis2[] = {100, 200, 300};
 	int yes2[] = {500, 150, 300};

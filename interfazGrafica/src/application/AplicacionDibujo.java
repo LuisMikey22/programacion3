@@ -602,13 +602,13 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 				arregloDeFiguras.add(new Figura(puntoX, puntoY, grosorPincel, grosorPincel, 2, colorSeleccion, grosorPincel));
 			break;
 			
-			/*case "Triángulo":
+			case "Triángulo":
 				System.out.println("CLICKED");
 				panelCuadroDibujo.repaint(); 
 				puntoX = e.getX();
 				puntoY = e.getY();
-				arregloDeFiguras.add(new Figura(puntoX, puntoY, grosorPincel, grosorPincel, 3, colorSeleccion, grosorPincel));
-			break;*/
+				arregloDeFiguras.add(new Triangulo(puntoX, puntoY, grosorPincel, grosorPincel, 3, colorSeleccion, grosorPincel));
+			break;
 			
 			case "Línea":
 				System.out.println("CLICKED");
@@ -701,6 +701,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	}
 
 	
+	/////////CLASES/////////
 	//clase PaintPanel
 	class PaintPanel extends JPanel{
 		/**
@@ -771,9 +772,10 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 						fig.DibujarCirc(fig.getX(), fig.getY(), g2);
 					break;
 					
-					/*case 3:
-						fig.DibujarRect(fig.getX(), fig.getY(), g2);
-					break;*/
+					case 3:
+						Triangulo triangulo = (Triangulo)fig;
+						triangulo.DibujarTrian(fig.getX(), fig.getY(), g2);
+					break;
 				}
 	        }
 	        
@@ -840,8 +842,8 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			this.w = w;
 			this.h = h;
 			this.tipo = tipo;
-			this.color = color;
-			this.grosor = grosor;
+			this.setColor(color);
+			this.setGrosor(grosor);
 		}
 
 		public int getY() {
@@ -880,30 +882,60 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			return tipo;
 		}
 
+		public String getColor() {
+			return color;
+		}
+
+		public void setColor(String color) {
+			this.color = color;
+		}
+		
+		public int getGrosor() {
+			return grosor;
+		}
+
+		public void setGrosor(int grosor) {
+			this.grosor = grosor;
+		}
+		
+		
 		public void DibujarRect(int x, int y, Graphics2D g2) {
-			g2.setColor(Color.decode(color));
-			g2.setStroke(new BasicStroke(grosor/6));
+			g2.setColor(Color.decode(getColor()));
+			g2.setStroke(new BasicStroke(getGrosor()/6));
 			g2.drawRect(x, y, w, h);
 		}
 		
 		public void DibujarCirc(int x, int y, Graphics2D g2) {
-			g2.setColor(Color.decode(color));
-			g2.setStroke(new BasicStroke(grosor/6));
+			g2.setColor(Color.decode(getColor()));
+			g2.setStroke(new BasicStroke(getGrosor()/6));
 			g2.drawOval(x, y, w, h);
 		}
-		
-		/*public void DibujarLinea(int x, int y, Graphics2D g2) {
-			g2.setColor(Color.decode(color));
-			g2.setStroke(new BasicStroke(20));
-			g2.drawRect(x, y, w, h);
+	}
+	
+	
+	//clase de triángulo
+	class Triangulo extends Figura{
+		private int[] grupoX = new int[3];
+		private int[] grupoY = new int[3];
+
+		public Triangulo(int x, int y, int w, int h, int tipo, String color, int grosor) {
+			super(x, y, w, h, tipo, color, grosor);
+			// TODO Auto-generated constructor stub
 		}
 		
 		public void DibujarTrian(int x, int y, Graphics2D g2) {
-			g2.setColor(Color.decode(color));
-			g2.setStroke(new BasicStroke(grosor/6));
-			g2.drawRect(x, y, w, h);
-		}*/
-		
+			grupoX[0] = getX()-(getX()/2); 
+			grupoX[1] = getX(); 
+			grupoX[2] = getX()+(getX()/2);
+			
+			grupoY[0] = getY()+(getY()/2);
+			grupoY[1] = getY();
+			grupoY[2] = getY()+(getY()/2);
+			
+			g2.setColor(Color.decode(getColor()));
+			g2.setStroke(new BasicStroke(getGrosor()/6));
+			g2.drawPolygon(grupoX, grupoY, 3);
+		}
 	}
 	
 }
