@@ -2,15 +2,18 @@ package application;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -67,14 +70,8 @@ public class JuegoDeGato {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		
-		ImageIcon estambreIcon = new ImageIcon(getClass().getResource("ballOfYarnIcon.png")); //ícono de la ventana
-		frame.setIconImage(estambreIcon.getImage());
-		
 		frame.setTitle("Juego del gato");
 		frame.setBounds(500, 200, 600, 650);
-		frame.setResizable(false);
- 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panelMatriz = new JPanel();
@@ -85,8 +82,7 @@ public class JuegoDeGato {
 		JButton botonReiniciar = new JButton("REINICIAR");
 		botonReiniciar.setBackground(Color.decode("#EBA834"));
 		botonReiniciar.setForeground(Color.black);
-		botonReiniciar.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
-		botonReiniciar.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
+		botonReiniciar.setFont(new Font("Kefe", Font.BOLD, 15)); //fuente, tipo y tamaño
 		frame.getContentPane().add(botonReiniciar, BorderLayout.SOUTH);
 		
 		JPanel panelEtiquetas = new JPanel();
@@ -99,10 +95,10 @@ public class JuegoDeGato {
 		puntosXLbl.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosXLbl);
 		
-		puntosXLblNum = new JLabel("0");
+		puntosXLblNum = new JLabel("");
 		puntosXLblNum.setForeground(Color.black);
 		puntosXLblNum.setHorizontalAlignment(SwingConstants.LEFT);
-		puntosXLblNum.setFont(new Font("Kefe", Font.BOLD, 18)); //fuente, tipo y tamaño
+		puntosXLblNum.setFont(new Font("Kefe", Font.BOLD, 15)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosXLblNum);
 		
 		puntosOLbl = new JLabel("Puntos de O: ");
@@ -110,10 +106,10 @@ public class JuegoDeGato {
 		puntosOLbl.setFont(new Font("Kefe", Font.BOLD, 20)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosOLbl);
 		
-		puntosOLblNum = new JLabel("0");
+		puntosOLblNum = new JLabel("");
 		puntosOLblNum.setForeground(Color.black);
 		puntosOLblNum.setHorizontalAlignment(SwingConstants.LEFT);
-		puntosOLblNum.setFont(new Font("Kefe", Font.BOLD, 18)); //fuente, tipo y tamaño
+		puntosOLblNum.setFont(new Font("Kefe", Font.BOLD, 15)); //fuente, tipo y tamaño
 		panelEtiquetas.add(puntosOLblNum);
 		
 		
@@ -560,23 +556,21 @@ public class JuegoDeGato {
  		}
  		
  		//línea 3 vertical
- 		if(!ganador) {
-	 		if(!btn3.getText().equals("") && btn3.getText().equals(btn6.getText()) &
-	 		   !btn6.getText().equals("") && btn6.getText().equals(btn9.getText())){
-	 			if(jugador.equals("X")) {
-	 				puntosX++;
-	 				puntosXLblNum.setText(""+puntosX);
-	 				mensaje = "El Jugador X ganó. :D"; 
-	 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
-	 			}else{
-	 				puntosO++;
-	 				puntosOLblNum.setText(""+puntosO);
-	 				mensaje = "El Jugador O ganó. :D"; 
-	 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
-	 			}
-	 			ganador = true;
-	 		}
- 		}  
+ 		if(!btn3.getText().equals("") && btn3.getText().equals(btn6.getText()) &
+ 		   !btn6.getText().equals("") && btn6.getText().equals(btn9.getText())){
+ 			if(jugador.equals("X")) {
+ 				puntosX++;
+ 				puntosXLblNum.setText(""+puntosX);
+ 				mensaje = "El Jugador X ganó. :D"; 
+ 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+ 			}else{
+ 				puntosO++;
+ 				puntosOLblNum.setText(""+puntosO);
+ 				mensaje = "El Jugador O ganó. :D"; 
+ 				JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+ 			}
+ 			ganador = true;
+ 		}
  		
  		
  		//if para solo contar una línea en el caso de que una línea diagonal y otra línea se cruzen creando: _\ o bien /_
@@ -618,21 +612,30 @@ public class JuegoDeGato {
  		}
  		
  		
- 		//si existe ganador
- 		if(ganador) {
- 			btn1.setEnabled(false);btn2.setEnabled(false);btn3.setEnabled(false);
- 			btn4.setEnabled(false);btn5.setEnabled(false);btn6.setEnabled(false);
- 			btn7.setEnabled(false);btn8.setEnabled(false);btn9.setEnabled(false);
- 		}
- 		
-		//si existe empate
-		if(!ganador & contadorFichas==9) {
-			btn1.setEnabled(false);btn2.setEnabled(false);btn3.setEnabled(false);
- 			btn4.setEnabled(false);btn5.setEnabled(false);btn6.setEnabled(false);
- 			btn7.setEnabled(false);btn8.setEnabled(false);btn9.setEnabled(false);
-			String mensaje = "Existe un empate entre ambos jugadores \n ¿Desea jugar otra vez?"; 
-			JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
-		}
+ 		/*//si existe empate
+ 		if(contadorFichas>8) {
+ 			mensaje = "Existe un empate entre ambos jugadores \n ¿Desea jugar otra vez?";
+ 			
+ 			jugarDeNuevo = 0;
+ 			jugarDeNuevo = JOptionPane.showConfirmDialog(null, mensaje, "Jugar partida", JOptionPane.YES_NO_OPTION);
+ 			
+ 	    	if(jugarDeNuevo==0) { //volver a jugar
+ 	    		for(y=0; y<3; y++) { //renglon       	
+ 	    			for(x=0; x<3; x++) { //columna
+ 	    				matrizBotones[y][x].setEnabled(true);
+ 	    				matrizBotones[y][x].setText("");
+ 	    				matrizBotones[y][x].setBackground(Color.white);
+ 	    				ganador = false;
+ 	    				contadorFichas = 0;
+ 	    			}
+ 	    		}
+ 	    	}else { //si decide no volver a jugar
+ 	    		for(y=0; y<3; y++) { //renglon       	
+ 	    			for(x=0; x<3; x++) { //columna
+ 	    				matrizBotones[y][x].setEnabled(false);
+ 	    			}
+ 	    		}
+ 	    	}
+ 		}*/
 	}
-
 }

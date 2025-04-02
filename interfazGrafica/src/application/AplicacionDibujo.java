@@ -30,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -72,6 +73,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	private int numPuntoLinea = 0; 
 	
 	private String herramienta = "";
+	private boolean relleno;
 	private String colorSeleccion = "#000000";
 	private int grosorPincel = 1;
 
@@ -384,6 +386,17 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				herramienta = "Rectángulo";
+			
+	 			String mensaje = "¿Figura rellena o contorno de figura?";
+	 			
+	 			int rellenoOpc = 0;
+	 			rellenoOpc = JOptionPane.showConfirmDialog(null, mensaje, "Jugar partida", JOptionPane.YES_NO_OPTION);
+	 			
+	 	    	if(rellenoOpc==0) { //volver a jugar
+	 	    		relleno = true;
+	 	    	}else { //si decide no volver a jugar
+	 	    		relleno = false;
+	 	    	}
 			}
 			
 		});
@@ -418,6 +431,17 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				herramienta = "Círculo";
+				
+				String mensaje = "¿Figura rellena o contorno de figura?";
+	 			
+	 			int rellenoOpc = 0;
+	 			rellenoOpc = JOptionPane.showConfirmDialog(null, mensaje, "Jugar partida", JOptionPane.YES_NO_OPTION);
+	 			
+	 	    	if(rellenoOpc==0) { //volver a jugar
+	 	    		relleno = true;
+	 	    	}else { //si decide no volver a jugar
+	 	    		relleno = false;
+	 	    	}
 			}
 			
 		});
@@ -452,6 +476,17 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				herramienta = "Triángulo";
+				
+				String mensaje = "¿Figura rellena o contorno de figura?";
+	 			
+	 			int rellenoOpc = 0;
+	 			rellenoOpc = JOptionPane.showConfirmDialog(null, mensaje, "Jugar partida", JOptionPane.YES_NO_OPTION);
+	 			
+	 	    	if(rellenoOpc==0) { //volver a jugar
+	 	    		relleno = true;
+	 	    	}else { //si decide no volver a jugar
+	 	    		relleno = false;
+	 	    	}
 			}
 			
 		});
@@ -591,7 +626,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 				panelCuadroDibujo.repaint(); 
 				puntoX = e.getX();
 				puntoY = e.getY();
-				arregloDeFiguras.add(new Figura(puntoX, puntoY, grosorPincel, grosorPincel, 1, colorSeleccion, grosorPincel));
+				arregloDeFiguras.add(new Figura(puntoX, puntoY, grosorPincel, grosorPincel, 1, relleno, colorSeleccion, grosorPincel));
 			break;
 			
 			case "Círculo":
@@ -599,7 +634,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 				panelCuadroDibujo.repaint(); 
 				puntoX = e.getX();
 				puntoY = e.getY();
-				arregloDeFiguras.add(new Figura(puntoX, puntoY, grosorPincel, grosorPincel, 2, colorSeleccion, grosorPincel));
+				arregloDeFiguras.add(new Figura(puntoX, puntoY, grosorPincel, grosorPincel, 2, relleno, colorSeleccion, grosorPincel));
 			break;
 			
 			case "Triángulo":
@@ -607,7 +642,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 				panelCuadroDibujo.repaint(); 
 				puntoX = e.getX();
 				puntoY = e.getY();
-				arregloDeFiguras.add(new Triangulo(puntoX, puntoY, grosorPincel, grosorPincel, 3, colorSeleccion, grosorPincel));
+				arregloDeFiguras.add(new Triangulo(puntoX, puntoY, grosorPincel, grosorPincel, 3, relleno, colorSeleccion, grosorPincel));
 			break;
 			
 			case "Línea":
@@ -720,47 +755,6 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	       
 	        g2 = (Graphics2D)g; 
 	        
-	        
-	        //PINCEL
-	        //primer punto
-	        if(arregloDePuntos.size()>1) {
-	    	    for(int i=1; i<arregloDePuntos.size(); i++) {  
-	    	    	PuntoSegmento p1 = arregloDePuntos.get(i-1);
-	    	    	PuntoSegmento p2 = arregloDePuntos.get(i);
-	    	    	
-	    	    	p1.DibujarSegmento(p1.getX(), p1.getY(), p2.getX(), p2.getY(), g2);
-	    	    }
-	        }
-	        
-	        //FORMA DE LÍNEA
-	        //primer punto
-	        if(arregloDeLineas.size()>1) {
-	        	for(int i=1; i<arregloDeLineas.size(); i++) {  
-    	    	PuntoSegmento p1 = arregloDeLineas.get(i-1);
-    	    	PuntoSegmento p2 = arregloDeLineas.get(i);
-    	    	
-    	    	p1.DibujarSegmento(p1.getX(), p1.getY(), p2.getX(), p2.getY(), g2);
-    	    	}
-	        }
-	       
-	        //historial de puntos
-	        for(@SuppressWarnings("rawtypes") Iterator iterator = matrizDePuntos.iterator(); iterator.hasNext();) { //secuencia de puntos
-	        	@SuppressWarnings("unchecked")
-				List<PuntoSegmento> trazo = (List<PuntoSegmento>) iterator.next();
-			
-				if(trazo.size()>1) {
-					for(int i=1; i<trazo.size(); i++) {
-		    		   PuntoSegmento p1 = trazo.get(i-1);
-		    		   PuntoSegmento p2 = trazo.get(i);
-		    		   
-		    		   p1.DibujarSegmento(p1.getX(), p1.getY(), p2.getX(), p2.getY(), g2);
-		    		   
-		    	    }
-		        }
-			
-	        }
-	        
-	        
 	        //FIGURAS
 	        for(Figura fig: arregloDeFiguras) {
 	        	switch(fig.getTipo()) {
@@ -777,9 +771,49 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 						triangulo.DibujarTrian(fig.getX(), fig.getY(), g2);
 					break;
 				}
+	        	panelCuadroDibujo.repaint();
 	        }
 	        
+	        //PINCEL
+	        //primer punto
+	        if(arregloDePuntos.size()>1) {
+	    	    for(int i=1; i<arregloDePuntos.size(); i++) {  
+	    	    	PuntoSegmento p1 = arregloDePuntos.get(i-1);
+	    	    	PuntoSegmento p2 = arregloDePuntos.get(i);
+	    	    	
+	    	    	p1.DibujarSegmento(p1.getX(), p1.getY(), p2.getX(), p2.getY(), g2);
+	    	    	panelCuadroDibujo.repaint();
+	    	    }
+	        }
 	        
+	        //FORMA DE LÍNEA
+	        //primer punto
+	        if(arregloDeLineas.size()>1) {
+	        	for(int i=1; i<arregloDeLineas.size(); i++) {  
+	    	    	PuntoSegmento p1 = arregloDeLineas.get(i-1);
+	    	    	PuntoSegmento p2 = arregloDeLineas.get(i);
+	    	    	
+	    	    	p1.DibujarSegmento(p1.getX(), p1.getY(), p2.getX(), p2.getY(), g2);
+	    	    	panelCuadroDibujo.repaint();
+    	    	}
+	        }
+	       
+	        //HISTORIAL PUNTOS
+	        for(@SuppressWarnings("rawtypes") Iterator iterator = matrizDePuntos.iterator(); iterator.hasNext();) { //secuencia de puntos
+	        	@SuppressWarnings("unchecked")
+				List<PuntoSegmento> trazo = (List<PuntoSegmento>) iterator.next();
+			
+				if(trazo.size()>1) {
+					for(int i=1; i<trazo.size(); i++) {
+		    		   PuntoSegmento p1 = trazo.get(i-1);
+		    		   PuntoSegmento p2 = trazo.get(i);
+		    		   
+		    		   p1.DibujarSegmento(p1.getX(), p1.getY(), p2.getX(), p2.getY(), g2);
+		    		   panelCuadroDibujo.repaint();
+		    	    }
+		        }
+			
+	        }
 	        
 		}
 		
@@ -833,15 +867,17 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		private int w;
 		private int h;
 		private int tipo;
+		private boolean relleno;
 		private String color;
 		private int grosor;
 		
-		public Figura(int x, int y, int w, int h, int tipo, String color, int grosor) {
+		public Figura(int x, int y, int w, int h, int tipo, boolean relleno, String color, int grosor) {
 			this.x = x;
 			this.y = y;
 			this.w = w;
 			this.h = h;
 			this.tipo = tipo;
+			this.relleno = relleno;
 			this.setColor(color);
 			this.setGrosor(grosor);
 		}
@@ -878,10 +914,6 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			this.h = h;
 		}
 		
-		public int getTipo() {
-			return tipo;
-		}
-
 		public String getColor() {
 			return color;
 		}
@@ -898,17 +930,36 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			this.grosor = grosor;
 		}
 		
+		public boolean isRelleno() {
+			return relleno;
+		}
 		
+		public int getTipo() {
+			return tipo;
+		}
+
 		public void DibujarRect(int x, int y, Graphics2D g2) {
-			g2.setColor(Color.decode(getColor()));
-			g2.setStroke(new BasicStroke(getGrosor()/6));
-			g2.drawRect(x, y, w, h);
+			if(relleno) { //figura rellena o  solo contorno
+				g2.setColor(Color.decode(getColor()));
+				g2.setStroke(new BasicStroke(getGrosor()/6));
+				g2.fillRect(x, y, w, h);
+			}else {
+				g2.setColor(Color.decode(getColor()));
+				g2.setStroke(new BasicStroke(getGrosor()/6));
+				g2.drawRect(x, y, w, h);
+			}
 		}
 		
 		public void DibujarCirc(int x, int y, Graphics2D g2) {
-			g2.setColor(Color.decode(getColor()));
-			g2.setStroke(new BasicStroke(getGrosor()/6));
-			g2.drawOval(x, y, w, h);
+			if(relleno) { //figura rellena o  solo contorno
+				g2.setColor(Color.decode(getColor()));
+				g2.setStroke(new BasicStroke(getGrosor()/6));
+				g2.fillOval(x, y, w, h);
+			}else {
+				g2.setColor(Color.decode(getColor()));
+				g2.setStroke(new BasicStroke(getGrosor()/6));
+				g2.drawOval(x, y, w, h);
+			}
 		}
 	}
 	
@@ -918,23 +969,37 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		private int[] grupoX = new int[3];
 		private int[] grupoY = new int[3];
 
-		public Triangulo(int x, int y, int w, int h, int tipo, String color, int grosor) {
-			super(x, y, w, h, tipo, color, grosor);
+		public Triangulo(int x, int y, int w, int h, int tipo, boolean relleno, String color, int grosor) {
+			super(x, y, w, h, tipo, relleno, color, grosor);
 			// TODO Auto-generated constructor stub
 		}
 		
 		public void DibujarTrian(int x, int y, Graphics2D g2) {
-			grupoX[0] = getX()-(getX()/2); 
-			grupoX[1] = getX(); 
-			grupoX[2] = getX()+(getX()/2);
-			
-			grupoY[0] = getY()+(getY()/2);
-			grupoY[1] = getY();
-			grupoY[2] = getY()+(getY()/2);
-			
-			g2.setColor(Color.decode(getColor()));
-			g2.setStroke(new BasicStroke(getGrosor()/6));
-			g2.drawPolygon(grupoX, grupoY, 3);
+			if(isRelleno()) { //figura rellena o  solo contorno
+				grupoX[0] = getX()-(getX()/2); 
+				grupoX[1] = getX(); 
+				grupoX[2] = getX()+(getX()/2);
+				
+				grupoY[0] = getY()+(getY()/2);
+				grupoY[1] = getY();
+				grupoY[2] = getY()+(getY()/2);
+				
+				g2.setColor(Color.decode(getColor()));
+				g2.setStroke(new BasicStroke(getGrosor()/6));
+				g2.fillPolygon(grupoX, grupoY, 3);
+			}else {
+				grupoX[0] = getX()-(getX()/2); 
+				grupoX[1] = getX(); 
+				grupoX[2] = getX()+(getX()/2);
+				
+				grupoY[0] = getY()+(getY()/2);
+				grupoY[1] = getY();
+				grupoY[2] = getY()+(getY()/2);
+				
+				g2.setColor(Color.decode(getColor()));
+				g2.setStroke(new BasicStroke(getGrosor()/6));
+				g2.drawPolygon(grupoX, grupoY, 3);
+			}
 		}
 	}
 	
