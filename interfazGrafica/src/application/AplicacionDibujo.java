@@ -707,15 +707,17 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		panelCuadroDibujo.repaint(); 
+		
 		
 		if(herramienta.equals("Pincel")) { //solo dibujar cuando se arrastra el cursor y la herramienta es pincel
+			panelCuadroDibujo.repaint(); 
 			System.out.println("DRAGGED");
 			punto = e.getPoint();
 			arregloDePuntos.add(new PuntoSegmento(punto.x, punto.y, colorSeleccion, grosorPincel));
 		}
 		
 		if(herramienta.equals("Borrador")) { //solo borrar cuando se arrastra el cursor y la herramienta es borrador
+			panelCuadroDibujo.repaint(); 
 			System.out.println("DRAGGED");
 			punto = e.getPoint();
 			arregloDePuntos.add(new PuntoSegmento(punto.x, punto.y, "#FFFFFF", grosorPincel));
