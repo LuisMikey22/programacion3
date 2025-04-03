@@ -12,6 +12,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -30,7 +31,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -55,25 +55,24 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 						"#44D5E5", "#7F0000", "#C8A3E7", "#B5E61D"};
 	
 	
-	
+	//PINCEL Y BORRADOR
 	private ArrayList<PuntoSegmento> arregloDePuntos = new ArrayList<PuntoSegmento>(); //SEGMENTOS
-	private List<List<PuntoSegmento>> matrizDePuntos = new ArrayList<>(); //TRAZO (SEGMENTOS EN CONJUNTO) 
+	private List<List<PuntoSegmento>> matrizDePuntos = new ArrayList<>(); //TRAZO (SEGMENTOS EN CONJUNTO)
 	
-	private ArrayList<PuntoSegmento> arregloDeLineas = new ArrayList<PuntoSegmento>(); //LÍNEAS (FORMA)
-	
+	//FIGURAS/FORMAS
 	private ArrayList<Figura> arregloDeFiguras = new ArrayList<Figura>(); //FIGURAS
 	
-	private int puntoX, puntoY;
+	private Point punto;
  	
  	Graphics2D g2;
 	
 	private JButton matrizBotones[][];
 	private int x, y;
 	private int numPos;
-	private int numPuntoLinea = 0; 
+	private boolean segundoClick = false; 
 	
 	private String herramienta = "";
-	private boolean relleno;
+	private boolean relleno = true;
 	private String colorSeleccion = "#000000";
 	private int grosorPincel = 1;
 
@@ -87,9 +86,9 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		this.setIconImage(paintIcon.getImage());
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
-		this.setSize(950, 750); //colocar tamaño predeterminado
+		this.setSize(950, 820); //colocar tamaño predeterminado
 		this.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
-		this.setMinimumSize(new Dimension(950, 750));
+		this.setMinimumSize(new Dimension(950, 820));
 		this.setResizable(isMaximumSizeSet());
 
 		this.add(this.interfazDibujo(), BorderLayout.CENTER);
@@ -104,8 +103,8 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	public JPanel interfazDibujo() {
 		JPanel panelDeFondo = new JPanel();
 		panelDeFondo.setBackground(Color.decode("#303030"));
-		panelDeFondo.setBorder(BorderFactory.createMatteBorder(40, 40, 40, 40, Color.decode("#303030")));
-		panelDeFondo.setLayout(new BorderLayout(20, 20));
+		panelDeFondo.setBorder(BorderFactory.createMatteBorder(25, 25, 25, 25, Color.decode("#303030")));
+		panelDeFondo.setLayout(new BorderLayout(10, 10));
 		panelDeFondo.setLocation(0, 0);
 		panelDeFondo.setSize(950, 750);
 		
@@ -218,7 +217,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		});
 		
 		//pincel
-		Image imageBrush = new ImageIcon(getClass().getResource("brushIcon.png")).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		Image imageBrush = new ImageIcon(getClass().getResource("brushIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon imageBrushIcon = new ImageIcon(imageBrush);
 		JButton pincelBtn = new JButton(imageBrushIcon);
 		pincelBtn.setBackground(Color.white);
@@ -251,7 +250,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		});
 		
 		//balde de pintura
-		Image imageBucket= new ImageIcon(getClass().getResource("paintBucketIcon.png")).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		Image imageBucket= new ImageIcon(getClass().getResource("paintBucketIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon imageBucketIcon = new ImageIcon(imageBucket);
 		JButton bucketBtn = new JButton(imageBucketIcon);
 		bucketBtn.setBackground(Color.white);
@@ -268,7 +267,6 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				herramienta = "Cubo";
-				panelCuadroDibujo.setBackground(Color.decode(colorSeleccion));
 			}
 			
 		});
@@ -285,7 +283,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		});
 		
 		//borrador
-		Image imageEraser = new ImageIcon(getClass().getResource("eraserIcon.png")).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		Image imageEraser = new ImageIcon(getClass().getResource("eraserIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon imageEraserIcon = new ImageIcon(imageEraser);
 		JButton borradorBtn = new JButton(imageEraserIcon);
 		borradorBtn.setBackground(Color.white);
@@ -358,8 +356,8 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
  		
  		//panel con matriz de botones de colores
 		JPanel panelFormas = new JPanel();
-		panelFormas.setBorder(BorderFactory.createTitledBorder(null, "Formas", 0, 0, null, Color.white));
-		panelFormas.setLayout(new GridLayout(4, 1));
+		panelFormas.setBorder(BorderFactory.createTitledBorder(null, "Formas", 0, 0, null, Color.black));
+		panelFormas.setLayout(new GridLayout(6, 1));
 		panelFormas.setOpaque(false);
 		lateral.fill = GridBagConstraints.HORIZONTAL;
 		lateral.insets = new Insets(0, 10, 20, 10);  //relleno 
@@ -369,14 +367,13 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		barraLateral.add(panelFormas, lateral);
 		
 		//rectángulo
-		Image imageRect = new ImageIcon(getClass().getResource("rectShapeIcon.png")).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		Image imageRect = new ImageIcon(getClass().getResource("rectShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		ImageIcon imageRectIcon = new ImageIcon(imageRect);
-		JButton rectBtn = new JButton(imageRectIcon);
+		JButton rectBtn = new JButton("Rectángulo", imageRectIcon);
 		rectBtn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		rectBtn.setContentAreaFilled(false); //fondo
 		rectBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		rectBtn.setHorizontalAlignment(JButton.LEFT); //colocar hacia la izquierda al botón
-		rectBtn.setText("Rectángulo");
 		panelFormas.add(rectBtn);
 		
 		//agregar acción al botón que permite añadir rectángulos al cuadro de dibujo
@@ -386,17 +383,6 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				herramienta = "Rectángulo";
-			
-	 			String mensaje = "¿Figura rellena o contorno de figura?";
-	 			
-	 			int rellenoOpc = 0;
-	 			rellenoOpc = JOptionPane.showConfirmDialog(null, mensaje, "Jugar partida", JOptionPane.YES_NO_OPTION);
-	 			
-	 	    	if(rellenoOpc==0) { //volver a jugar
-	 	    		relleno = true;
-	 	    	}else { //si decide no volver a jugar
-	 	    		relleno = false;
-	 	    	}
 			}
 			
 		});
@@ -414,14 +400,13 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		
 		
 		//círculo
-		Image imageCirc = new ImageIcon(getClass().getResource("circleShapeIcon.png")).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		Image imageCirc = new ImageIcon(getClass().getResource("circleShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		ImageIcon imageCircIcon = new ImageIcon(imageCirc);
-		JButton circBtn = new JButton(imageCircIcon);
+		JButton circBtn = new JButton("Círculo", imageCircIcon);
 		circBtn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		circBtn.setContentAreaFilled(false); //fondo
 		circBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		circBtn.setHorizontalAlignment(JButton.LEFT); //colocar hacia la izquierda al botón
-		circBtn.setText("Círculo");
 		panelFormas.add(circBtn);
 		
 		//agregar acción al botón que permite añadir círculos al cuadro de dibujo
@@ -431,17 +416,6 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				herramienta = "Círculo";
-				
-				String mensaje = "¿Figura rellena o contorno de figura?";
-	 			
-	 			int rellenoOpc = 0;
-	 			rellenoOpc = JOptionPane.showConfirmDialog(null, mensaje, "Jugar partida", JOptionPane.YES_NO_OPTION);
-	 			
-	 	    	if(rellenoOpc==0) { //volver a jugar
-	 	    		relleno = true;
-	 	    	}else { //si decide no volver a jugar
-	 	    		relleno = false;
-	 	    	}
 			}
 			
 		});
@@ -459,14 +433,13 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		
 		
 		//triángulo
-		Image imageTrian = new ImageIcon(getClass().getResource("triangleShapeIcon.png")).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		Image imageTrian = new ImageIcon(getClass().getResource("triangleShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		ImageIcon imageTrianIcon = new ImageIcon(imageTrian);
-		JButton trianBtn = new JButton(imageTrianIcon);
+		JButton trianBtn = new JButton("Tríangulo", imageTrianIcon);
 		trianBtn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		trianBtn.setContentAreaFilled(false); //fondo
 		trianBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		trianBtn.setHorizontalAlignment(JButton.LEFT); //colocar hacia la izquierda al botón
-		trianBtn.setText("Tríangulo");
 		panelFormas.add(trianBtn);
 		
 		//agregar acción al botón que permite añadir triángulos al cuadro de dibujo
@@ -476,17 +449,6 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				herramienta = "Triángulo";
-				
-				String mensaje = "¿Figura rellena o contorno de figura?";
-	 			
-	 			int rellenoOpc = 0;
-	 			rellenoOpc = JOptionPane.showConfirmDialog(null, mensaje, "Jugar partida", JOptionPane.YES_NO_OPTION);
-	 			
-	 	    	if(rellenoOpc==0) { //volver a jugar
-	 	    		relleno = true;
-	 	    	}else { //si decide no volver a jugar
-	 	    		relleno = false;
-	 	    	}
 			}
 			
 		});
@@ -504,14 +466,13 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		
 		
 		//línea
-		Image imageLine = new ImageIcon(getClass().getResource("lineShapeIcon.png")).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		Image imageLine = new ImageIcon(getClass().getResource("lineShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		ImageIcon imageLineIcon = new ImageIcon(imageLine);
-		JButton lineaBtn = new JButton(imageLineIcon);
+		JButton lineaBtn = new JButton("Línea", imageLineIcon);
 		lineaBtn.setBorderPainted(false); //hace invisible el borde por defecto de los botones 
 		lineaBtn.setContentAreaFilled(false); //fondo
 		lineaBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
 		lineaBtn.setHorizontalAlignment(JButton.LEFT); //colocar hacia la izquierda al botón
-		lineaBtn.setText("Línea");
 		panelFormas.add(lineaBtn);
 		
 		//agregar acción al botón que permite añadir líneas al cuadro de dibujo
@@ -536,6 +497,50 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		    }
 		});
 		
+		//botón de forma rellena
+		Image imageRelleno = new ImageIcon(getClass().getResource("filledFormIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		ImageIcon imageRellenoIcon = new ImageIcon(imageRelleno);
+		JButton rellenoBtn = new JButton("Forma con relleno", imageRellenoIcon);
+		rellenoBtn.setBackground(Color.white);
+		rellenoBtn.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.decode("#B8CFE5")));
+		rellenoBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		rellenoBtn.setFont(new Font("Kefe", Font.BOLD, 12)); //fuente, tipo y tamaño
+		rellenoBtn.setForeground(Color.black);
+		panelFormas.add(rellenoBtn);
+		
+		//cambiar relleno a verdadero
+		rellenoBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				relleno = true;
+			}
+			
+		});
+		
+		//botón de contorno 
+		Image imageContorno = new ImageIcon(getClass().getResource("outlineFormIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		ImageIcon imageContornoIcon = new ImageIcon(imageContorno);
+		JButton contornoBtn = new JButton("Contorno de forma", imageContornoIcon);
+		contornoBtn.setBackground(Color.white);
+		contornoBtn.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.decode("#B8CFE5")));
+		contornoBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		contornoBtn.setForeground(Color.black);
+		panelFormas.add(contornoBtn);
+		
+		//cambiar contorno a verdadero
+		contornoBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				relleno = false;
+			}
+			
+		});
+		
+		
 		//panel con matriz de botones de colores
 		JButton limpiarCanvas = new JButton("Limpiar canvas");
 		limpiarCanvas.setBackground(Color.white);
@@ -558,7 +563,6 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 				// TODO Auto-generated method stub
 				matrizDePuntos.clear(); //limpiar la matriz de puntos
 				arregloDeFiguras.clear();
-				arregloDeLineas.clear();
 				panelCuadroDibujo.setBackground(Color.white);
 				panelCuadroDibujo.repaint(); //repintar el cuadro de dibujo para mostrarlo vacío de nuevo
 			}
@@ -620,73 +624,66 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	//dar click y dibujar la figura elegida a través de los botones de formas
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		panelCuadroDibujo.repaint(); 
+		
 		switch(herramienta) {
 			case "Rectángulo":
 				System.out.println("CLICKED");
-				panelCuadroDibujo.repaint(); 
-				puntoX = e.getX();
-				puntoY = e.getY();
-				arregloDeFiguras.add(new Figura(puntoX, puntoY, grosorPincel, grosorPincel, 1, relleno, colorSeleccion, grosorPincel));
+				punto = e.getPoint();
+				arregloDeFiguras.add(new Figura(punto.x, punto.y, grosorPincel, grosorPincel, 1, relleno, colorSeleccion, grosorPincel));
 			break;
 			
 			case "Círculo":
 				System.out.println("CLICKED");
-				panelCuadroDibujo.repaint(); 
-				puntoX = e.getX();
-				puntoY = e.getY();
-				arregloDeFiguras.add(new Figura(puntoX, puntoY, grosorPincel, grosorPincel, 2, relleno, colorSeleccion, grosorPincel));
+				punto = e.getPoint();
+				arregloDeFiguras.add(new Figura(punto.x, punto.y, grosorPincel, grosorPincel, 2, relleno, colorSeleccion, grosorPincel));
 			break;
 			
 			case "Triángulo":
 				System.out.println("CLICKED");
-				panelCuadroDibujo.repaint(); 
-				puntoX = e.getX();
-				puntoY = e.getY();
-				arregloDeFiguras.add(new Triangulo(puntoX, puntoY, grosorPincel, grosorPincel, 3, relleno, colorSeleccion, grosorPincel));
+				punto = e.getPoint();
+				arregloDeFiguras.add(new Triangulo(punto.x, punto.y, grosorPincel, grosorPincel, 3, relleno, colorSeleccion, grosorPincel));
 			break;
 			
-			case "Línea":
-				System.out.println("CLICKED");
-				panelCuadroDibujo.repaint(); 
-				
-				//segun el valor de numPuntoLinea se conoce en que punto de los dos de la línea se encuentra
-				if(numPuntoLinea == 0) { //punto uno
-					puntoX = e.getX();
-					puntoY = e.getY();
-					arregloDeLineas.add(new PuntoSegmento(puntoX, puntoY, colorSeleccion, grosorPincel));
-					
-				}
-				if(numPuntoLinea == 1) { //punto dos
-					puntoX = e.getX();
-					puntoY = e.getY();
-					arregloDeLineas.add(new PuntoSegmento(puntoX, puntoY, colorSeleccion, grosorPincel));
-					matrizDePuntos.add(arregloDeLineas); //agregar a la matriz que después se usará para pintar
-					arregloDeLineas.clear(); //limpiar para separar trazos y que no se junten
-				}
-				numPuntoLinea += 1; //sumar para entrar a ambas condiciones y que la línea se conforme de dos puntos
+			case "Cubo":
+				panelCuadroDibujo.setBackground(Color.decode(colorSeleccion));
 			break;
 		}
+		
 	}
 
 
 	@Override
 	public void mousePressed(MouseEvent e) {	
-		   
+		if(herramienta.equals("Línea")) {
+			panelCuadroDibujo.repaint();
+			
+			System.out.println("PRESSED");
+			Point punto2;
+			
+			//segun el numero de presionar Click se conoce en que punto de los dos de la línea se encuentra
+			if(!segundoClick) { //punto uno
+				punto = e.getPoint();
+				segundoClick = true;
+			}else { //punto dos
+				punto2 = e.getPoint();
+				arregloDeFiguras.add(new Figura(punto.x, punto.y, punto2.x, punto2.y, 4, relleno, colorSeleccion, grosorPincel));
+				segundoClick = false; //reiniciar variable para permitir pintar más formas de línea al presionar
+			}
+		}
 	}
-
 
 	//al soltar el ratón
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
 		if(herramienta.equals("Pincel") || herramienta.equals("Borrador") || herramienta.equals("Línea")) {
+			panelCuadroDibujo.repaint();
+			
 			System.out.println("RELEASED");
 			@SuppressWarnings("unchecked")
 			ArrayList<PuntoSegmento> ArrList2  = (ArrayList<PuntoSegmento>)arregloDePuntos.clone(); //crear una copia de los puntos
 			matrizDePuntos.add(ArrList2); //se guarda en el historial de dibujos
 			arregloDePuntos.clear(); //limpiar para separar trazos y que no se junten
-			
-			numPuntoLinea = 0; //reiniciar variable para permitir pintar más formas de línea al dar click
 		}
 		
 	}
@@ -710,22 +707,19 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
+		panelCuadroDibujo.repaint(); 
+		
 		if(herramienta.equals("Pincel")) { //solo dibujar cuando se arrastra el cursor y la herramienta es pincel
 			System.out.println("DRAGGED");
-			panelCuadroDibujo.repaint(); 
-			puntoX = e.getX();
-			puntoY = e.getY();
-			arregloDePuntos.add(new PuntoSegmento(puntoX, puntoY, colorSeleccion, grosorPincel));
+			punto = e.getPoint();
+			arregloDePuntos.add(new PuntoSegmento(punto.x, punto.y, colorSeleccion, grosorPincel));
 		}
 		
 		if(herramienta.equals("Borrador")) { //solo borrar cuando se arrastra el cursor y la herramienta es borrador
 			System.out.println("DRAGGED");
-			panelCuadroDibujo.repaint(); 
-			puntoX = e.getX();
-			puntoY = e.getY();
-			arregloDePuntos.add(new PuntoSegmento(puntoX, puntoY, "#FFFFFF", grosorPincel));
-		}
-		
+			punto = e.getPoint();
+			arregloDePuntos.add(new PuntoSegmento(punto.x, punto.y, "#FFFFFF", grosorPincel));
+		} 
 	}
 
 
@@ -756,22 +750,31 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	        g2 = (Graphics2D)g; 
 	        
 	        //FIGURAS
-	        for(Figura fig: arregloDeFiguras) {
-	        	switch(fig.getTipo()) {
-					case 1:
-						fig.DibujarRect(fig.getX(), fig.getY(), g2);
-					break;
-					
-					case 2:
-						fig.DibujarCirc(fig.getX(), fig.getY(), g2);
-					break;
-					
-					case 3:
-						Triangulo triangulo = (Triangulo)fig;
-						triangulo.DibujarTrian(fig.getX(), fig.getY(), g2);
-					break;
-				}
-	        	panelCuadroDibujo.repaint();
+	        if(arregloDeFiguras.size()>1) {
+	        	for(int i=0; i<arregloDeFiguras.size(); i++) {
+	        		Figura fig = arregloDeFiguras.get(i);
+	        		
+	        		switch(fig.getTipo()) {
+						case 1:
+							fig.DibujarRect(fig.getX(), fig.getY(), g2);
+						break;
+						
+						case 2:
+							fig.DibujarCirc(fig.getX(), fig.getY(), g2);
+						break;
+						
+						case 3:
+							Triangulo triangulo = (Triangulo)fig;
+							triangulo.DibujarTrian(fig.getX(), fig.getY(), g2);
+						break;
+						
+						case 4:
+							System.out.println("Linea");
+							fig.DibujarLinea(fig.getX(), fig.getY(), fig.getW(), fig.getH(), g2);
+						break;
+	        		}
+	        	}
+	        	
 	        }
 	        
 	        //PINCEL
@@ -782,20 +785,7 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	    	    	PuntoSegmento p2 = arregloDePuntos.get(i);
 	    	    	
 	    	    	p1.DibujarSegmento(p1.getX(), p1.getY(), p2.getX(), p2.getY(), g2);
-	    	    	panelCuadroDibujo.repaint();
 	    	    }
-	        }
-	        
-	        //FORMA DE LÍNEA
-	        //primer punto
-	        if(arregloDeLineas.size()>1) {
-	        	for(int i=1; i<arregloDeLineas.size(); i++) {  
-	    	    	PuntoSegmento p1 = arregloDeLineas.get(i-1);
-	    	    	PuntoSegmento p2 = arregloDeLineas.get(i);
-	    	    	
-	    	    	p1.DibujarSegmento(p1.getX(), p1.getY(), p2.getX(), p2.getY(), g2);
-	    	    	panelCuadroDibujo.repaint();
-    	    	}
 	        }
 	       
 	        //HISTORIAL PUNTOS
@@ -809,7 +799,6 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		    		   PuntoSegmento p2 = trazo.get(i);
 		    		   
 		    		   p1.DibujarSegmento(p1.getX(), p1.getY(), p2.getX(), p2.getY(), g2);
-		    		   panelCuadroDibujo.repaint();
 		    	    }
 		        }
 			
@@ -942,11 +931,11 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			if(relleno) { //figura rellena o  solo contorno
 				g2.setColor(Color.decode(getColor()));
 				g2.setStroke(new BasicStroke(getGrosor()/6));
-				g2.fillRect(x, y, w, h);
+				g2.fillRect(x, y, w*3, h*3);
 			}else {
 				g2.setColor(Color.decode(getColor()));
 				g2.setStroke(new BasicStroke(getGrosor()/6));
-				g2.drawRect(x, y, w, h);
+				g2.drawRect(x, y, w*3, h*3);
 			}
 		}
 		
@@ -954,12 +943,18 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 			if(relleno) { //figura rellena o  solo contorno
 				g2.setColor(Color.decode(getColor()));
 				g2.setStroke(new BasicStroke(getGrosor()/6));
-				g2.fillOval(x, y, w, h);
+				g2.fillOval(x, y, w*3, h*3);
 			}else {
 				g2.setColor(Color.decode(getColor()));
 				g2.setStroke(new BasicStroke(getGrosor()/6));
-				g2.drawOval(x, y, w, h);
+				g2.drawOval(x, y, w*3, h*3);
 			}
+		}
+		
+		public void DibujarLinea(int x, int y, int x2, int y2, Graphics2D g2) {
+			g2.setColor(Color.decode(getColor()));
+			g2.setStroke(new BasicStroke(getGrosor()));
+			g2.drawLine(x, y, x2, y2);
 		}
 	}
 	
@@ -975,31 +970,64 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		}
 		
 		public void DibujarTrian(int x, int y, Graphics2D g2) {
+			grupoX[0] = getX()-(getGrosor()*2); //agregar las X y Y de cada punto a su respectivo arreglo para despues construir el triángulo
+			grupoX[1] = getX(); 
+			grupoX[2] = getX()+(getGrosor()*2);
+			
+			grupoY[0] = getY()+(getGrosor()*3);
+			grupoY[1] = getY();
+			grupoY[2] = getY()+(getGrosor()*3);
+			
 			if(isRelleno()) { //figura rellena o  solo contorno
-				grupoX[0] = getX()-(getX()/2); 
-				grupoX[1] = getX(); 
-				grupoX[2] = getX()+(getX()/2);
-				
-				grupoY[0] = getY()+(getY()/2);
-				grupoY[1] = getY();
-				grupoY[2] = getY()+(getY()/2);
-				
 				g2.setColor(Color.decode(getColor()));
 				g2.setStroke(new BasicStroke(getGrosor()/6));
 				g2.fillPolygon(grupoX, grupoY, 3);
 			}else {
-				grupoX[0] = getX()-(getX()/2); 
-				grupoX[1] = getX(); 
-				grupoX[2] = getX()+(getX()/2);
-				
-				grupoY[0] = getY()+(getY()/2);
-				grupoY[1] = getY();
-				grupoY[2] = getY()+(getY()/2);
-				
 				g2.setColor(Color.decode(getColor()));
 				g2.setStroke(new BasicStroke(getGrosor()/6));
 				g2.drawPolygon(grupoX, grupoY, 3);
 			}
+		}
+	}
+	
+	
+	//clase de estrella
+	class Estrella extends Figura{
+		private int[] grupoX = new int[10];
+		private int[] grupoY = new int[10];
+
+		public Estrella(int x, int y, int w, int h, int tipo, boolean relleno, String color, int grosor) {
+			super(x, y, w, h, tipo, relleno, color, grosor);
+			// TODO Auto-generated constructor stub
+		}
+		
+		public void DibujarEstrella(int x, int y, Graphics2D g2) {
+			grupoX[0] = getX()-(getGrosor()*4);
+			grupoX[1] = (int) (getX()-(getGrosor()/2.2)); 
+			grupoX[2] = (int) (getX()-(getGrosor()/2.5)); 
+			grupoX[3] = getX();
+			grupoX[4] = (int) (getX()-(getGrosor()*2.5)); 
+			grupoX[5] = (int) (getX()-(getGrosor()*2.2));
+			grupoX[6] = getX()-(getGrosor()*6);
+			grupoX[7] = getX()-(getGrosor()*2); 
+			grupoX[8] = getX(); //agregar las X y Y de cada punto a su respectivo arreglo para despues construir el triángulo
+			grupoX[9] = getX()-(getGrosor()/2); 
+			
+			grupoY[0] = getY()+(getGrosor()*4);
+			grupoY[1] = (int) (getY()+(getGrosor()/2.2)); 
+			grupoY[2] = (int) (getY()+(getGrosor()/2.5)); 
+			grupoY[3] = getY()-(getGrosor()*3);
+			grupoY[4] = (int) (getY()-(getGrosor()*2.5)); 
+			grupoY[5] = (int) (getY()-(getGrosor()*2.2));
+			grupoY[6] = getY()-(getGrosor()*6);
+			grupoY[7] = getY()-(getGrosor()*3); 
+			grupoY[8] = getY(); //agregar las X y Y de cada punto a su respectivo arreglo para despues construir el triángulo
+			grupoY[9] = getY()-(getGrosor()*6);
+			
+			g2.setColor(Color.decode(getColor()));
+			g2.setStroke(new BasicStroke(getGrosor()));
+			g2.drawPolygon(grupoX, grupoY, 10);
+			
 		}
 	}
 	
