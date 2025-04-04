@@ -1974,52 +1974,169 @@ public class Login extends JFrame{
 		
 		
 		//nueva contraseña
-		JLabel newPssWrdLbl = new JLabel("Nueva contraseña:");
-		newPssWrdLbl.setForeground(Color.white); //color de letra
-		newPssWrdLbl.setOpaque(false); //tiene fondo o no
-		newPssWrdLbl.setHorizontalAlignment(JLabel.LEFT);
-		newPssWrdLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(30, 0, 0, 0); //relleno en la parte de arriba
-		c.gridx = 0;
-		c.gridy = 1;
-		forgotPssWrdPnl.add(newPssWrdLbl, c);
+		//elementos de contraseña
+		JPanel passwordElementsPnl = new JPanel();
+		passwordElementsPnl.setOpaque(false);
+		passwordElementsPnl.setLayout(new BorderLayout(10, 5));
 		
-		JPasswordField newPssWrdTxtFld = new JPasswordField();
-		newPssWrdTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.decode("#33627F")));
-		newPssWrdTxtFld.setForeground(Color.decode("#1B313F")); //color de letra
-		newPssWrdTxtFld.setOpaque(true); //tiene fondo o no
-		newPssWrdTxtFld.setHorizontalAlignment(JLabel.LEFT);
-		newPssWrdTxtFld.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(10, 0, 0, 0); //relleno en la parte de arriba
-		c.gridx = 0;
-		c.gridy = 2;
-		forgotPssWrdPnl.add(newPssWrdTxtFld, c);
+		JLabel passwordLbL = new JLabel("Contraseña");
+		passwordLbL.setForeground(Color.white); //color de letra
+		passwordLbL.setOpaque(false); //tiene fondo o no
+		passwordLbL.setHorizontalAlignment(JLabel.LEFT);
+		passwordLbL.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		passwordElementsPnl.add(passwordLbL, BorderLayout.NORTH);
 		
-		//nueva contraseña confirmación
-		JLabel newPssWrdConfLbl = new JLabel("Nueva contraseña confirmación:");
-		newPssWrdConfLbl.setForeground(Color.white); //color de letra
-		newPssWrdConfLbl.setOpaque(false); //tiene fondo o no
-		newPssWrdConfLbl.setHorizontalAlignment(JLabel.LEFT);
-		newPssWrdConfLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(30, 0, 0, 0); //relleno en la parte de arriba
-		c.gridx = 0;
-		c.gridy = 3;
-		forgotPssWrdPnl.add(newPssWrdConfLbl, c);
+		Image imageLock = new ImageIcon(getClass().getResource("lockIcon.png")).getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
+		ImageIcon imageLockIcon = new ImageIcon(imageLock);
+		JLabel lockIcon = new JLabel(imageLockIcon);
+		lockIcon.setOpaque(false); //tiene fondo o no
+		lockIcon.setHorizontalAlignment(JLabel.LEFT);
+		passwordElementsPnl.add(lockIcon, BorderLayout.WEST);
 		
-		JPasswordField newPssWrdConfTxtFld = new JPasswordField();
-		newPssWrdConfTxtFld.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.decode("#33627F")));
-		newPssWrdConfTxtFld.setForeground(Color.decode("#1B313F")); //color de letra
-		newPssWrdConfTxtFld.setOpaque(true); //tiene fondo o no
-		newPssWrdConfTxtFld.setHorizontalAlignment(JLabel.LEFT);
-		newPssWrdConfTxtFld.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		
+		//panel con el campo para escribir la contraseña y el botón para mostrarla u ocultarla
+		JPanel jPssWrdFldPnl = new JPanel();
+		jPssWrdFldPnl.setBackground(Color.WHITE);
+		//borde para crear la ilusión de que el campo de texto y el botón con icono de ojo son uno mismo
+		jPssWrdFldPnl.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.decode("#33627F"))); 
+		jPssWrdFldPnl.setLayout(new BorderLayout());
+		
+		JPasswordField passwordFld = new JPasswordField(5);
+		passwordFld.setEchoChar('*');
+		passwordFld.setBorder(null); //quitar borde por defecto
+		passwordFld.setForeground(Color.decode("#1B313F")); //color de letra
+		passwordFld.setOpaque(true); //tiene fondo o no
+		passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
+		jPssWrdFldPnl.add(passwordFld, BorderLayout.CENTER);
+		
+		Image imageEye = new ImageIcon(getClass().getResource("eyeClosedIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+		ImageIcon imageEyeIcon = new ImageIcon(imageEye);
+		JButton seeBttn = new JButton();
+		seeBttn.setIcon(imageEyeIcon);
+		seeBttn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		seeBttn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
+		seeBttn.setContentAreaFilled(false); //hace invisible la animacion al presionar el botón
+		jPssWrdFldPnl.add(seeBttn, BorderLayout.EAST);
+		
+		//botón para mostrar u ocultar la contraseña
+		seeBttn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Image imageEyeBttn;
+				ImageIcon imageEyeBttnIcon;
+				
+				//mostrar contraseña
+				if(!passwordVisible) {
+					passwordFld.setEchoChar((char)0); //representar los caracteres de la contraseña con letras 'ABCdario'	
+					passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
+					imageEyeBttn = new ImageIcon(getClass().getResource("eyeSeesIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
+					seeBttn.setIcon(imageEyeBttnIcon);
+					passwordVisible = true;
+				}else {
+					//ocultar contraseña
+					passwordFld.setEchoChar('*'); //representar los caracteres de la contraseña con asteriscos '*'				
+					passwordFld.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
+					imageEyeBttn = new ImageIcon(getClass().getResource("eyeClosedIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
+					seeBttn.setIcon(imageEyeBttnIcon);
+					passwordVisible = false;
+				}
+				
+			}
+			
+		});
+		
+		passwordElementsPnl.add(jPssWrdFldPnl, BorderLayout.CENTER);
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(10, 0, 0, 0); //relleno en la parte de arriba
-		c.gridx = 0;
-		c.gridy = 4;
-		forgotPssWrdPnl.add(newPssWrdConfTxtFld, c);
+		c.insets = new Insets(40, 0, 0, 0);  //relleno en la parte de arriba
+		c.gridx = 0; //posición
+		c.gridy = 1; //posición
+		forgotPssWrdPnl.add(passwordElementsPnl, c);
+		
+		
+		//CONFIRMACIÓN DE CONTRASEÑA
+		//elementos de contraseña
+		JPanel passwordElementsPnl2 = new JPanel();
+		passwordElementsPnl2.setOpaque(false);
+		passwordElementsPnl2.setLayout(new BorderLayout(10, 5));
+		
+		JLabel passwordLbL2 = new JLabel("Contraseña");
+		passwordLbL2.setForeground(Color.white); //color de letra
+		passwordLbL2.setOpaque(false); //tiene fondo o no
+		passwordLbL2.setHorizontalAlignment(JLabel.LEFT);
+		passwordLbL2.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		passwordElementsPnl2.add(passwordLbL2, BorderLayout.NORTH);
+		
+		Image imageLock2 = new ImageIcon(getClass().getResource("lockIcon.png")).getImage().getScaledInstance(18, 22, Image.SCALE_SMOOTH);
+		ImageIcon imageLockIcon2 = new ImageIcon(imageLock2);
+		JLabel lockIcon2 = new JLabel(imageLockIcon2);
+		lockIcon2.setOpaque(false); //tiene fondo o no
+		lockIcon2.setHorizontalAlignment(JLabel.LEFT);
+		passwordElementsPnl2.add(lockIcon2, BorderLayout.WEST);
+		
+		
+		//panel con el campo para escribir la contraseña y el botón para mostrarla u ocultarla
+		JPanel jPssWrdFldPnl2 = new JPanel();
+		jPssWrdFldPnl2.setBackground(Color.WHITE);
+		//borde para crear la ilusión de que el campo de texto y el botón con icono de ojo son uno mismo
+		jPssWrdFldPnl2.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.decode("#33627F"))); 
+		jPssWrdFldPnl2.setLayout(new BorderLayout());
+		
+		JPasswordField passwordFld2 = new JPasswordField(5);
+		passwordFld2.setEchoChar('*');
+		passwordFld2.setBorder(null); //quitar borde por defecto
+		passwordFld2.setForeground(Color.decode("#1B313F")); //color de letra
+		passwordFld2.setOpaque(true); //tiene fondo o no
+		passwordFld2.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
+		jPssWrdFldPnl2.add(passwordFld2, BorderLayout.CENTER);
+		
+		Image imageEye2 = new ImageIcon(getClass().getResource("eyeClosedIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+		ImageIcon imageEyeIcon2 = new ImageIcon(imageEye2);
+		JButton seeBttn2 = new JButton();
+		seeBttn2.setIcon(imageEyeIcon2);
+		seeBttn2.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
+		seeBttn2.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
+		seeBttn2.setContentAreaFilled(false); //hace invisible la animacion al presionar el botón
+		jPssWrdFldPnl2.add(seeBttn2, BorderLayout.EAST);
+		
+		//botón para mostrar u ocultar la contraseña
+		seeBttn2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Image imageEyeBttn;
+				ImageIcon imageEyeBttnIcon;
+				
+				//mostrar contraseña
+				if(!passwordVisible) {
+					passwordFld2.setEchoChar((char)0); //representar los caracteres de la contraseña con letras 'ABCdario'	
+					passwordFld2.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
+					imageEyeBttn = new ImageIcon(getClass().getResource("eyeSeesIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
+					seeBttn2.setIcon(imageEyeBttnIcon);
+					passwordVisible = true;
+				}else {
+					//ocultar contraseña
+					passwordFld2.setEchoChar('*'); //representar los caracteres de la contraseña con asteriscos '*'				
+					passwordFld2.setFont(new Font("Tahoma", Font.BOLD, 14)); //fuente, tipo y tamaño
+					imageEyeBttn = new ImageIcon(getClass().getResource("eyeClosedIcon.png")).getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+					imageEyeBttnIcon = new ImageIcon(imageEyeBttn);
+					seeBttn2.setIcon(imageEyeBttnIcon);
+					passwordVisible = false;
+				}
+				
+			}
+			
+		});
+		
+		passwordElementsPnl2.add(jPssWrdFldPnl2, BorderLayout.CENTER);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(40, 0, 0, 0);  //relleno en la parte de arriba
+		c.gridx = 0; //posición
+		c.gridy = 2; //posición
+		forgotPssWrdPnl.add(passwordElementsPnl2, c);
 		
 		
 		//panel de botones
@@ -2093,7 +2210,7 @@ public class Login extends JFrame{
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 0, 0, 0); //relleno en la parte de arriba
 		c.gridx = 0;
-		c.gridy = 5;
+		c.gridy = 3;
 		c.ipady = 10;
 		forgotPssWrdPnl.add(actionBttnsPnl, c);
 		

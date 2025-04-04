@@ -708,7 +708,6 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-		
 		if(herramienta.equals("Pincel")) { //solo dibujar cuando se arrastra el cursor y la herramienta es pincel
 			panelCuadroDibujo.repaint(); 
 			System.out.println("DRAGGED");
