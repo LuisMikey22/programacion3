@@ -2,20 +2,15 @@ package application;
 
 import java.awt.EventQueue;
 import java.awt.Font;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
-
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
@@ -23,8 +18,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -36,6 +31,9 @@ public class ListenerTeclado implements KeyListener{
 	PaintPanel panelCentro;
 	Graphics2D g2;
 	BufferedImage characterImage;
+	
+	Jugador jugador = null;
+	ArrayList<Jugador> obstaculos = new ArrayList<Jugador>(); //SEGMENTOS
 	
 	JLabel tiempoValorLbl;
 	Timer temporizador;
@@ -84,6 +82,9 @@ public class ListenerTeclado implements KeyListener{
 		tiempoValorLbl.setOpaque(true);
 		frame.getContentPane().add(tiempoValorLbl, BorderLayout.NORTH);
 		
+		jugador = new Jugador(240, 320, 38, 64, null);
+		obstaculos.add(new Jugador(280, 360, 50, 50, Color.orange));
+		
 		panelCentro = new PaintPanel();
 		//panelCentro.setBorder(BorderFactory.createMatteBorder(25, 25, 25, 25, Color.decode("#303030")));
 		panelCentro.setFocusable(true);
@@ -104,7 +105,9 @@ public class ListenerTeclado implements KeyListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				x = 240; y = 320; //reiniciar valores de X y Y
+				//reiniciar valores de X y Y
+				jugador.x = 240;
+				jugador.y = 320;
 				
 				//POSICIÓN INICIAL (IMAGEN)
 				try {
@@ -194,10 +197,8 @@ public class ListenerTeclado implements KeyListener{
 	
 	//clase PaintPanel
 	class PaintPanel extends JPanel{
-		 /**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
+		
 		public PaintPanel() {
 			 this.setBackground(Color.decode("#00A2E8"));
 		 }
@@ -205,9 +206,83 @@ public class ListenerTeclado implements KeyListener{
 			 super.paintComponent(g);
 			 g2 = (Graphics2D) g;
 			 
-			 g2.drawImage(characterImage, x , y, 38, 64, null, null);
+			 for(Jugador obst: obstaculos) {
+				 g2.setColor(obst.color);
+				 g2.fillRect(obst.x, obst.y, obst.w, obst.h);
+			 }
+			 
+			 //g2.drawImage(characterImage, jugador.x , y, 38, 64, null, null);
+			 g2.drawImage(characterImage, jugador.x, jugador.y, jugador.w, jugador.h, null, null);
 		 }
-	 }
+	}
+	
+	//colisión
+	class Jugador extends JPanel{
+		private static final long serialVersionUID = -6849931942729399650L;
+
+		private int x;
+		private int y;
+		private int w;
+		private int h;
+		private Color color;
+		
+		public int getX() {
+			return x;
+		}
+
+		public void setX(int x) {
+			this.x = x;
+		}
+
+		public int getY() {
+			return y;
+		}
+
+		public void setY(int y) {
+			this.y = y;
+		}
+
+		public int getW() {
+			return w;
+		}
+
+		public void setW(int w) {
+			this.w = w;
+		}
+
+		public int getH() {
+			return h;
+		}
+
+		public void setH(int h) {
+			this.h = h;
+		}
+		
+		public Color getColor() {
+			return color;
+		}
+
+		public void setColor(Color color) {
+			this.color = color;
+		}
+		
+		public Jugador(int x, int y, int w, int h, Color color) {
+			this.x = x;
+			this.y = y;
+			this.w = w;
+			this.h = h;
+			this.setColor(color);
+		}
+		
+		public boolean colision(Jugador blanco) {
+			
+		 	return (this.x < blanco.x + blanco.getWidth() &&
+		 			this.x + this.getWidth() > blanco.x &&
+		 			this.y < blanco.y + blanco.getHeight() &&
+		 			this.y + this.getHeight() > blanco.y);
+		}
+
+	}
 		
 	
 	@Override
@@ -221,15 +296,24 @@ public class ListenerTeclado implements KeyListener{
 		
 		System.out.println(e.getKeyCode());
 		
+		Boolean m = true;
+		for(Jugador obst: obstaculos) {
+			if(jugador.colision(obst)) {
+				m = false;
+			}
+		}
+		
 		//W, FLECHA ARRIBA
 		if(e.getKeyCode()==87 || e.getKeyCode()==38) { 
 			System.out.println(e.getKeyCode() + " Arriba");
 			//si Y es menor al límite del  JFrame se teletransporta a Y = 750
-			if(y>0) {
-				y -= 5;
+			if(m) {
+				//colisión
+				jugador.y += 5;
 			}else {
-				y = 700;
+				jugador.y -= 7;
 			}
+			
 			
 			//cambiar imagen del personaje
 			try {
@@ -244,10 +328,11 @@ public class ListenerTeclado implements KeyListener{
 		else if(e.getKeyCode()==65 || e.getKeyCode()==37) { 
 			System.out.println(e.getKeyCode() + " Izquierda");
 			//si X es menor al límite del  JFrame se teletransporta a X = 550
-			if(x>0) {
-				x -= 5;
+			if(m) {
+				//colisión
+				jugador.x += 5;
 			}else {
-				x = 550;
+				jugador.x -= 7;
 			}
 			
 			//cambiar imagen del personaje
@@ -263,10 +348,11 @@ public class ListenerTeclado implements KeyListener{
 		else if(e.getKeyCode()==83 || e.getKeyCode()==40) { 
 			System.out.println(e.getKeyCode() + " Abajo");
 			//si Y es mayor al límite del  JFrame se teletransporta a Y = 0
-			if(y>750) {
-				y = 0;
+			if(m) {
+				//colisión
+				jugador.y -= 5;
 			}else {
-				y += 5;
+				jugador.y += 7;
 			}
 			
 			//cambiar imagen del personaje
@@ -282,10 +368,11 @@ public class ListenerTeclado implements KeyListener{
 		else if(e.getKeyCode()==68 || e.getKeyCode()==39) { 
 			System.out.println(e.getKeyCode() + " Derecha");
 			//si X es mayor al límite del  JFrame se teletransporta a X = 0
-			if(x>550) {
-				x = 0;
+			if(m) {
+				//colisión
+				jugador.x -= 5;
 			}else {
-				x += 5;
+				jugador.x += 7;
 			}
 			
 			//cambiar imagen del personaje
