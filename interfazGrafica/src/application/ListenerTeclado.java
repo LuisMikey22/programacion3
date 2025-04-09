@@ -8,7 +8,6 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -32,10 +31,12 @@ public class ListenerTeclado implements KeyListener{
 	BufferedImage characterImage;
 	
 	Jugador jugador = null;
+	Jugador sombra = null;
 	ArrayList<Jugador> obstaculos = new ArrayList<Jugador>(); //SEGMENTOS
 	
 	JLabel tiempoValorLbl;
-	Timer temporizador;
+	Timer temporizador, movimientoAuto;
+	int teclaPresionada = 0;
 	boolean tempActivo = false;
 	int hor, min, seg, cen;
 
@@ -70,7 +71,7 @@ public class ListenerTeclado implements KeyListener{
 		ImageIcon vortexIcon = new ImageIcon(getClass().getResource("vortexIcon.png"));
 		frame.setIconImage(vortexIcon.getImage());
 		frame.setBounds(100, 100, 550, 750);
-		frame.setMinimumSize(new Dimension(550, 750));
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		tiempoValorLbl = new JLabel("00:00:00:00");
@@ -83,6 +84,7 @@ public class ListenerTeclado implements KeyListener{
 		
 		//crear jugador y obstáculos
 		jugador = new Jugador(240-5, 320-5, 38, 64, Color.decode("#00A2E8"));
+		sombra = new Jugador(240-5, 320-5, 38, 64, Color.decode("#00A2E8"));
 		obstaculos.add(new Jugador(280, 360, 50, 50, Color.orange));
 		
 		panelCentro = new PaintPanel();
@@ -108,6 +110,10 @@ public class ListenerTeclado implements KeyListener{
 				//reiniciar valores de X y Y
 				jugador.x = 240;
 				jugador.y = 320;
+				sombra.x = 240;
+				sombra.y = 320;
+				
+				teclaPresionada = 0;
 				
 				//POSICIÓN INICIAL (IMAGEN)
 				try {
@@ -120,6 +126,7 @@ public class ListenerTeclado implements KeyListener{
 				panelCentro.requestFocus();
 				panelCentro.setFocusable(true);
 				reiniciarTemp();
+				movimientoAuto.stop();
 			}
 		});
 		
@@ -129,6 +136,17 @@ public class ListenerTeclado implements KeyListener{
 		}catch (IOException ex) {
 			ex.printStackTrace();
 		}
+		
+		ActionListener mover = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizar();
+			}
+			
+		};
+		movimientoAuto = new Timer(20, mover);
 		
 	}
 	
@@ -143,7 +161,6 @@ public class ListenerTeclado implements KeyListener{
 		tempActivo = true;
 		
 		temporizador = new Timer(10, new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -168,6 +185,8 @@ public class ListenerTeclado implements KeyListener{
 		temporizador.start();
 		
 	}
+	
+	
 	
 	//REANUDAR TEMPORIZADOR
 	public void reanudarTemp() {
@@ -202,8 +221,14 @@ public class ListenerTeclado implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		reanudarTemp();
+		movimientoAuto.start();
 		
-		System.out.println(e.getKeyCode());
+		teclaPresionada = e.getKeyCode();
+	}
+	
+	
+	public void actualizar() {
+		System.out.println(teclaPresionada);
 		
 		Boolean m = false;
 		for(Jugador obst: obstaculos) {
@@ -213,15 +238,23 @@ public class ListenerTeclado implements KeyListener{
 			}
 		}
 		
+		/*if(!m) {
+			sombra.x = jugador.x;
+			sombra.y = jugador.y;
+		}*/
+		
 		//W, FLECHA ARRIBA
-		if(e.getKeyCode()==87 || e.getKeyCode()==38) { 
-			System.out.println(e.getKeyCode() + " Arriba");
+		if(teclaPresionada==87 || teclaPresionada==38) { 
+			System.out.println(teclaPresionada + " Arriba");
 			//si Y es menor al límite del  JFrame se teletransporta a Y = 750
 			//colisión
 			if(m) { //SI COLISIONA
-				 jugador.y += 7;
+				 jugador.y += 1;
+				 teclaPresionada = 0;
 			}else {
 				if(jugador.y>0) {
+					/*jugador.y = sombra.y;
+					jugador.x = sombra.x;*/
 					jugador.y -= 5;
 				}
 			}
@@ -237,14 +270,17 @@ public class ListenerTeclado implements KeyListener{
 		}
 		
 		//A, FLECHA IZQUIERDA
-		else if(e.getKeyCode()==65 || e.getKeyCode()==37) { 
-			System.out.println(e.getKeyCode() + " Izquierda");
+		else if(teclaPresionada==65 || teclaPresionada==37) { 
+			System.out.println(teclaPresionada + " Izquierda");
 			//si X es menor al límite del  JFrame se teletransporta a X = 550
 			//colisión
 			if(m) {
-				jugador.x += 7;
+				jugador.x += 1;
+				teclaPresionada = 0;
 			}else {
 				if(jugador.x>0) {
+					/*jugador.x = sombra.x;
+					jugador.y = sombra.y;*/
 					jugador.x -= 5;
 				}
 			}
@@ -259,15 +295,18 @@ public class ListenerTeclado implements KeyListener{
 		}
 		
 		//S, FLECHA ABAJO
-		else if(e.getKeyCode()==83 || e.getKeyCode()==40) { 
-			System.out.println(e.getKeyCode() + " Abajo");
+		else if(teclaPresionada==83 || teclaPresionada==40) { 
+			System.out.println(teclaPresionada + " Abajo");
 			//si Y es mayor al límite del  JFrame se teletransporta a Y = 0
 			//colisión
 			if(m) {
 				jugador.y -= 7;
+				teclaPresionada = 0;
 			}else {
 				if(jugador.y<590) {
-					jugador.y += 5;
+					/*jugador.y = sombra.y;
+					jugador.x = sombra.x;*/
+					jugador.y += 1;
 				}
 			}
 			
@@ -281,15 +320,18 @@ public class ListenerTeclado implements KeyListener{
 		}
 		
 		//D, FLECHA DERECHA
-		else if(e.getKeyCode()==68 || e.getKeyCode()==39) { 
-			System.out.println(e.getKeyCode() + " Derecha");
+		else if(teclaPresionada==68 || teclaPresionada==39) { 
+			System.out.println(teclaPresionada + " Derecha");
 			//si X es mayor al límite del  JFrame se teletransporta a X = 0
 			//colisión
 			if(m) {
 				jugador.x-=7;
+				teclaPresionada = 0;
 			}else {
 				if(jugador.x<500) {
-					jugador.x += 5;
+					/*jugador.x = sombra.x;
+					jugador.y = sombra.y;*/
+					jugador.x += 1;
 				}
 			}
 			
@@ -397,9 +439,9 @@ public class ListenerTeclado implements KeyListener{
 		
 		public boolean colision(Jugador blanco) {
 			
-			if(this.x + 5 < blanco.x + blanco.w && //X
+			if(this.x - 5 < blanco.x + blanco.w && //X
 		       this.x + 5 + this.w > blanco.x &&
-		       this.y + 5 < blanco.y + blanco.h && //Y
+		       this.y - 5 < blanco.y + blanco.h && //Y
 		       this.y + 5 + this.h > blanco.y)
 				return true;
 			
