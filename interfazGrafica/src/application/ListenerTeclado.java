@@ -27,7 +27,6 @@ public class ListenerTeclado implements KeyListener{
 
 	private JFrame frame;
 	
-	private int x = 240, y = 320;
 	PaintPanel panelCentro;
 	Graphics2D g2;
 	BufferedImage characterImage;
@@ -38,7 +37,7 @@ public class ListenerTeclado implements KeyListener{
 	JLabel tiempoValorLbl;
 	Timer temporizador;
 	boolean tempActivo = false;
-	private int hor, min, seg, cen;
+	int hor, min, seg, cen;
 
 	/**
 	 * Launch the application.
@@ -82,7 +81,8 @@ public class ListenerTeclado implements KeyListener{
 		tiempoValorLbl.setOpaque(true);
 		frame.getContentPane().add(tiempoValorLbl, BorderLayout.NORTH);
 		
-		jugador = new Jugador(240, 320, 38, 64, null);
+		//crear jugador y obstáculos
+		jugador = new Jugador(240-5, 320-5, 38, 64, Color.decode("#00A2E8"));
 		obstaculos.add(new Jugador(280, 360, 50, 50, Color.orange));
 		
 		panelCentro = new PaintPanel();
@@ -194,6 +194,121 @@ public class ListenerTeclado implements KeyListener{
 		hor = 0; min = 0; seg = 0; cen = 0;
 	}
 
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		reanudarTemp();
+		
+		System.out.println(e.getKeyCode());
+		
+		Boolean m = false;
+		for(Jugador obst: obstaculos) {
+			if(jugador.colision(obst)) { //si existe colisión
+				m = true;
+				System.out.println("Colisión");
+			}
+		}
+		
+		//W, FLECHA ARRIBA
+		if(e.getKeyCode()==87 || e.getKeyCode()==38) { 
+			System.out.println(e.getKeyCode() + " Arriba");
+			//si Y es menor al límite del  JFrame se teletransporta a Y = 750
+			//colisión
+			if(m) { //SI COLISIONA
+				 jugador.y += 7;
+			}else {
+				if(jugador.y>0) {
+					jugador.y -= 5;
+				}
+			}
+			
+			
+			//cambiar imagen del personaje
+			try {
+				BufferedImage upImg = ImageIO.read(getClass().getResource("upCharacterImg.png"));
+				characterImage = upImg;
+			}catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		//A, FLECHA IZQUIERDA
+		else if(e.getKeyCode()==65 || e.getKeyCode()==37) { 
+			System.out.println(e.getKeyCode() + " Izquierda");
+			//si X es menor al límite del  JFrame se teletransporta a X = 550
+			//colisión
+			if(m) {
+				jugador.x += 7;
+			}else {
+				if(jugador.x>0) {
+					jugador.x -= 5;
+				}
+			}
+			
+			//cambiar imagen del personaje
+			try {
+				BufferedImage leftImg = ImageIO.read(getClass().getResource("leftCharacterImg.png"));
+				characterImage = leftImg;
+			}catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		//S, FLECHA ABAJO
+		else if(e.getKeyCode()==83 || e.getKeyCode()==40) { 
+			System.out.println(e.getKeyCode() + " Abajo");
+			//si Y es mayor al límite del  JFrame se teletransporta a Y = 0
+			//colisión
+			if(m) {
+				jugador.y -= 7;
+			}else {
+				if(jugador.y<590) {
+					jugador.y += 5;
+				}
+			}
+			
+			//cambiar imagen del personaje
+			try {
+				BufferedImage downImg = ImageIO.read(getClass().getResource("downCharacterImg.png"));
+				characterImage = downImg;
+			}catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		//D, FLECHA DERECHA
+		else if(e.getKeyCode()==68 || e.getKeyCode()==39) { 
+			System.out.println(e.getKeyCode() + " Derecha");
+			//si X es mayor al límite del  JFrame se teletransporta a X = 0
+			//colisión
+			if(m) {
+				jugador.x-=7;
+			}else {
+				if(jugador.x<500) {
+					jugador.x += 5;
+				}
+			}
+			
+			//cambiar imagen del personaje
+			try {
+				BufferedImage rightImg = ImageIO.read(getClass().getResource("rightCharacterImg.png"));
+				characterImage = rightImg;
+			}catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		panelCentro.repaint();
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
 	
 	//clase PaintPanel
 	class PaintPanel extends JPanel{
@@ -206,13 +321,19 @@ public class ListenerTeclado implements KeyListener{
 			 super.paintComponent(g);
 			 g2 = (Graphics2D) g;
 			 
+			 //jugador
+			 g2.setColor(jugador.color);
+			 g2.fillRect(jugador.x, jugador.y, jugador.w, jugador.h); //hitbox
+			 g2.drawImage(characterImage, jugador.x, jugador.y, jugador.w, jugador.h, null, null); //imagen de personaje
+			 
+			 //paredes y obstáculos
 			 for(Jugador obst: obstaculos) {
 				 g2.setColor(obst.color);
 				 g2.fillRect(obst.x, obst.y, obst.w, obst.h);
 			 }
 			 
-			 //g2.drawImage(characterImage, jugador.x , y, 38, 64, null, null);
-			 g2.drawImage(characterImage, jugador.x, jugador.y, jugador.w, jugador.h, null, null);
+			 //g2.drawImage(characterImage, jugador.x , y, 38, 64, null, null); 
+			 
 		 }
 	}
 	
@@ -271,125 +392,22 @@ public class ListenerTeclado implements KeyListener{
 			this.y = y;
 			this.w = w;
 			this.h = h;
-			this.setColor(color);
+			this.color = color;
 		}
 		
 		public boolean colision(Jugador blanco) {
 			
-		 	return (this.x < blanco.x + blanco.getWidth() &&
-		 			this.x + this.getWidth() > blanco.x &&
-		 			this.y < blanco.y + blanco.getHeight() &&
-		 			this.y + this.getHeight() > blanco.y);
+			if(this.x + 5 < blanco.x + blanco.w && //X
+		       this.x + 5 + this.w > blanco.x &&
+		       this.y + 5 < blanco.y + blanco.h && //Y
+		       this.y + 5 + this.h > blanco.y)
+				return true;
+			
+			//else
+			return false;
+			
 		}
 
 	}
-		
-	
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
 
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		reanudarTemp();
-		
-		System.out.println(e.getKeyCode());
-		
-		Boolean m = true;
-		for(Jugador obst: obstaculos) {
-			if(jugador.colision(obst)) {
-				m = false;
-			}
-		}
-		
-		//W, FLECHA ARRIBA
-		if(e.getKeyCode()==87 || e.getKeyCode()==38) { 
-			System.out.println(e.getKeyCode() + " Arriba");
-			//si Y es menor al límite del  JFrame se teletransporta a Y = 750
-			if(m) {
-				//colisión
-				jugador.y += 5;
-			}else {
-				jugador.y -= 7;
-			}
-			
-			
-			//cambiar imagen del personaje
-			try {
-				BufferedImage upImg = ImageIO.read(getClass().getResource("upCharacterImg.png"));
-				characterImage = upImg;
-			}catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-		//A, FLECHA IZQUIERDA
-		else if(e.getKeyCode()==65 || e.getKeyCode()==37) { 
-			System.out.println(e.getKeyCode() + " Izquierda");
-			//si X es menor al límite del  JFrame se teletransporta a X = 550
-			if(m) {
-				//colisión
-				jugador.x += 5;
-			}else {
-				jugador.x -= 7;
-			}
-			
-			//cambiar imagen del personaje
-			try {
-				BufferedImage leftImg = ImageIO.read(getClass().getResource("leftCharacterImg.png"));
-				characterImage = leftImg;
-			}catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-		//S, FLECHA ABAJO
-		else if(e.getKeyCode()==83 || e.getKeyCode()==40) { 
-			System.out.println(e.getKeyCode() + " Abajo");
-			//si Y es mayor al límite del  JFrame se teletransporta a Y = 0
-			if(m) {
-				//colisión
-				jugador.y -= 5;
-			}else {
-				jugador.y += 7;
-			}
-			
-			//cambiar imagen del personaje
-			try {
-				BufferedImage downImg = ImageIO.read(getClass().getResource("downCharacterImg.png"));
-				characterImage = downImg;
-			}catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-		//D, FLECHA DERECHA
-		else if(e.getKeyCode()==68 || e.getKeyCode()==39) { 
-			System.out.println(e.getKeyCode() + " Derecha");
-			//si X es mayor al límite del  JFrame se teletransporta a X = 0
-			if(m) {
-				//colisión
-				jugador.x -= 5;
-			}else {
-				jugador.x += 7;
-			}
-			
-			//cambiar imagen del personaje
-			try {
-				BufferedImage rightImg = ImageIO.read(getClass().getResource("rightCharacterImg.png"));
-				characterImage = rightImg;
-			}catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-		panelCentro.repaint();
-	}
-
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-	}
-	
 }
