@@ -83,9 +83,10 @@ public class ListenerTeclado implements KeyListener{
 		frame.getContentPane().add(tiempoValorLbl, BorderLayout.NORTH);
 		
 		//crear jugador y obstáculos
-		jugador = new Jugador(240-5, 320-5, 38, 64, Color.decode("#00A2E8"));
-		sombra = new Jugador(240-5, 320-5, 38, 64, Color.decode("#00A2E8"));
-		obstaculos.add(new Jugador(280, 360, 50, 50, Color.orange));
+		jugador = new Jugador(240, 320, 36, 58, Color.decode("#00A2E8"));
+		sombra = new Jugador(jugador.x, jugador.y, jugador.w, jugador.h, Color.decode("#00A2E8"));
+		obstaculos.add(new Jugador(140, 460, 250, 50, Color.yellow));
+		obstaculos.add(new Jugador(140, 160, 250, 50, Color.yellow));
 		
 		panelCentro = new PaintPanel();
 		//panelCentro.setBorder(BorderFactory.createMatteBorder(25, 25, 25, 25, Color.decode("#303030")));
@@ -110,8 +111,8 @@ public class ListenerTeclado implements KeyListener{
 				//reiniciar valores de X y Y
 				jugador.x = 240;
 				jugador.y = 320;
-				sombra.x = 240;
-				sombra.y = 320;
+				sombra.x = jugador.x;
+				sombra.y = jugador.y;
 				
 				teclaPresionada = 0;
 				
@@ -146,7 +147,7 @@ public class ListenerTeclado implements KeyListener{
 			}
 			
 		};
-		movimientoAuto = new Timer(20, mover);
+		movimientoAuto = new Timer(1, mover);
 		
 	}
 	
@@ -157,6 +158,7 @@ public class ListenerTeclado implements KeyListener{
 		tiempoValorLbl.setText(tiempo);
 	}
 	
+	//TEMPORIZADOR (ETIQUETA)
 	public void temporizador() {
 		tempActivo = true;
 		
@@ -185,8 +187,6 @@ public class ListenerTeclado implements KeyListener{
 		temporizador.start();
 		
 	}
-	
-	
 	
 	//REANUDAR TEMPORIZADOR
 	public void reanudarTemp() {
@@ -224,41 +224,28 @@ public class ListenerTeclado implements KeyListener{
 		movimientoAuto.start();
 		
 		teclaPresionada = e.getKeyCode();
+		panelCentro.repaint();
+		actualizar();
 	}
 	
 	
 	public void actualizar() {
 		System.out.println(teclaPresionada);
 		
-		Boolean m = false;
-		for(Jugador obst: obstaculos) {
-			if(jugador.colision(obst)) { //si existe colisión
-				m = true;
-				System.out.println("Colisión");
-			}
-		}
-		
-		/*if(!m) {
-			sombra.x = jugador.x;
-			sombra.y = jugador.y;
-		}*/
+		Boolean m = false; //'m' de Mover
+												  
+		//copiar los movimientos del jugador a su sombra actuales
+		sombra.x = jugador.x;
+		sombra.y = jugador.y;
 		
 		//W, FLECHA ARRIBA
 		if(teclaPresionada==87 || teclaPresionada==38) { 
 			System.out.println(teclaPresionada + " Arriba");
-			//si Y es menor al límite del  JFrame se teletransporta a Y = 750
-			//colisión
-			if(m) { //SI COLISIONA
-				 jugador.y += 1;
-				 teclaPresionada = 0;
-			}else {
-				if(jugador.y>0) {
-					/*jugador.y = sombra.y;
-					jugador.x = sombra.x;*/
-					jugador.y -= 5;
-				}
-			}
 			
+			//si Y es menor al límite del JFrame choca contra la pared
+			if(jugador.y>0) {
+				jugador.y -= 2;
+			}
 			
 			//cambiar imagen del personaje
 			try {
@@ -272,17 +259,10 @@ public class ListenerTeclado implements KeyListener{
 		//A, FLECHA IZQUIERDA
 		else if(teclaPresionada==65 || teclaPresionada==37) { 
 			System.out.println(teclaPresionada + " Izquierda");
-			//si X es menor al límite del  JFrame se teletransporta a X = 550
-			//colisión
-			if(m) {
-				jugador.x += 1;
-				teclaPresionada = 0;
-			}else {
-				if(jugador.x>0) {
-					/*jugador.x = sombra.x;
-					jugador.y = sombra.y;*/
-					jugador.x -= 5;
-				}
+			
+			//si X es menor al límite del JFrame choca contra la pared
+			if(jugador.x>0) {
+				jugador.x -= 2;
 			}
 			
 			//cambiar imagen del personaje
@@ -297,17 +277,10 @@ public class ListenerTeclado implements KeyListener{
 		//S, FLECHA ABAJO
 		else if(teclaPresionada==83 || teclaPresionada==40) { 
 			System.out.println(teclaPresionada + " Abajo");
-			//si Y es mayor al límite del  JFrame se teletransporta a Y = 0
-			//colisión
-			if(m) {
-				jugador.y -= 7;
-				teclaPresionada = 0;
-			}else {
-				if(jugador.y<590) {
-					/*jugador.y = sombra.y;
-					jugador.x = sombra.x;*/
-					jugador.y += 1;
-				}
+			
+			//si Y es mayor al límite del JFrame choca contra la pared
+			if(jugador.y+jugador.h<660) {
+				jugador.y += 2;
 			}
 			
 			//cambiar imagen del personaje
@@ -322,17 +295,10 @@ public class ListenerTeclado implements KeyListener{
 		//D, FLECHA DERECHA
 		else if(teclaPresionada==68 || teclaPresionada==39) { 
 			System.out.println(teclaPresionada + " Derecha");
-			//si X es mayor al límite del  JFrame se teletransporta a X = 0
-			//colisión
-			if(m) {
-				jugador.x-=7;
-				teclaPresionada = 0;
-			}else {
-				if(jugador.x<500) {
-					/*jugador.x = sombra.x;
-					jugador.y = sombra.y;*/
-					jugador.x += 1;
-				}
+			
+			//si X es mayor al límite del JFrame choca contra la pared
+			if(jugador.x+jugador.w<530) {
+				jugador.x += 2;
 			}
 			
 			//cambiar imagen del personaje
@@ -343,6 +309,42 @@ public class ListenerTeclado implements KeyListener{
 				ex.printStackTrace();
 			}
 		}
+		
+		//validar colisiones
+		for(Jugador obst: obstaculos) {
+			if(jugador.colision(obst)) { //si existe colisión
+				m = true;
+				System.out.println("Colisión");
+			}
+		}
+		
+		//copiar valores en X y Y
+		if (!m) { //si no hay colisión
+            sombra.x = jugador.x;
+            sombra.y = jugador.y;
+        }else { //si existe colisión
+      
+        	//W, FLECHA ARRIBA
+        	if(teclaPresionada==87 || teclaPresionada==38) { 
+        		jugador.x = sombra.x;
+        		jugador.y = sombra.y+2; //rebote del jugador para indicar que chocó
+        	}
+        	//A, FLECHA IZQUIERDA
+        	if(teclaPresionada==65 || teclaPresionada==37) { 
+        		jugador.x = sombra.x+2; //rebote del jugador para indicar que chocó
+        		jugador.y = sombra.y;
+    		}
+        	//S, FLECHA ABAJO
+    		if(teclaPresionada==83 || teclaPresionada==40) { 
+    			jugador.x = sombra.x;
+        		jugador.y = sombra.y-2; //rebote del jugador para indicar que chocó
+    		}
+    		//D, FLECHA DERECHA
+    		if(teclaPresionada==68 || teclaPresionada==39) { 
+    			jugador.x = sombra.x-2; //rebote del jugador para indicar que chocó
+        		jugador.y = sombra.y;
+    		}
+        }
 		
 		panelCentro.repaint();
 	}
@@ -379,7 +381,7 @@ public class ListenerTeclado implements KeyListener{
 		 }
 	}
 	
-	//colisión
+	//clase Jugador/Obstáculo
 	class Jugador extends JPanel{
 		private static final long serialVersionUID = -6849931942729399650L;
 
@@ -437,17 +439,15 @@ public class ListenerTeclado implements KeyListener{
 			this.color = color;
 		}
 		
-		public boolean colision(Jugador blanco) {
-			
-			if(this.x - 5 < blanco.x + blanco.w && //X
-		       this.x + 5 + this.w > blanco.x &&
-		       this.y - 5 < blanco.y + blanco.h && //Y
-		       this.y + 5 + this.h > blanco.y)
-				return true;
-			
-			//else
-			return false;
-			
+		public Boolean colision(Jugador blanco) {
+			if (this.x < blanco.x + blanco.w &&
+		            this.x + this.w > blanco.x &&
+		            this.y < blanco.y + blanco.h &&
+		            this.y + this.h > blanco.y) {
+		            return true;
+		    }else {
+		    	return false;
+		    }
 		}
 
 	}
