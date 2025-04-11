@@ -21,22 +21,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 
 public class ListenerTeclado implements KeyListener{
 
 	private JFrame frame;
 	
-	PaintPanel panelCentro;
+	PaintPanel panelLaberinto1, panelLaberinto2;
 	Graphics2D g2;
 	BufferedImage characterImage;
 	
 	Jugador jugador = null;
 	Jugador sombra = null;
-	ArrayList<Jugador> obstaculos = new ArrayList<Jugador>(); //SEGMENTOS
+	ArrayList<Jugador> obstaculos1 = new ArrayList<Jugador>(); //Paredes
+	ArrayList<Jugador> obstaculos2 = new ArrayList<Jugador>(); //Paredes
 	
 	JLabel tiempoValorLbl;
 	Timer temporizador, movimientoAuto;
 	int teclaPresionada = 0;
+	int nivelActual = 1;
 	boolean tempActivo = false;
 	int hor, min, seg, cen;
 
@@ -60,83 +63,13 @@ public class ListenerTeclado implements KeyListener{
 	 * Create the application.
 	 */
 	public ListenerTeclado() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
 		frame = new JFrame();
 		ImageIcon vortexIcon = new ImageIcon(getClass().getResource("vortexIcon.png"));
 		frame.setIconImage(vortexIcon.getImage());
 		frame.setBounds(100, 100, 550, 750);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		tiempoValorLbl = new JLabel("00:00:00:00");
-		tiempoValorLbl.setBackground(Color.decode("#303030"));
-		tiempoValorLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		tiempoValorLbl.setForeground(Color.white);
-		tiempoValorLbl.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
-		tiempoValorLbl.setOpaque(true);
-		frame.getContentPane().add(tiempoValorLbl, BorderLayout.NORTH);
-		
-		//crear jugador y obstáculos
-		jugador = new Jugador(240, 320, 36, 58, Color.decode("#00A2E8"));
-		sombra = new Jugador(jugador.x, jugador.y, jugador.w, jugador.h, Color.decode("#00A2E8"));
-		obstaculos.add(new Jugador(140, 460, 250, 50, Color.yellow));
-		obstaculos.add(new Jugador(140, 160, 250, 50, Color.yellow));
-		
-		panelCentro = new PaintPanel();
-		//panelCentro.setBorder(BorderFactory.createMatteBorder(25, 25, 25, 25, Color.decode("#303030")));
-		panelCentro.setFocusable(true);
-		panelCentro.addKeyListener(this);
-		panelCentro.setLayout(new BorderLayout(10, 10));
-		panelCentro.setLocation(0, 0);
-		panelCentro.setOpaque(true);
-		panelCentro.setSize(950, 750);
-		frame.getContentPane().add(panelCentro, BorderLayout.CENTER);
-		
-		JButton reiniciarBtn = new JButton("REINICIAR");
-		reiniciarBtn.setBackground(Color.decode("#303030"));
-		reiniciarBtn.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
-		reiniciarBtn.setForeground(Color.white);
-		frame.getContentPane().add(reiniciarBtn, BorderLayout.SOUTH);
-		
-		reiniciarBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				//reiniciar valores de X y Y
-				jugador.x = 240;
-				jugador.y = 320;
-				sombra.x = jugador.x;
-				sombra.y = jugador.y;
-				
-				teclaPresionada = 0;
-				
-				//POSICIÓN INICIAL (IMAGEN)
-				try {
-					characterImage = ImageIO.read(getClass().getResource("idleCharacterImg.png"));
-				}catch (IOException ex) {
-					ex.printStackTrace();
-				}
-				
-				panelCentro.repaint();
-				panelCentro.requestFocus();
-				panelCentro.setFocusable(true);
-				reiniciarTemp();
-				movimientoAuto.stop();
-			}
-		});
-		
-		//POSICIÓN INICIAL (IMAGEN)
-		try {
-			characterImage = ImageIO.read(getClass().getResource("idleCharacterImg.png"));
-		}catch (IOException ex) {
-			ex.printStackTrace();
-		}
+		frame.add(this.laberinto1(), BorderLayout.CENTER);
 		
 		ActionListener mover = new ActionListener() {
 
@@ -148,7 +81,180 @@ public class ListenerTeclado implements KeyListener{
 			
 		};
 		movimientoAuto = new Timer(1, mover);
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	
+	//laberinto 1, nivel 1, hormiguero
+	private JPanel laberinto1() {
+		tiempoValorLbl = new JLabel("00:00:00:00");
+		tiempoValorLbl.setBackground(Color.decode("#303030"));
+		tiempoValorLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		tiempoValorLbl.setForeground(Color.white);
+		tiempoValorLbl.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
+		tiempoValorLbl.setOpaque(true);
+		frame.getContentPane().add(tiempoValorLbl, BorderLayout.NORTH);
 		
+		//crear hormiga y obstáculos
+		jugador = new Jugador(468, 590, 45, 45, Color.decode("#00A2E8"));
+		sombra = new Jugador(jugador.x, jugador.y, jugador.w, jugador.h, Color.decode("#00A2E8"));
+		
+		obstaculos1.add(new Jugador(0, 140, 20, 517, Color.decode("#8B5728"))); //tierra
+		obstaculos1.add(new Jugador(20, 638, 495, 20, Color.decode("#8B5728")));
+		obstaculos1.add(new Jugador(515, 140, 20, 517, Color.decode("#8B5728")));
+		obstaculos1.add(new Jugador(115, 120, 420, 20, Color.decode("#9ED33B"))); //césped
+		obstaculos1.add(new Jugador(0, 120, 40, 20, Color.decode("#9ED33B")));
+		
+		//panel para pintar
+		panelLaberinto1 = new PaintPanel();
+		panelLaberinto1.setFocusable(true);
+		panelLaberinto1.requestFocus();
+		panelLaberinto1.addKeyListener(this);
+		panelLaberinto1.setLayout(new BorderLayout(10, 10));
+		panelLaberinto1.setLocation(0, 0);
+		panelLaberinto1.setOpaque(true);
+		panelLaberinto1.setSize(500, 500);
+		frame.getContentPane().add(panelLaberinto1, BorderLayout.CENTER);
+		
+		//pie página con botones
+		JPanel panelBotones = new JPanel();
+		panelBotones.setLayout(new GridLayout(1, 2));
+		panelBotones.setOpaque(false);
+		frame.getContentPane().add(panelBotones, BorderLayout.SOUTH);
+		
+		JButton nivel2IrBtn = new JButton("NIVEL 2");
+		nivel2IrBtn.setBackground(Color.decode("#303030"));
+		nivel2IrBtn.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		nivel2IrBtn.setForeground(Color.white);
+		panelBotones.add(nivel2IrBtn, BorderLayout.SOUTH);
+		
+		//ir al nivel 1
+		nivel2IrBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				nivelActual = 2;
+				manejadorVentanas(nivelActual);
+				reiniciarLaberinto();
+				
+			}
+			
+		});
+		
+		JButton reiniciarBtn = new JButton("REINICIAR");
+		reiniciarBtn.setBackground(Color.decode("#303030"));
+		reiniciarBtn.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		reiniciarBtn.setForeground(Color.white);
+		panelBotones.add(reiniciarBtn, BorderLayout.SOUTH);
+		
+		reiniciarBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				reiniciarLaberinto();
+			}
+		});
+		
+		//POSICIÓN INICIAL (IMAGEN)
+		try {
+			characterImage = ImageIO.read(getClass().getResource("upAntImg.png"));
+		}catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
+		return panelLaberinto1;
+	}
+	
+	
+	//laberinto 2, nivel 2, Minecraft
+	private JPanel laberinto2() {
+		tiempoValorLbl = new JLabel("00:00:00:00");
+		tiempoValorLbl.setBackground(Color.decode("#303030"));
+		tiempoValorLbl.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		tiempoValorLbl.setForeground(Color.white);
+		tiempoValorLbl.setHorizontalAlignment(SwingConstants.CENTER); // centrar texto del botón
+		tiempoValorLbl.setOpaque(true);
+		frame.getContentPane().add(tiempoValorLbl, BorderLayout.NORTH);
+		
+		//crear Steve y obstáculos
+		jugador = new Jugador(240, 320, 32, 62, Color.decode("#00A2E8"));
+		sombra = new Jugador(jugador.x, jugador.y, jugador.w, jugador.h, Color.decode("#00A2E8"));
+		
+		obstaculos2.add(new Jugador(0, 120, 20, 750, Color.decode("#C48B54")));
+		
+		//panel para pintar
+		panelLaberinto2 = new PaintPanel();
+		panelLaberinto2.setFocusable(true);
+		panelLaberinto2.requestFocus();
+		panelLaberinto2.addKeyListener(this);
+		panelLaberinto2.setLayout(new BorderLayout(10, 10));
+		panelLaberinto2.setLocation(0, 0);
+		panelLaberinto2.setOpaque(true);
+		panelLaberinto2.setSize(500, 500);
+		frame.getContentPane().add(panelLaberinto2, BorderLayout.CENTER);
+		
+		//pie página con botones
+		JPanel panelBotones = new JPanel();
+		panelBotones.setLayout(new GridLayout(1, 2));
+		panelBotones.setOpaque(false);
+		frame.getContentPane().add(panelBotones, BorderLayout.SOUTH);
+		
+		JButton nivel1IrBtn = new JButton("NIVEL 1");
+		nivel1IrBtn.setBackground(Color.decode("#303030"));
+		nivel1IrBtn.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		nivel1IrBtn.setForeground(Color.white);
+		panelBotones.add(nivel1IrBtn, BorderLayout.SOUTH);
+		
+		//ir al nivel 1
+		nivel1IrBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				nivelActual = 1;
+				manejadorVentanas(nivelActual);
+				reiniciarLaberinto();
+			}
+			
+		});
+		
+		JButton reiniciarBtn = new JButton("REINICIAR");
+		reiniciarBtn.setBackground(Color.decode("#303030"));
+		reiniciarBtn.setFont(new Font("Tahoma", Font.BOLD, 18)); //fuente, tipo y tamaño
+		reiniciarBtn.setForeground(Color.white);
+		panelBotones.add(reiniciarBtn, BorderLayout.SOUTH);
+		
+		reiniciarBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				reiniciarLaberinto();
+			}
+		});
+		
+		//POSICIÓN INICIAL (IMAGEN)
+		try {
+			characterImage = ImageIO.read(getClass().getResource("idleSteveImg.png"));
+		}catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
+		return panelLaberinto2;
+	}
+	
+	
+	//manejador de ventanas
+	public void manejadorVentanas(int ventanaBlanco){
+		frame.getContentPane().removeAll();
+		
+		if(ventanaBlanco==1){ //laberinto 1 / nivel 1
+			frame.add(this.laberinto1());
+		}
+		else if(ventanaBlanco==2){ //laberinto 2 / nivel 2
+			frame.add(this.laberinto2());
+		}
+		
+		frame.repaint();
+		frame.revalidate();
 	}
 	
 	
@@ -158,6 +264,7 @@ public class ListenerTeclado implements KeyListener{
 		tiempoValorLbl.setText(tiempo);
 	}
 	
+	
 	//TEMPORIZADOR (ETIQUETA)
 	public void temporizador() {
 		tempActivo = true;
@@ -165,7 +272,6 @@ public class ListenerTeclado implements KeyListener{
 		temporizador = new Timer(10, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				cen++;
     			if(cen==100) {
     				cen = 0;
@@ -188,12 +294,14 @@ public class ListenerTeclado implements KeyListener{
 		
 	}
 	
+	
 	//REANUDAR TEMPORIZADOR
 	public void reanudarTemp() {
 		if(!tempActivo) {
 			temporizador();
 		}
 	}
+	
 	
 	//DETENER TEMPORIZADOR
 	public void detenerTemp() {
@@ -202,6 +310,7 @@ public class ListenerTeclado implements KeyListener{
 			temporizador.stop();
 		}
 	}
+	
 	
 	//REINICIAR TEMPORIZADOR
 	public void reiniciarTemp() {
@@ -213,19 +322,73 @@ public class ListenerTeclado implements KeyListener{
 		hor = 0; min = 0; seg = 0; cen = 0;
 	}
 
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
-
+	
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		reanudarTemp();
-		movimientoAuto.start();
+		reanudarTemp(); //cronómetro de tiempo
+		movimientoAuto.start(); //hilo para movimiento automático
 		
 		teclaPresionada = e.getKeyCode();
-		panelCentro.repaint();
+		
+		//saber en que nivel se encuentra el jugador
+		if(nivelActual==1) {
+			panelLaberinto1.repaint();
+		}else {
+			panelLaberinto2.repaint();
+		}
+		
 		actualizar();
+	}
+	
+	
+	public void reiniciarLaberinto() {
+
+		teclaPresionada = 0;
+		
+		//saber en que nivel se encuentra el jugador
+		if(nivelActual==1) {
+			//reiniciar valores en X y Y
+			jugador.x = 468;
+			jugador.y = 590;
+			sombra.x = jugador.x;
+			sombra.y = jugador.y;
+			
+			panelLaberinto1.repaint();
+			panelLaberinto1.requestFocus();
+			panelLaberinto1.setFocusable(true);
+			
+			//POSICIÓN INICIAL (IMAGEN)
+			try {
+				characterImage = ImageIO.read(getClass().getResource("upAntImg.png"));
+			}catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}else {
+			//reiniciar valores en X y Y
+			jugador.x = 200;
+			jugador.y = 200;
+			sombra.x = jugador.x;
+			sombra.y = jugador.y;
+			
+			panelLaberinto2.repaint();
+			panelLaberinto2.requestFocus();
+			panelLaberinto2.setFocusable(true);
+			
+			//POSICIÓN INICIAL (IMAGEN)
+			try {
+				characterImage = ImageIO.read(getClass().getResource("idleSteveImg.png"));
+			}catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		reiniciarTemp();
+		movimientoAuto.stop();
 	}
 	
 	
@@ -247,12 +410,23 @@ public class ListenerTeclado implements KeyListener{
 				jugador.y -= 2;
 			}
 			
-			//cambiar imagen del personaje
-			try {
-				BufferedImage upImg = ImageIO.read(getClass().getResource("upCharacterImg.png"));
-				characterImage = upImg;
-			}catch (IOException ex) {
-				ex.printStackTrace();
+			//saber en que nivel se encuentra el jugador
+			if(nivelActual==1) {
+				//cambiar imagen del personaje (Hormiga)
+				try {
+					BufferedImage upImg = ImageIO.read(getClass().getResource("upAntImg.png"));
+					characterImage = upImg;
+				}catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}else {
+				//cambiar imagen del personaje (Steve)
+				try {
+					BufferedImage upImg = ImageIO.read(getClass().getResource("upSteveImg.png"));
+					characterImage = upImg;
+				}catch (IOException ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
 		
@@ -265,12 +439,23 @@ public class ListenerTeclado implements KeyListener{
 				jugador.x -= 2;
 			}
 			
-			//cambiar imagen del personaje
-			try {
-				BufferedImage leftImg = ImageIO.read(getClass().getResource("leftCharacterImg.png"));
-				characterImage = leftImg;
-			}catch (IOException ex) {
-				ex.printStackTrace();
+			//saber en que nivel se encuentra el jugador
+			if(nivelActual==1) {
+				//cambiar imagen del personaje (Hormiga)
+				try {
+					BufferedImage upImg = ImageIO.read(getClass().getResource("leftAntImg.png"));
+					characterImage = upImg;
+				}catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}else {
+				//cambiar imagen del personaje (Steve)
+				try {
+					BufferedImage upImg = ImageIO.read(getClass().getResource("leftSteveImg.png"));
+					characterImage = upImg;
+				}catch (IOException ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
 		
@@ -283,12 +468,23 @@ public class ListenerTeclado implements KeyListener{
 				jugador.y += 2;
 			}
 			
-			//cambiar imagen del personaje
-			try {
-				BufferedImage downImg = ImageIO.read(getClass().getResource("downCharacterImg.png"));
-				characterImage = downImg;
-			}catch (IOException ex) {
-				ex.printStackTrace();
+			//saber en que nivel se encuentra el jugador
+			if(nivelActual==1) {
+				//cambiar imagen del personaje (Hormiga)
+				try {
+					BufferedImage upImg = ImageIO.read(getClass().getResource("downAntImg.png"));
+					characterImage = upImg;
+				}catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}else {
+				//cambiar imagen del personaje (Steve)
+				try {
+					BufferedImage upImg = ImageIO.read(getClass().getResource("downSteveImg.png"));
+					characterImage = upImg;
+				}catch (IOException ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
 		
@@ -301,20 +497,41 @@ public class ListenerTeclado implements KeyListener{
 				jugador.x += 2;
 			}
 			
-			//cambiar imagen del personaje
-			try {
-				BufferedImage rightImg = ImageIO.read(getClass().getResource("rightCharacterImg.png"));
-				characterImage = rightImg;
-			}catch (IOException ex) {
-				ex.printStackTrace();
+			//saber en que nivel se encuentra el jugador
+			if(nivelActual==1) {
+				//cambiar imagen del personaje (Hormiga)
+				try {
+					BufferedImage upImg = ImageIO.read(getClass().getResource("rightAntImg.png"));
+					characterImage = upImg;
+				}catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}else {
+				//cambiar imagen del personaje (Steve)
+				try {
+					BufferedImage upImg = ImageIO.read(getClass().getResource("rightSteveImg.png"));
+					characterImage = upImg;
+				}catch (IOException ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
 		
 		//validar colisiones
-		for(Jugador obst: obstaculos) {
-			if(jugador.colision(obst)) { //si existe colisión
-				m = true;
-				System.out.println("Colisión");
+		//saber en que nivel se encuentra el jugador
+		if(nivelActual==1) {
+			for(Jugador obst: obstaculos1) {
+				if(jugador.colision(obst)) { //si existe colisión
+					m = true;
+					System.out.println("Colisión");
+				}
+			}
+		}else {
+			for(Jugador obst: obstaculos2) {
+				if(jugador.colision(obst)) { //si existe colisión
+					m = true;
+					System.out.println("Colisión");
+				}
 			}
 		}
 		
@@ -341,18 +558,25 @@ public class ListenerTeclado implements KeyListener{
     		}
     		//D, FLECHA DERECHA
     		if(teclaPresionada==68 || teclaPresionada==39) { 
-    			jugador.x = sombra.x-2; //rebote del jugador para indicar que chocó
+    			jugador.x = sombra.x-10; //rebote del jugador para indicar que chocó
         		jugador.y = sombra.y;
     		}
         }
 		
-		panelCentro.repaint();
+		//saber en que nivel se encuentra el jugador
+		if(nivelActual==1) {
+			panelLaberinto1.repaint();
+		}else {
+			panelLaberinto2.repaint();
+		}
+		
 	}
 
-
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 	}
+	
 	
 	//clase PaintPanel
 	class PaintPanel extends JPanel{
@@ -365,21 +589,43 @@ public class ListenerTeclado implements KeyListener{
 			 super.paintComponent(g);
 			 g2 = (Graphics2D) g;
 			 
-			 //jugador
-			 g2.setColor(jugador.color);
-			 g2.fillRect(jugador.x, jugador.y, jugador.w, jugador.h); //hitbox
-			 g2.drawImage(characterImage, jugador.x, jugador.y, jugador.w, jugador.h, null, null); //imagen de personaje
-			 
-			 //paredes y obstáculos
-			 for(Jugador obst: obstaculos) {
-				 g2.setColor(obst.color);
-				 g2.fillRect(obst.x, obst.y, obst.w, obst.h);
+			 if(nivelActual==1) {
+				 g2.setColor(Color.decode("#8BDCED")); //cielo de fondo (decoración sin colisión)
+				 g2.fillRect(0, 0, 550, 120);
+				 g2.setColor(Color.decode("#C18851")); //fondo de tierra (decoración sin colisión)
+				 g2.fillRect(0, 120, 550, 520);
+				 g2.setColor(Color.decode("#EEFCFF")); //nubes de fondo (decoración sin colisión)
+				 g2.fillOval(50, 50, 50, 30); 
+				 g2.fillOval(65, 30, 50, 30); 
+				 g2.fillOval(80, 50, 50, 30); 
+				 g2.fillOval(230, 35, 40, 20); 
+				 g2.fillOval(245, 25, 40, 20); 
+				 g2.fillOval(260, 35, 40, 20); 
+				 g2.fillOval(430, 60, 50, 30); 
+				 g2.fillOval(445, 40, 50, 30); 
+				 g2.fillOval(460, 60, 50, 30); 
+				 
+				 //jugador hormiga
+				 g2.drawImage(characterImage, jugador.x, jugador.y, jugador.w, jugador.h, null, null); //imagen de personaje
+				 
+				 //paredes y obstáculos hormiguero
+				 for(Jugador pared: obstaculos1) {
+					 g2.setColor(pared.color);
+					 g2.fillRect(pared.x, pared.y, pared.w, pared.h);
+				 } 
+			 }else {
+				 //jugador Steve
+				 g2.drawImage(characterImage, jugador.x, jugador.y, jugador.w, jugador.h, null, null); //imagen de personaje
+				 
+				 //paredes y obstáculos minecraft
+				 for(Jugador pared: obstaculos2) {
+					 g2.setColor(pared.color);
+					 g2.fillRect(pared.x, pared.y, pared.w, pared.h);
+				 } 
 			 }
-			 
-			 //g2.drawImage(characterImage, jugador.x , y, 38, 64, null, null); 
-			 
 		 }
 	}
+	
 	
 	//clase Jugador/Obstáculo
 	class Jugador extends JPanel{
