@@ -13,6 +13,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -40,41 +41,44 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	static final long serialVersionUID = 1L;
 	
-	private PaintPanel panelCuadroDibujo;
+	PaintPanel panelCuadroDibujo;
 
-	private String grosores[] = {" ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", 
+	String grosores[] = {" ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", 
 						         "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", 
 						         "80", "85" , "90", "95", "100", "125", "150", "175", "200", "225", "250", "275",
 						         "300", "325", "350", "375", "400", "425", "450", "475 ", "500"};
 	
-	private String[] colores = {"#000000", "#404040", "#ED1C24", "#FF6A00",
-						"#FFF200", "#22B14C", "#00A2E8", "#3F48CC",
-						"#7448CC", "#FF48CC", "#FFFFFF", "#B97A57",
-						"#44D5E5", "#7F0000", "#C8A3E7", "#B5E61D"};
+	String[] colores = {"#000000", "#404040", "#ED1C24", "#FF6A00",
+								"#FFF200", "#22B14C", "#00A2E8", "#3F48CC",
+								"#7448CC", "#FF48CC", "#FFFFFF", "#B97A57",
+								"#44D5E5", "#7F0000", "#C8A3E7", "#B5E61D"};
 	
 	
 	//PINCEL Y BORRADOR
-	private ArrayList<PuntoSegmento> arregloDePuntos = new ArrayList<PuntoSegmento>(); //SEGMENTOS
-	private List<List<PuntoSegmento>> matrizDePuntos = new ArrayList<>(); //TRAZO (SEGMENTOS EN CONJUNTO)
+	ArrayList<PuntoSegmento> arregloDePuntos = new ArrayList<PuntoSegmento>(); //SEGMENTOS
+	List<List<PuntoSegmento>> matrizDePuntos = new ArrayList<>(); //TRAZO (SEGMENTOS EN CONJUNTO)
 	
 	//FIGURAS/FORMAS
-	private ArrayList<Figura> arregloDeFiguras = new ArrayList<Figura>(); //FIGURAS
+	ArrayList<Figura> arregloDeFiguras = new ArrayList<Figura>(); //FIGURAS
 	
-	private Point punto;
+	Point punto;
  	
  	Graphics2D g2;
 	
-	private JButton matrizBotones[][];
-	private int x, y;
-	private int numPos;
-	private boolean segundoClick = false; 
+ 	JButton matrizBotones[][];
+	int x, y;
+	int numPos;
+	boolean segundoClick = false; 
 	
-	private String herramienta = "";
-	private boolean relleno = true;
-	private String colorSeleccion = "#000000";
-	private int grosorPincel = 1;
+	String herramienta = "";
+	boolean relleno = true;
+	String colorSeleccion = "#000000";
+	int grosorPincel = 1;
+	
+	Image image;
+	ImageIcon imageIcon;
 
 	//constructor
 	public AplicacionDibujo(String title) {
@@ -82,8 +86,8 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		this.setVisible(true); //hacer visible la ventana
 		this.setResizable(true); //redimensionar la ventana
 		
-		ImageIcon paintIcon = new ImageIcon(getClass().getResource("brushIcon.png"));
-		this.setIconImage(paintIcon.getImage());
+		imageIcon = new ImageIcon(getClass().getResource("brushIcon.png"));
+		this.setIconImage(imageIcon.getImage());
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
 		this.setSize(950, 820); //colocar tamaño predeterminado
@@ -217,9 +221,9 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		});
 		
 		//pincel
-		Image imageBrush = new ImageIcon(getClass().getResource("brushIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon imageBrushIcon = new ImageIcon(imageBrush);
-		JButton pincelBtn = new JButton(imageBrushIcon);
+		image = new ImageIcon(getClass().getResource("brushIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(image);
+		JButton pincelBtn = new JButton(imageIcon);
 		pincelBtn.setBackground(Color.white);
 		pincelBtn.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 2, Color.decode("#303030"))); 
 		pincelBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
@@ -250,9 +254,9 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		});
 		
 		//balde de pintura
-		Image imageBucket= new ImageIcon(getClass().getResource("paintBucketIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon imageBucketIcon = new ImageIcon(imageBucket);
-		JButton bucketBtn = new JButton(imageBucketIcon);
+		image= new ImageIcon(getClass().getResource("paintBucketIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(image);
+		JButton bucketBtn = new JButton(imageIcon);
 		bucketBtn.setBackground(Color.white);
 		bucketBtn.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 2, Color.decode("#303030"))); 
 		bucketBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
@@ -283,9 +287,9 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		});
 		
 		//borrador
-		Image imageEraser = new ImageIcon(getClass().getResource("eraserIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon imageEraserIcon = new ImageIcon(imageEraser);
-		JButton borradorBtn = new JButton(imageEraserIcon);
+		image = new ImageIcon(getClass().getResource("eraserIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(image);
+		JButton borradorBtn = new JButton(imageIcon);
 		borradorBtn.setBackground(Color.white);
 		borradorBtn.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 0, Color.decode("#303030")));   
 		borradorBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
@@ -367,9 +371,9 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		barraLateral.add(panelFormas, lateral);
 		
 		//rectángulo
-		Image imageRect = new ImageIcon(getClass().getResource("rectShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-		ImageIcon imageRectIcon = new ImageIcon(imageRect);
-		JButton rectBtn = new JButton("Rectángulo", imageRectIcon);
+		image = new ImageIcon(getClass().getResource("rectShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(image);
+		JButton rectBtn = new JButton("Rectángulo", imageIcon);
 		rectBtn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		rectBtn.setContentAreaFilled(false); //fondo
 		rectBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
@@ -400,9 +404,9 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		
 		
 		//círculo
-		Image imageCirc = new ImageIcon(getClass().getResource("circleShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-		ImageIcon imageCircIcon = new ImageIcon(imageCirc);
-		JButton circBtn = new JButton("Círculo", imageCircIcon);
+		image = new ImageIcon(getClass().getResource("circleShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(image);
+		JButton circBtn = new JButton("Círculo", imageIcon);
 		circBtn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		circBtn.setContentAreaFilled(false); //fondo
 		circBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
@@ -433,9 +437,9 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		
 		
 		//triángulo
-		Image imageTrian = new ImageIcon(getClass().getResource("triangleShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-		ImageIcon imageTrianIcon = new ImageIcon(imageTrian);
-		JButton trianBtn = new JButton("Tríangulo", imageTrianIcon);
+		image = new ImageIcon(getClass().getResource("triangleShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(image);
+		JButton trianBtn = new JButton("Tríangulo", imageIcon);
 		trianBtn.setBorderPainted(false); //hace invisible el borde por defecto de los botones   
 		trianBtn.setContentAreaFilled(false); //fondo
 		trianBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
@@ -466,9 +470,9 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		
 		
 		//línea
-		Image imageLine = new ImageIcon(getClass().getResource("lineShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-		ImageIcon imageLineIcon = new ImageIcon(imageLine);
-		JButton lineaBtn = new JButton("Línea", imageLineIcon);
+		image = new ImageIcon(getClass().getResource("lineShapeIcon.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(image);
+		JButton lineaBtn = new JButton("Línea", imageIcon);
 		lineaBtn.setBorderPainted(false); //hace invisible el borde por defecto de los botones 
 		lineaBtn.setContentAreaFilled(false); //fondo
 		lineaBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
@@ -498,9 +502,9 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		});
 		
 		//botón de forma rellena
-		Image imageRelleno = new ImageIcon(getClass().getResource("filledFormIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon imageRellenoIcon = new ImageIcon(imageRelleno);
-		JButton rellenoBtn = new JButton("Forma con relleno", imageRellenoIcon);
+		image = new ImageIcon(getClass().getResource("filledFormIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(image);
+		JButton rellenoBtn = new JButton("Forma con relleno", imageIcon);
 		rellenoBtn.setBackground(Color.white);
 		rellenoBtn.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.decode("#B8CFE5")));
 		rellenoBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
@@ -520,9 +524,9 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 		});
 		
 		//botón de contorno 
-		Image imageContorno = new ImageIcon(getClass().getResource("outlineFormIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon imageContornoIcon = new ImageIcon(imageContorno);
-		JButton contornoBtn = new JButton("Contorno de forma", imageContornoIcon);
+		image = new ImageIcon(getClass().getResource("outlineFormIcon.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(image);
+		JButton contornoBtn = new JButton("Contorno de forma", imageIcon);
 		contornoBtn.setBackground(Color.white);
 		contornoBtn.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.decode("#B8CFE5")));
 		contornoBtn.setFocusPainted(false); //hace invisible el recuadro blanco al presionar el botón
@@ -750,6 +754,8 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 	       
 	        g2 = (Graphics2D)g; 
 	        
+	        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //suavizar bordes
+	        
 	        //FIGURAS
 	        if(arregloDeFiguras.size()>1) {
 	        	for(int i=0; i<arregloDeFiguras.size(); i++) {
@@ -770,7 +776,6 @@ public class AplicacionDibujo extends JFrame implements MouseListener, MouseMoti
 						break;
 						
 						case 4:
-							System.out.println("Linea");
 							fig.DibujarLinea(fig.getX(), fig.getY(), fig.getW(), fig.getH(), g2);
 						break;
 	        		}
