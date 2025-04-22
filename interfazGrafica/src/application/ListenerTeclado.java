@@ -656,9 +656,10 @@ public class ListenerTeclado implements KeyListener{
 					//si colisiona con la meta (neurona 2)
 					if(obst.getColor().equals(Color.yellow)){
 						detenerTemp();
+						String tiempo = tiempoValorLbl.getText();
 						image = new ImageIcon(getClass().getResource("celebrationIcon.png")).getImage().getScaledInstance(110, 110, Image.SCALE_SMOOTH);
 						imageIcon = new ImageIcon(image);
-						mensaje = "<html> ¡¡Has llegado a la meta!! :D <br> Tiempo en llegar a la meta: <br> </html>" + tiempoValorLbl.getText(); 
+						mensaje = "¡¡Has llegado a la meta!! :D, Tiempo en llegar a la meta: " + tiempo; 
 						JOptionPane.showMessageDialog(null, mensaje, "Laberinto 1 resuelto", JOptionPane.INFORMATION_MESSAGE, imageIcon); //ventana emergente
 						teclaPresionada = 0;
 						reiniciarTemp();
@@ -677,9 +678,10 @@ public class ListenerTeclado implements KeyListener{
 					//si colisiona con la meta (granos)
 					if(obst.getColor().equals(Color.yellow)){
 						detenerTemp();
+						String tiempo = tiempoValorLbl.getText();
 						image = new ImageIcon(getClass().getResource("celebrationIcon.png")).getImage().getScaledInstance(110, 110, Image.SCALE_SMOOTH);
 						imageIcon = new ImageIcon(image);
-						mensaje = "<html> ¡¡Has llegado a la meta!! :D <br> Tiempo en llegar a la meta: <br> </html>" + tiempoValorLbl.getText(); 
+						mensaje = "¡¡Has llegado a la meta!! :D, Tiempo en llegar a la meta: " + tiempo;  
 						JOptionPane.showMessageDialog(null, mensaje, "Laberinto 2 resuelto", JOptionPane.INFORMATION_MESSAGE, imageIcon); //ventana emergente
 						teclaPresionada = 0;
 						reiniciarTemp();
