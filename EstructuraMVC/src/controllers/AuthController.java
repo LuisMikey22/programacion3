@@ -3,7 +3,6 @@ package controllers;
 import views.AuthView;
  
 public class AuthController {
- 	
 	public AuthView view;
  	
  	public AuthController() {
@@ -14,8 +13,11 @@ public class AuthController {
  		view.login();
  	}
  	
- 	public void register() {
- 		view.register();
+ 	public void registerPersonalInfo() {
+ 		view.registerCompanyInfo();
  	}
- 
+ 	
+ 	public void registerUserInfo() {
+ 		view.registerUserInfo();
+ 	}
 }
