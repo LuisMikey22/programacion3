@@ -50,7 +50,7 @@ public class AuthModel {
  		PrintWriter escritor = null;
  		
  		try {
- 			archivo = new FileWriter("src/files/users.txt");
+ 			archivo = new FileWriter("src/files/users.txt", true);
  			escritor = new PrintWriter(archivo);
  			escritor.println(name+"|"+surname+"|"+company+"|"+field+"|"+position+"|"+username+"|"+userEmail+"|"+password);
  			
