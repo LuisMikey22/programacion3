@@ -54,7 +54,7 @@ public class AuthModel {
  			escritor = new PrintWriter(archivo);
  			escritor.println(name+"|"+surname+"|"+company+"|"+field+"|"+position+"|"+username+"|"+userEmail+"|"+password);
  			
- 			archivo.close();
+ 			archivo.close();  
  		}catch(Exception e) {
  			e.printStackTrace();
             System.out.println("Error");

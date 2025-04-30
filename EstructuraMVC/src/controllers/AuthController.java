@@ -10,7 +10,7 @@ public class AuthController {
  	}
  	
  	public void login(){
- 		view.login();
+ 		view.login(); 
  	}
  	
  	public void registerPersonalInfo() {
