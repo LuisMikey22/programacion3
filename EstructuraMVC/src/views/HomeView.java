@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.ZoneId;
@@ -21,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+import controllers.ProductController;
+
 public class HomeView extends JFrame {
 
 	/**
@@ -28,8 +29,8 @@ public class HomeView extends JFrame {
 	 */
 	private static final long serialVersionUID = -616534150229589047L;
 	private ImageIcon imageIcon;
-	//private Image image;
 	private JFrame frame;
+	ProductController productController;
 	
 	public HomeView() {
 		
@@ -124,7 +125,7 @@ public class HomeView extends JFrame {
 	    JPanel panelBotones = new JPanel();
 	    panelBotones.setBounds(0, 60, 200, 640);
 	    panelBotones.setBackground(Color.decode("#1B313F"));
-	    panelBotones.setLayout(new GridLayout(3, 1));
+	    panelBotones.setLayout(new GridLayout(4, 1));
 	    homeBckGrndPnl.add(panelBotones, BorderLayout.WEST);
 	    
 	    JButton usuarios = new JButton("Usuarios");
@@ -171,6 +172,23 @@ public class HomeView extends JFrame {
 				// TODO Auto-generated method stub
 				String message = "<html> Usted ha accedido al panel de configuración. <br> ¿Qué acción desea realizar? </html>";
 				JOptionPane.showMessageDialog(null, message, "Configuración", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+			}
+	    	
+	    });
+	    
+	    JButton catalogo = new JButton("Catálogo");
+	    catalogo.setBackground(Color.decode("#33627F"));
+	    catalogo.setForeground(Color.white);
+	    panelBotones.add(catalogo);
+	    
+	    catalogo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				frame.dispose();
+				productController = new ProductController();
+				productController.product();
 			}
 	    	
 	    });
