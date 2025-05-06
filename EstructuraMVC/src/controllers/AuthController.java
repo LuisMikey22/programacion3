@@ -13,11 +13,4 @@ public class AuthController {
  		view.login(); 
  	}
  	
- 	public void registerPersonalInfo() {
- 		view.registerCompanyInfo();
- 	}
- 	
- 	public void registerUserInfo() {
- 		view.registerUserInfo();
- 	}
 }

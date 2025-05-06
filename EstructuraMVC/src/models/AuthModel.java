@@ -2,6 +2,9 @@ package models;
 
 import java.io.*;
 
+import controllers.HomeController;
+import views.HomeView;
+
 public class AuthModel {
 	 
 	public AuthModel() {
@@ -20,12 +23,15 @@ public class AuthModel {
         	while((row = reader.readLine())!=null) {
             	//lee la línea del archivo txt, corta cuando encuentra una ',' y asigna la palabra a un índice del arreglo
             	System.out.println(row);
-                String[] fields = row.split("|"); 
+                String[] fields = row.split(","); 
+                System.out.println(""+fields.length);
 
                 //recorta espacios que existan en las cadenas
                 if(fields.length==8) {
                 	userEmailTxt = fields[6].trim();
+                	System.out.println(userEmailTxt);
                 	passwordTxt = fields[7].trim();
+                	System.out.println(passwordTxt);
                 	
                 	//valida si el usuario y contrseña coinciden
 	                if(userEmail.equals(userEmailTxt) && password.equals(passwordTxt)) {
@@ -48,11 +54,14 @@ public class AuthModel {
  	public void register(String name, String surname, String company, String field, String position, String username, String userEmail, String password) {
  		FileWriter archivo = null;
  		PrintWriter escritor = null;
+ 		String linea;
+ 		System.out.println(name+", "+surname+", "+company+", "+field+", "+position+", "+username+", "+userEmail+", "+password);
  		
  		try {
  			archivo = new FileWriter("src/files/users.txt", true);
  			escritor = new PrintWriter(archivo);
- 			escritor.println(name+"|"+surname+"|"+company+"|"+field+"|"+position+"|"+username+"|"+userEmail+"|"+password);
+ 			linea = name+", "+surname+", "+company+", "+field+", "+position+", "+username+", "+userEmail+", "+password;
+ 			escritor.println(linea);
  			
  			archivo.close();  
  		}catch(Exception e) {

@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import controllers.HomeController;
 import models.AuthModel;
 
 public class AuthView extends JFrame {
@@ -18,12 +19,18 @@ public class AuthView extends JFrame {
 	private boolean passwordVisible = false;
 	private JFrame frame;
 	private AuthModel functions;
+	HomeController homeController;
 	
 	private String ambitos[] = {"Salud", "Comercio", "Tecnología", "Educación", "Otro"};
 	
  	public AuthView() {
- 		frame = new JFrame("Modelo MVC"); //crear JFrame y colocar título a la ventana
-		frame.setResizable(true); //redimensionar la ventana
+ 		functions = new AuthModel(); //crear objeto de tipo AuthModel para realizar validaciones en métodos
+ 	}
+
+	public void login() {
+		frame = new JFrame();
+ 		frame.setTitle("Modelo MVC"); //crear JFrame y colocar título a la ventana
+ 		frame.setResizable(true); //redimensionar la ventana
 		
 		imageIcon = new ImageIcon(AuthView.class.getResource("/images/vortexIcon.png"));
 		frame.setIconImage(imageIcon.getImage());
@@ -34,10 +41,6 @@ public class AuthView extends JFrame {
 		frame.setMinimumSize(new Dimension(1000, 850));
 		frame.setResizable(true);
 		
- 		functions = new AuthModel(); //crear objeto de tipo AuthModel para realizar validaciones en métodos
- 	}
-
-	public void login() {
 		JPanel loginBckGrndPnl = new JPanel();
 		loginBckGrndPnl.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
 		loginBckGrndPnl.setSize(1000, 850);
@@ -335,6 +338,9 @@ public class AuthView extends JFrame {
 					if(userAuth) {
 						String message = "Hola, bienvenido";
 						JOptionPane.showMessageDialog(null, message, "Datos correctos", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+						frame.dispose();
+						homeController = new HomeController();
+						homeController.home();
 					}
 					else {
 						//cuando alguno de los dos campos no es correcto
@@ -378,6 +384,19 @@ public class AuthView extends JFrame {
 	
 	
 	public void registerCompanyInfo() {
+		frame = new JFrame();
+ 		frame.setTitle("Modelo MVC"); //crear JFrame y colocar título a la ventana
+ 		frame.setResizable(true); //redimensionar la ventana
+		
+		imageIcon = new ImageIcon(AuthView.class.getResource("/images/vortexIcon.png"));
+		frame.setIconImage(imageIcon.getImage());
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
+		frame.setSize(1000, 850); //colocar tamaño predeterminado
+		frame.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
+		frame.setMinimumSize(new Dimension(1000, 850));
+		frame.setResizable(true);
+		
 		JPanel registerPersonalInfo = new JPanel();
 		registerPersonalInfo.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
 		registerPersonalInfo.setSize(1000, 850);
@@ -689,11 +708,24 @@ public class AuthView extends JFrame {
 		c.ipady = 20;
 		registerPnl.add(actionBttnsPnl, c);
 		
- 		frame.setVisible(true);
+		frame.setVisible(true);
 	}
 	
 	
 	public void registerUserInfo() {
+		frame = new JFrame();
+ 		frame.setTitle("Modelo MVC"); //crear JFrame y colocar título a la ventana
+ 		frame.setResizable(true); //redimensionar la ventana
+		
+		imageIcon = new ImageIcon(AuthView.class.getResource("/images/vortexIcon.png"));
+		frame.setIconImage(imageIcon.getImage());
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //cerrar ventana si se presiona la X
+		frame.setSize(1000, 850); //colocar tamaño predeterminado
+		frame.setLocationRelativeTo(null); //colocar la ventana en el centro de la pantalla
+		frame.setMinimumSize(new Dimension(1000, 850));
+		frame.setResizable(true);
+		
 		JPanel registerUserInfo = new JPanel();
 		registerUserInfo.setLayout(new BorderLayout()); //colocar layout dentro del panel que cubre toda la pantalla
 		registerUserInfo.setSize(1000, 850);
@@ -1057,7 +1089,6 @@ public class AuthView extends JFrame {
 					//cuando los campos coinciden son correctos en formato
 					if(userInfo) {
 						functions.register(name, surname, company, companyField, position, username, userEmail, confPassword);
-						windowManager(1);
 						String message = "Información registrada correctamente";
 						JOptionPane.showMessageDialog(null, message, "Datos correctos", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
 					}
@@ -1068,7 +1099,6 @@ public class AuthView extends JFrame {
 						fieldPnl.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
 						confFieldPnl.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
 						username = ""; userEmail = ""; company = ""; position = ""; //reestablecer datos
-						
 						String message = "datos incorrectos. \n Por favor, inténtelo otra vez.";
 						JOptionPane.showMessageDialog(null, message, "Datos incorrectos", JOptionPane.ERROR_MESSAGE); //ventana emergente
 					}
@@ -1101,7 +1131,7 @@ public class AuthView extends JFrame {
 		c.ipady = 20;
 		registerPnl.add(actionBttnsPnl, c);
 		
- 		frame.setVisible(true);
+		frame.setVisible(true);
 	}
 	
 	
@@ -1122,4 +1152,5 @@ public class AuthView extends JFrame {
 		frame.repaint();
 		frame.revalidate();
 	}
+	
 }
