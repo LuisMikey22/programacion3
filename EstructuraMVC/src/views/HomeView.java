@@ -30,7 +30,6 @@ public class HomeView extends JFrame {
 	private static final long serialVersionUID = -616534150229589047L;
 	private ImageIcon imageIcon;
 	private JFrame frame;
-	ProductController productController;
 	
 	public HomeView() {
 		
@@ -187,8 +186,8 @@ public class HomeView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				frame.dispose();
-				productController = new ProductController();
-				productController.product();
+				ProductController productController = new ProductController();
+				productController.products();
 			}
 	    	
 	    });
