@@ -18,7 +18,7 @@ public class ProductModel {
 	JSONObject jsonObject;
 	
 	public ProductModel() {
-		url = AuthModel.class.getResource("/files/products.json").getPath();
+		url = "src/files/products.json";
 	}
 	
 	public JSONArray get() {

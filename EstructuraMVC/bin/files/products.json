@@ -1,0 +1,32 @@
+[
+  {
+     "id":1,
+     "name": "Laptop ASUS",
+	 "price": 14500.00,
+     "stock": 11
+  },
+  {
+     "id": 2,
+     "name": "Ratón Ergonómico",
+     "price": 342.50,
+	 "stock": 22
+  },
+  {
+     "id": 3,
+     "name": "Teclado Ergonómico",
+     "price": 342.50,
+	 "stock": 33
+  },
+  {
+     "id": 4,
+     "name": "Silla Ergonómica",
+     "price": 2434.34,
+	 "stock": 44
+  },
+  {
+     "id": 5,
+     "name": "Audífonos JBL",
+     "price": 422.89,
+	 "stock": 55
+  }
+]
