@@ -518,7 +518,9 @@ public class AuthView extends JFrame {
 		c.gridy = 4;
 		registerPnl.add(companyFieldLbl, c);
 				
-		JComboBox<String> fieldsCmbBx = new JComboBox<>(ambitos);
+		JList<String> fieldsCmbBx = new JList<>(ambitos);
+		fieldsCmbBx.setVisibleRowCount(3);
+		fieldsCmbBx.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		fieldsCmbBx.setBackground(Color.white); 
 		fieldsCmbBx.setForeground(Color.decode("#1B313F")); //color de letra
 		fieldsCmbBx.setFont(new Font("Tahoma", Font.BOLD, 15));//fuente, tipo y tamaño
@@ -526,7 +528,7 @@ public class AuthView extends JFrame {
 		c.insets = new Insets(0, 0, 30, 0); //relleno en la parte de arriba
 		c.gridx = 0;
 		c.gridy = 5;
-		registerPnl.add(fieldsCmbBx, c);
+		registerPnl.add(new JScrollPane(fieldsCmbBx), c);
 		
 		
 		//cargo
@@ -663,7 +665,7 @@ public class AuthView extends JFrame {
 					
 					//cuando los campos coinciden son correctos en formato
 					if(companyInfo) {
-						companyField = fieldsCmbBx.getSelectedItem().toString();
+						companyField = fieldsCmbBx.getSelectedValue().toString();
 						windowManager(3);
 						String message = "Información registrada correctamente";
 						JOptionPane.showMessageDialog(null, message, "Datos correctos", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
