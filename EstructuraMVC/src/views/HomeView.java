@@ -20,7 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+import controllers.HomeController;
 import controllers.ProductController;
+import controllers.UserController;
 
 public class HomeView extends JFrame {
 
@@ -31,6 +33,7 @@ public class HomeView extends JFrame {
 	private ProductController productController;
 	private ImageIcon imageIcon;
 	private JFrame frame;
+	private UserController userController;
 	
 	public HomeView() {
 		
@@ -140,6 +143,10 @@ public class HomeView extends JFrame {
 				// TODO Auto-generated method stub
 				String message = "<html> Usted ha accedido al panel de usuarios. <br> Total de usuarios: 1,215. </html>";
 				JOptionPane.showMessageDialog(null, message, "Usuarios", JOptionPane.INFORMATION_MESSAGE); //ventana emergente
+				
+				frame.dispose();
+				userController = new UserController();
+				userController.users();
 			}
 	    	
 	    });
