@@ -19,5 +19,9 @@ public class UserController {
 		view.users(column, row);
 	}
 	
+	public void addUser() {
+		view.addUser();
+	}
+	
 	
 }

@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import controllers.HomeController;
 import controllers.ProductController;
 import models.ProductModel;
 
@@ -35,7 +36,8 @@ public class ProductView {
 	
 	String [][] row;
 	
-	public ProductController prodView;
+	ProductController prodView;
+	HomeController hm;
 	
 	public ProductView() {
 		prodModel = new ProductModel();
@@ -52,7 +54,6 @@ public class ProductView {
 	}
 	
 	public void products(JSONArray data) {
-		
 		JPanel backgroundPnl = new JPanel();
 		backgroundPnl.setBackground(new Color(255, 255, 255));
 		backgroundPnl.setBorder(BorderFactory.createEmptyBorder(60, 60, 60, 60)); 
@@ -81,14 +82,29 @@ public class ProductView {
 	    //panel de botones
 	    JPanel buttonPnl = new JPanel();
 	    buttonPnl.setOpaque(false);
-	    buttonPnl.setLayout(new BorderLayout());
+	    buttonPnl.setLayout(new GridLayout(1, 3, 20, 0));
 	    backgroundPnl.add(buttonPnl, BorderLayout.SOUTH);
+	    
+	    JButton backBttn = new JButton("Back");
+	    backBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
+	    backBttn.setBackground(Color.white);
+	    backBttn.setForeground(Color.black);
+		buttonPnl.add(backBttn);
+		
+		backBttn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				hm = new HomeController();
+				hm.home();
+			}
+		});
 	    
 		JButton deleteBttn = new JButton("Delete product");
 		deleteBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
 		deleteBttn.setBackground(Color.decode("#A81B0C"));
 		deleteBttn.setForeground(Color.white);
-		buttonPnl.add(deleteBttn, BorderLayout.WEST);
+		buttonPnl.add(deleteBttn);
 		
 		deleteBttn.addActionListener(new ActionListener() {
 
@@ -119,10 +135,9 @@ public class ProductView {
 		addBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
 		addBttn.setBackground(Color.decode("#2A6B01"));
 		addBttn.setForeground(Color.white);
-		buttonPnl.add(addBttn, BorderLayout.EAST);
+		buttonPnl.add(addBttn);
 		
 		addBttn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -131,7 +146,6 @@ public class ProductView {
 			}
 			
 		});
-		 
 		frame.setVisible(true);
 	}
 	
@@ -203,37 +217,34 @@ public class ProductView {
 		stockTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15));
 		infoPnl.add(stockTxtFld);
 		
-		 //panel de botones
+		//panel de botones
 	    JPanel buttonPnl = new JPanel();
 	    buttonPnl.setOpaque(false);
-	    buttonPnl.setLayout(new BorderLayout());
+	    buttonPnl.setLayout(new GridLayout(1, 2, 20, 0));
 	    backgroundPnl.add(buttonPnl, BorderLayout.SOUTH);
 	    
 	    JButton backBttn = new JButton("Back");
 	    backBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
 	    backBttn.setBackground(Color.white);
 	    backBttn.setForeground(Color.black);
-		buttonPnl.add(backBttn, BorderLayout.WEST);
+		buttonPnl.add(backBttn);
 		
 		backBttn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				prodView = new ProductController();
 				prodView.products();
-			}
-			
+			}			
 		});
 	    
 		JButton addBttn = new JButton("Add product");
 		addBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
 		addBttn.setBackground(Color.decode("#2A6B01"));
 		addBttn.setForeground(Color.white);
-		buttonPnl.add(addBttn, BorderLayout.EAST);
+		buttonPnl.add(addBttn);
 		
 		addBttn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String id = idTxtFld.getText();
@@ -251,8 +262,7 @@ public class ProductView {
 					JOptionPane.showMessageDialog(null, message, "Empty input", JOptionPane.WARNING_MESSAGE); //ventana emergente
 				}
 				
-			}
-			
+			}		
 		});
 		
 		frame.setVisible(true);

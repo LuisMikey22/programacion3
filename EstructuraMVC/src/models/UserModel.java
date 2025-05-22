@@ -64,6 +64,33 @@ public class UserModel {
 		
 	}
 	
+	public boolean addUser(String name, String email, String role, String phone) {
+		String query = "INSERT INTO `users` (`id`, `name`, `email`, `role`, `phone`, `create_at`, `update_at`) VALUES (NULL, '"+name+"', '"+email+"', '"+role+"', '"+phone+"', NULL, NULL);";
+		Connection conn = null;
+		Statement stmt = null;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/test", "root", "");
+			stmt = conn.createStatement();
+			
+			int rs = stmt.executeUpdate(query);
+			 
+			if(rs>0) //si regresa un número de filas mayor a 0
+				return true; 
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+				conn.close();
+			} catch (Exception e) {}
+		}
+		
+		return false;
+	}
+	
 	public String[] getColumnName() { //nombre de columna/campo
 	    return new String[] { "Id","Name", "Email", "Role", "Phone", "Created_at", "Updated_at"};
 	}
