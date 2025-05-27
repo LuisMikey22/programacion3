@@ -1,13 +1,7 @@
 package models;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
-
-import org.json.simple.JSONObject;
 
 import customClasses.User;
 
@@ -91,11 +85,38 @@ public class UserModel {
 		return false;
 	}
 	
+	public boolean update(User user) {
+		String query = "UPDATE `users` SET `name` = '"+user.name+"',`email` = '"+user.email+"', `role` = '"+user.role+"', `phone` = '"+user.phone+"' WHERE `users`.`id` = "+user.id+"";
+		Connection conn = null;
+		Statement stmt = null;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/test", "root", "");
+			stmt = conn.createStatement();
+			
+			int rs = stmt.executeUpdate(query);
+			 
+			if(rs > 0) 
+				return true; 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				conn.close();
+			} catch (Exception e) {}
+		}
+		
+		return false;
+	}
+	
 	public String[] getColumnName() { //nombre de columna/campo
 	    return new String[] { "Id","Name", "Email", "Role", "Phone", "Created_at", "Updated_at"};
 	}
 
-	public String[][] getRow() { //producto
+	/*public String[][] getRow() { //producto
 		users = get(); //ArrayList se asigna a si mismo
 		
 	    if(users==null) { //si la base de datos no tiene registros
@@ -122,5 +143,5 @@ public class UserModel {
 	    }
 	    
 	    return null;
-	}
+	}*/
 }

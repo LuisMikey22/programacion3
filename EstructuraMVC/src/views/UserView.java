@@ -1,26 +1,14 @@
 package views;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
-import controllers.HomeController;
-import controllers.ProductController;
-import controllers.UserController;
+import controllers.*;
+import customClasses.User;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 import models.UserModel;
 
@@ -40,7 +28,7 @@ public class UserView {
 		frame.setResizable(false);
 	}
 	
-	public void users(String [] column, String [][] row) {
+	public void users(String [] column, ArrayList<User> users) {
 		JPanel backgroundPnl = new JPanel();
 		backgroundPnl.setBackground(Color.pink);
 		backgroundPnl.setBorder(BorderFactory.createEmptyBorder(60, 60, 60, 60)); 
@@ -55,17 +43,31 @@ public class UserView {
 		userLbl.setOpaque(false);
 	    backgroundPnl.add(userLbl, BorderLayout.NORTH);
 		
-		JTable productTable = new JTable(row, column);
-	    productTable.setOpaque(false);
+	    String[][] rows = new String[users.size()][7]; //registros de la base de datos y 7 campos
+	    if(users!=null) {
+	    	 for(int i=0; i<users.size(); i++) { //recorrer el ArrayList y obtener los valores
+	    		 rows[i][0] = String.valueOf(users.get(i).getId());
+	    		 rows[i][1] = String.valueOf(users.get(i).getName());
+	    		 rows[i][2] = String.valueOf(users.get(i).getEmail());
+			 	 rows[i][3] = String.valueOf(users.get(i).getRole());
+		     	 rows[i][4] = String.valueOf(users.get(i).getPhone());
+		     	 rows[i][5] = String.valueOf(users.get(i).getCreatedAt());
+		     	 rows[i][6] = String.valueOf(users.get(i).getUpdatedAt());
+			 }
+	    }
 	    
-	    JScrollPane scrollPane = new JScrollPane(productTable);
+	    DefaultTableModel tableModel = new DefaultTableModel(rows, column);
+		JTable usersTable = new JTable(tableModel);
+	    usersTable.setOpaque(false);
+	    
+	    JScrollPane scrollPane = new JScrollPane(usersTable);
 	    scrollPane.setOpaque(false);
 	    backgroundPnl.add(scrollPane, BorderLayout.CENTER);
 	    
 	    //panel de botones
 	    JPanel buttonPnl = new JPanel();
 	    buttonPnl.setOpaque(false);
-	    buttonPnl.setLayout(new GridLayout(1, 3, 20, 0));
+	    buttonPnl.setLayout(new GridLayout(1, 4, 20, 0));
 	    backgroundPnl.add(buttonPnl, BorderLayout.SOUTH);
 	    
 	    JButton backBttn = new JButton("Back");
@@ -110,6 +112,26 @@ public class UserView {
 				frame.dispose();
 				uc = new UserController();
 				uc.addUser();;
+			}
+	    });
+	    
+	    JButton editBttn = new JButton("Edit user");
+	    editBttn.setBackground(Color.decode("#CC9900"));
+	    editBttn.setForeground(Color.white);
+	    editBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
+	    buttonPnl.add(editBttn);
+	    
+	    editBttn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int seletedRow = usersTable.getSelectedRow();
+				if(seletedRow>=0) {
+					User user = users.get(seletedRow);
+					frame.dispose();
+					uc = new UserController();
+					uc.updateUser(user);
+				}
+				
 			}
 	    });
 		
@@ -229,5 +251,121 @@ public class UserView {
 		
 		frame.setVisible(true);
 		 
+	}
+	
+	public void updateUser(User user) {
+		JPanel backgroundPnl = new JPanel();
+		backgroundPnl.setBackground(new Color(255, 255, 255));
+		backgroundPnl.setBorder(BorderFactory.createEmptyBorder(60, 60, 60, 60)); 
+		backgroundPnl.setLayout(new BorderLayout(0, 20));
+		frame.setContentPane(backgroundPnl);
+
+		JLabel addUserLbl = new JLabel("Update user");
+		addUserLbl.setForeground(Color.black);
+		addUserLbl.setFont(new Font("Tahoma", Font.BOLD, 30));
+		addUserLbl.setHorizontalAlignment(JLabel.CENTER);
+		backgroundPnl.add(addUserLbl, BorderLayout.NORTH);
+		
+		//panel de formulario
+	    JPanel infoPnl = new JPanel();
+	    infoPnl.setBorder(BorderFactory.createEmptyBorder(60, 60, 60, 60)); 
+	    infoPnl.setOpaque(false);
+	    infoPnl.setLayout(new GridLayout(8, 2));
+	    backgroundPnl.add(infoPnl, BorderLayout.CENTER);
+
+		JLabel nameLbl = new JLabel("Name:");
+		nameLbl.setOpaque(false);
+		nameLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		nameLbl.setHorizontalAlignment(JLabel.CENTER);
+		infoPnl.add(nameLbl);
+		
+		JTextField nameTxtFld = new JTextField(user.getName());
+		nameTxtFld.setBackground(Color.white);
+		nameTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15));
+		infoPnl.add(nameTxtFld);
+		
+		JLabel emailLbl = new JLabel("Email:");
+		emailLbl.setOpaque(false);
+		emailLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		emailLbl.setHorizontalAlignment(JLabel.CENTER);
+		infoPnl.add(emailLbl);
+		
+		JTextField emailTxtFld = new JTextField(user.getEmail());
+		emailTxtFld.setBackground(Color.white);
+		emailTxtFld.setOpaque(true);
+		emailTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15));
+		infoPnl.add(emailTxtFld);
+
+		JLabel roleLbl = new JLabel("Role:");
+		roleLbl.setOpaque(false);
+		roleLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		roleLbl.setHorizontalAlignment(JLabel.CENTER);
+		infoPnl.add(roleLbl);
+		
+		JTextField roleTxtFld = new JTextField(user.getRole());
+		roleTxtFld.setBackground(Color.white);
+		roleTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15));
+		infoPnl.add(roleTxtFld);
+		
+		JLabel phoneLbl = new JLabel("Phone:");
+		phoneLbl.setOpaque(false);
+		phoneLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		phoneLbl.setHorizontalAlignment(JLabel.CENTER);
+		infoPnl.add(phoneLbl);
+		
+		JTextField phoneTxtFld = new JTextField(user.getPhone());
+		phoneTxtFld.setBackground(Color.white);
+		phoneTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15));
+		infoPnl.add(phoneTxtFld);
+		
+		 //panel de botones
+	    JPanel buttonPnl = new JPanel();
+	    buttonPnl.setOpaque(false);
+	    buttonPnl.setLayout(new GridLayout(1, 3, 20, 0));
+	    backgroundPnl.add(buttonPnl, BorderLayout.SOUTH);
+	    
+	    JButton backBttn = new JButton("Back");
+	    backBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
+	    backBttn.setBackground(Color.white);
+	    backBttn.setForeground(Color.black);
+		buttonPnl.add(backBttn);
+		
+		backBttn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				uc = new UserController();
+				uc.users();
+			}
+		});
+	    
+		JButton updateBttn = new JButton("Update");
+		updateBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
+		updateBttn.setBackground(Color.black);
+		updateBttn.setForeground(Color.white);
+		buttonPnl.add(updateBttn);
+		
+		updateBttn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = nameTxtFld.getText();
+				String email = emailTxtFld.getText();
+				String role = roleTxtFld.getText();
+				String phone = phoneTxtFld.getText();
+				
+				User updatedUser = new User(user.getId(), name, email, role, phone, user.getCreatedAt(), user.getUpdatedAt());
+				um = new UserModel();
+				if(um.update(updatedUser)) {
+					frame.dispose();
+					uc = new UserController();
+					uc.users();
+				}
+				
+			}
+			
+		});
+		
+		frame.setVisible(true);
+		
 	}
 }
