@@ -59,6 +59,10 @@ public class UserView {
 	    DefaultTableModel tableModel = new DefaultTableModel(rows, column);
 		JTable usersTable = new JTable(tableModel);
 	    usersTable.setOpaque(false);
+	    usersTable.setDefaultEditor(Object.class, null);
+	    usersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	    usersTable.getTableHeader().setReorderingAllowed(false);
+	    usersTable.getTableHeader().setResizingAllowed(false);
 	    
 	    JScrollPane scrollPane = new JScrollPane(usersTable);
 	    scrollPane.setOpaque(false);

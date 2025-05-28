@@ -59,7 +59,7 @@ public class UserModel {
 	}
 	
 	public boolean deleteUser(User user) {
-		String query = "DELETE FROM users WHERE `users`.`id` = "+user.id+"";
+		String query = "DELETE FROM users WHERE `users`.`id` = "+user.id;
 		Connection conn = null;
 		Statement stmt = null;
 		
@@ -86,7 +86,7 @@ public class UserModel {
 	}
 	
 	public boolean addUser(String name, String email, String role, String phone) {
-		String query = "INSERT INTO `users` (`id`, `name`, `email`, `role`, `phone`, `create_at`, `update_at`) VALUES (NULL, '"+name+"', '"+email+"', '"+role+"', '"+phone+"', NULL, NULL);";
+		String query = "INSERT INTO `users` (`id`, `name`, `email`, `role`, `phone`, `create_at`, `update_at`) VALUES (NULL, '"+name+"', '"+email+"', '"+role+"', '"+phone+"', NULL, NULL)";
 		Connection conn = null;
 		Statement stmt = null;
 		
@@ -113,7 +113,7 @@ public class UserModel {
 	}
 	
 	public boolean update(User user) {
-		String query = "UPDATE `users` SET `name` = '"+user.name+"',`email` = '"+user.email+"', `role` = '"+user.role+"', `phone` = '"+user.phone+"' WHERE `users`.`id` = "+user.id+"";
+		String query = "UPDATE `users` SET `name` = '"+user.name+"',`email` = '"+user.email+"', `role` = '"+user.role+"', `phone` = '"+user.phone+"' WHERE `users`.`id` = "+user.id;
 		Connection conn = null;
 		Statement stmt = null;
 		
