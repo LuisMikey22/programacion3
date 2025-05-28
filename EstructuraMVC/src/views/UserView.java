@@ -100,7 +100,36 @@ public class UserView {
 			}
 	    });
 	    
-	    JButton addBttn = new JButton("Add user");
+	    JButton deleteBttn = new JButton("Delete");
+	    deleteBttn.setBackground(Color.decode("#EF2D2D"));
+	    deleteBttn.setForeground(Color.white);
+	    deleteBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
+	    buttonPnl.add(deleteBttn);
+	    
+	    deleteBttn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Object[] options = {"Volver", "Eliminar"};
+				String message = "Esta acción no se puede deshacer.";
+				 
+				int seletedRow = usersTable.getSelectedRow();
+				if(seletedRow>=0) {
+					int opc = JOptionPane.showOptionDialog(null, message, "Borrar cliente", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+					
+					if(opc==1) {
+						User user = users.get(seletedRow);
+					
+						um = new UserModel();
+						if(um.deleteUser(user)) {
+							tableModel.removeRow(seletedRow);
+							backgroundPnl.repaint();
+						}
+					}
+				}
+			}
+	    });
+	    
+	    JButton addBttn = new JButton("Add");
 	    addBttn.setBackground(Color.decode("#2A6B01"));
 	    addBttn.setForeground(Color.white);
 	    addBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -115,7 +144,7 @@ public class UserView {
 			}
 	    });
 	    
-	    JButton editBttn = new JButton("Edit user");
+	    JButton editBttn = new JButton("Edit");
 	    editBttn.setBackground(Color.decode("#CC9900"));
 	    editBttn.setForeground(Color.white);
 	    editBttn.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -131,7 +160,6 @@ public class UserView {
 					uc = new UserController();
 					uc.updateUser(user);
 				}
-				
 			}
 	    });
 		
